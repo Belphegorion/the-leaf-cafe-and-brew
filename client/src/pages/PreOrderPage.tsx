@@ -25,13 +25,13 @@ export const PreOrderPage: React.FC = () => {
   const formattedReadyTime = readyTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
-    <main className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+    <main id="main-content" className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-10 text-center max-w-2xl mx-auto">
         <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
           Skip the Wait • Freshly Brewed On Arrival
         </span>
-        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
           Pre-Order Ahead
         </h1>
         <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2">
@@ -41,27 +41,27 @@ export const PreOrderPage: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Timing & Mode Selection (7 cols) */}
-        <div className="lg:col-span-7 bg-white dark:bg-[#1F3A24] p-6 md:p-8 rounded-3xl border border-[#325736]/20 shadow-lg space-y-8">
+        <div className="lg:col-span-7 bg-[#F5EFE4] dark:bg-[#1A261D] p-6 md:p-8 rounded-3xl border border-[#E0D2B8] dark:border-[#325736]/30 shadow-lg space-y-8 text-[#1F2A22] dark:text-[#F7FBFA]">
           {/* Mode Switcher */}
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA] mb-3">
+            <label className="block text-xs uppercase font-bold tracking-wider text-[#1F2A22] dark:text-[#F7FBFA] mb-3">
               1. How will you enjoy this order?
             </label>
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={() => setOrderMode('takeaway')}
-                className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all ${
+                className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all min-h-[44px] ${
                   orderMode === 'takeaway'
-                    ? 'border-[#325736] bg-[#EEF5EE] dark:bg-[#142318] ring-1 ring-[#325736]'
-                    : 'border-[#325736]/20 hover:border-[#325736]/40'
+                    ? 'border-[#325736] bg-[#EAE0D0] dark:bg-[#142318] ring-1 ring-[#325736]'
+                    : 'border-[#325736]/20 bg-white/70 dark:bg-white/5 hover:border-[#325736]/40'
                 }`}
               >
-                <div className={`p-2 rounded-xl ${orderMode === 'takeaway' ? 'bg-[#325736] text-white' : 'bg-[#EEF5EE] dark:bg-[#142318]'}`}>
+                <div className={`p-2 rounded-xl ${orderMode === 'takeaway' ? 'bg-[#325736] text-white' : 'bg-[#EAE0D0] dark:bg-[#142318]'}`}>
                   <MonolineIcon name="bag" size={20} />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
+                  <div className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                     Curbside / Grab &amp; Go
                   </div>
                   <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] mt-0.5">
@@ -73,17 +73,17 @@ export const PreOrderPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setOrderMode('dine_in')}
-                className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all ${
+                className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all min-h-[44px] ${
                   orderMode === 'dine_in'
-                    ? 'border-[#325736] bg-[#EEF5EE] dark:bg-[#142318] ring-1 ring-[#325736]'
-                    : 'border-[#325736]/20 hover:border-[#325736]/40'
+                    ? 'border-[#325736] bg-[#EAE0D0] dark:bg-[#142318] ring-1 ring-[#325736]'
+                    : 'border-[#325736]/20 bg-white/70 dark:bg-white/5 hover:border-[#325736]/40'
                 }`}
               >
-                <div className={`p-2 rounded-xl ${orderMode === 'dine_in' ? 'bg-[#325736] text-white' : 'bg-[#EEF5EE] dark:bg-[#142318]'}`}>
+                <div className={`p-2 rounded-xl ${orderMode === 'dine_in' ? 'bg-[#325736] text-white' : 'bg-[#EAE0D0] dark:bg-[#142318]'}`}>
                   <MonolineIcon name="table" size={20} />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
+                  <div className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                     Dine-in on Arrival
                   </div>
                   <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] mt-0.5">
@@ -97,7 +97,7 @@ export const PreOrderPage: React.FC = () => {
           {/* Preparation Buffer Picker */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA]">
+              <label className="text-xs uppercase font-bold tracking-wider text-[#1F2A22] dark:text-[#F7FBFA]">
                 2. When do you plan to arrive?
               </label>
               <span className="text-xs font-bold text-[#325736] dark:text-[#A3C2A5]">
@@ -111,10 +111,10 @@ export const PreOrderPage: React.FC = () => {
                   key={mins}
                   type="button"
                   onClick={() => setSelectedBufferMinutes(mins)}
-                  className={`py-3 px-4 rounded-2xl border text-center transition-all ${
+                  className={`min-h-[44px] py-3 px-4 rounded-2xl border text-center transition-all ${
                     selectedBufferMinutes === mins
                       ? 'bg-[#325736] text-white font-bold border-[#325736] shadow-sm'
-                      : 'border-[#325736]/20 hover:border-[#325736]/50 text-[#142318] dark:text-[#F7FBFA]'
+                      : 'border-[#325736]/20 bg-white/70 dark:bg-white/5 hover:border-[#325736]/50 text-[#1F2A22] dark:text-[#F7FBFA]'
                   }`}
                 >
                   <div className="text-sm font-bold">{mins} mins</div>
@@ -178,19 +178,21 @@ export const PreOrderPage: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center border border-[#325736]/30 rounded-full px-2 py-0.5 text-xs gap-2">
+                      <div className="flex items-center border border-[#325736]/30 dark:border-[#A3C2A5]/30 rounded-full p-0.5 text-xs gap-1">
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                          className="font-bold px-1"
+                          aria-label={`Decrease quantity of ${item.menuItem.name}`}
+                          className="w-11 h-11 flex items-center justify-center font-bold text-sm text-[#142318] dark:text-[#F7FBFA] touch-manipulation hover:bg-[#28492C]/10 rounded-full transition-colors"
                         >
                           -
                         </button>
-                        <span className="font-semibold">{item.quantity}</span>
+                        <span className="font-semibold px-1 min-w-[20px] text-center">{item.quantity}</span>
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                          className="font-bold px-1"
+                          aria-label={`Increase quantity of ${item.menuItem.name}`}
+                          className="w-11 h-11 flex items-center justify-center font-bold text-sm text-[#142318] dark:text-[#F7FBFA] touch-manipulation hover:bg-[#28492C]/10 rounded-full transition-colors"
                         >
                           +
                         </button>
@@ -198,7 +200,8 @@ export const PreOrderPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => removeItem(item.cartItemId)}
-                        className="text-xs text-red-500 hover:text-red-700 p-1"
+                        aria-label={`Remove ${item.menuItem.name} from pre-order`}
+                        className="w-11 h-11 flex items-center justify-center text-sm text-red-500 hover:text-red-700 hover:bg-red-500/10 rounded-full transition-colors touch-manipulation"
                       >
                         ✕
                       </button>
