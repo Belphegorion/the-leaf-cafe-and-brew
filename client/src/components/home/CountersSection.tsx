@@ -62,8 +62,9 @@ const AnimatedCounter: React.FC<CounterItemProps> = ({
 
 export const CountersSection: React.FC = () => {
   return (
-    <section className="py-16 bg-[#EEF5EE] dark:bg-[#142318] border-y border-[#325736]/15 dark:border-[#F7FBFA]/10">
+    <section className="py-16 bg-[#F5EFE4] dark:bg-[#142318] border-y border-[#325736]/15 dark:border-[#F7FBFA]/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">Key Milestones & Cafe Credentials</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-[#325736]/15 dark:divide-[#F7FBFA]/15">
           <AnimatedCounter
             label="Google Trust Score"

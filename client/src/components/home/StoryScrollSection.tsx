@@ -142,7 +142,7 @@ export const StoryScrollSection: React.FC = () => {
     <section
       ref={containerRef}
       id="how-it-works"
-      className="relative z-10 bg-[#1F3A24] dark:bg-[#101C13] text-[#F7FBFA] py-24 sm:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden select-none border-b border-[#325736]/40 shadow-2xl"
+      className="relative z-10 bg-[#1F3A24] dark:bg-[#101C13] dark text-[#F7FBFA] py-24 sm:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden select-none border-b border-[#325736]/40 shadow-2xl"
     >
       {/* Background subtle botanical pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#A3C2A5_1px,transparent_1px)] [background-size:24px_24px]" />

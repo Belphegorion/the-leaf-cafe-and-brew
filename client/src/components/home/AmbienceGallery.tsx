@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface GalleryImage {
@@ -43,8 +43,17 @@ const GALLERY_PHOTOS: GalleryImage[] = [
 export const AmbienceGallery: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryImage | null>(null);
 
+  useEffect(() => {
+    if (!selectedPhoto) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedPhoto(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPhoto]);
+
   return (
-    <section className="py-24 bg-[#F7FBFA] dark:bg-[#101C13]">
+    <section className="py-24 bg-[#F5EFE4] dark:bg-[#101C13]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
@@ -112,7 +121,7 @@ export const AmbienceGallery: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute -top-12 right-0 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors"
+                className="absolute -top-12 right-0 flex h-11 w-11 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors touch-manipulation focus-visible:outline-2 focus-visible:outline-white"
                 aria-label="Close Lightbox"
               >
                 ✕

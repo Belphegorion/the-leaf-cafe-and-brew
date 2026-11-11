@@ -30,6 +30,9 @@ export const HeroSection: React.FC = () => {
   const leafTranslateY = useTransform(smoothY, [-300, 300], [-18, 18]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      return;
+    }
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -53,14 +56,14 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 rounded-full border border-[#325736]/20 bg-[#EEF5EE] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#325736] dark:border-[#F7FBFA]/20 dark:bg-[#1F3A24] dark:text-[#A3C2A5] mb-6 shadow-sm"
+              className="inline-flex items-center gap-2 rounded-full border border-[#D8C7AA] bg-[#EAE0D0] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#1F2A22] dark:border-[#F7FBFA]/20 dark:bg-[#1F3A24] dark:text-[#A3C2A5] mb-6 shadow-sm"
             >
               <span className="flex h-2 w-2 rounded-full bg-[#5E8662] animate-pulse" />
               <span>Arera Colony, Bhopal · 100% Pure Vegetarian</span>
             </motion.div>
 
             {/* Headline with Mask Reveal */}
-            <h1 className="font-display uppercase text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#142318] dark:text-[#F7FBFA] leading-[1.05]">
+            <h1 className="font-display uppercase text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#1F2A22] dark:text-[#F7FBFA] leading-[1.05]">
               <span className="block overflow-hidden">
                 <motion.span
                   initial={{ y: '100%' }}
@@ -159,9 +162,9 @@ export const HeroSection: React.FC = () => {
           <div className="lg:col-span-5 relative flex justify-center items-center">
             {/* Outer Machined Double-Bezel Arched Shell */}
             <div className="double-bezel-shell w-full max-w-md">
-              <div className="double-bezel-core p-2 arch-mask bg-gradient-to-b from-[#EEF5EE] to-[#E2EEE2] dark:from-[#1F3A24] dark:to-[#142318]">
+              <div className="double-bezel-core p-2 arch-mask bg-gradient-to-b from-[#EAE0D0] to-[#DFD2BC] dark:from-[#1F3A24] dark:to-[#142318]">
                 {/* Photo Arched Container with natural cafe placeholder visuals */}
-                <div className="relative h-[440px] sm:h-[490px] w-full arch-mask overflow-hidden bg-[#284A2D]">
+                <div className="relative h-[440px] sm:h-[490px] w-full arch-mask overflow-hidden bg-[#284A2D] dark">
                   <img
                     src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=900&q=80"
                     alt="The Leaf Cafe Ambience in Arera Colony Bhopal"

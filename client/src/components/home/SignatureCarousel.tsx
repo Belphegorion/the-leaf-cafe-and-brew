@@ -122,6 +122,9 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      return;
+    }
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
@@ -210,7 +213,7 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
               type="button"
               onClick={handleQuickAdd}
               disabled={added}
-              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all active:scale-95 ${
+              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider transition-all active:scale-95 ${
                 added
                   ? 'bg-[#5E8662] text-white shadow-md'
                   : 'bg-[#325736] text-[#F7FBFA] hover:bg-[#284A2D] dark:bg-[#5E8662] dark:hover:bg-[#325736]'
@@ -239,7 +242,7 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
 
 export const SignatureCarousel: React.FC = () => {
   return (
-    <section className="py-24 bg-[#F7FBFA] dark:bg-[#101C13] overflow-hidden">
+    <section className="py-24 bg-[#F5EFE4] dark:bg-[#101C13] overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">

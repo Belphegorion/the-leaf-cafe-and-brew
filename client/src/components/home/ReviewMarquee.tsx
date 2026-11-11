@@ -64,7 +64,7 @@ export const ReviewMarquee: React.FC = () => {
   const marqueeList = [...REVIEWS, ...REVIEWS];
 
   return (
-    <section className="py-20 bg-[#EEF5EE] dark:bg-[#142318] overflow-hidden border-t border-[#325736]/10 dark:border-[#F7FBFA]/10">
+    <section className="py-20 bg-[#F5EFE4] dark:bg-[#142318] overflow-hidden border-t border-[#325736]/10 dark:border-[#F7FBFA]/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10 text-center">
         {/* Rating Trust Badge */}
         <div className="inline-flex items-center gap-2 rounded-full bg-[#325736] px-4 py-1.5 text-xs font-semibold text-[#F7FBFA] shadow-sm mb-3">
@@ -84,10 +84,10 @@ export const ReviewMarquee: React.FC = () => {
       {/* Marquee Track */}
       <div className="relative w-full overflow-hidden">
         {/* Gradient edge masks */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-r from-[#EEF5EE] dark:from-[#142318] to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-[#EEF5EE] dark:from-[#142318] to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-r from-[#F5EFE4] dark:from-[#142318] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-[#F5EFE4] dark:from-[#142318] to-transparent" />
 
-        <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] w-max py-4">
+        <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none w-max py-4">
           {marqueeList.map((review, i) => (
             <div
               key={`${review.id}-${i}`}
