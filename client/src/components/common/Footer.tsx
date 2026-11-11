@@ -48,14 +48,15 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Navigation Links */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]">
               Quick Links
-            </h3>
+            </h2>
             <ul className="flex flex-col gap-2 text-sm text-[#C9DCC9]">
               <li><Link to="/menu" className="hover:text-white transition-colors">Artisanal Menu</Link></li>
               <li><Link to="/book" className="hover:text-white transition-colors">Reserve a Table</Link></li>
               <li><Link to="/pre-order" className="hover:text-white transition-colors">Pre-Order Ahead</Link></li>
               <li><Link to="/t/1" className="hover:text-white transition-colors">Dine-In QR Order</Link></li>
+              <li><Link to="/account" className="hover:text-white transition-colors">My Account &amp; Loyalty</Link></li>
               <li><Link to="/design" className="hover:text-white transition-colors">Living Design System</Link></li>
               <li><Link to="/admin" className="hover:text-white transition-colors">Staff &amp; Admin</Link></li>
             </ul>
@@ -63,9 +64,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 3: The Sanctuary & Hours */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]">
               Visit Us
-            </h3>
+            </h2>
             <p className="text-sm text-[#C9DCC9] leading-relaxed">
               1st Floor, E7/161, E-7, Arera Colony,<br />
               Bhopal, Madhya Pradesh 462016
@@ -82,9 +83,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 4: Connect & Social */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]">
               Connect
-            </h3>
+            </h2>
             <a
               href="https://www.instagram.com/theleafverse/"
               target="_blank"

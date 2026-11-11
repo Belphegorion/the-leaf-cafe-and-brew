@@ -48,11 +48,23 @@ export const Navbar: React.FC = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Close on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { label: 'Menu', href: '/menu' },
     { label: 'Reserve Table', href: '/book' },
     { label: 'Order Ahead', href: '/pre-order' },
     { label: 'Dine-In QR', href: '/t/4' },
+    { label: 'Account', href: '/account' },
     { label: 'Our Story', href: '/about' },
   ];
 
@@ -63,43 +75,43 @@ export const Navbar: React.FC = () => {
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 md:pt-5">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 md:pt-4">
           <nav
             className={`flex items-center justify-between rounded-full transition-all duration-300 ${
               isScrolled
-                ? 'bg-[#F7FBFA]/90 dark:bg-[#101C13]/90 backdrop-blur-xl border border-[#325736]/15 dark:border-[#F7FBFA]/15 shadow-lg py-2.5 px-5 md:px-7'
-                : 'bg-transparent py-3 px-2 md:px-4'
+                ? 'bg-[#F5EFE4]/95 dark:bg-[#101C13]/95 backdrop-blur-xl border border-[#E0D2B8] dark:border-[#284A2D] shadow-md py-2 px-4 md:px-6'
+                : 'bg-transparent py-2.5 px-2 md:px-4'
             }`}
             aria-label="Main Navigation"
           >
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg"
+              className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg min-h-[44px]"
               aria-label="The Leaf – Cafe and Brew Home"
             >
               <TheLeafLogo variant="horizontal" size={32} />
             </Link>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center gap-7">
+            <div className="hidden md:flex items-center gap-6 lg:gap-7">
               {navLinks.map(link => {
                 const isActive = location.pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     to={link.href}
-                    className={`relative text-xs uppercase tracking-[0.16em] font-medium transition-colors hover:text-[#325736] dark:hover:text-[#A3C2A5] py-1 ${
+                    className={`relative text-xs uppercase tracking-[0.16em] font-medium transition-colors hover:text-[#325736] dark:hover:text-[#A3C2A5] py-2 min-h-[44px] flex items-center ${
                       isActive
                         ? 'text-[#325736] dark:text-[#A3C2A5] font-semibold'
-                        : 'text-[#142318]/80 dark:text-[#F7FBFA]/80'
+                        : 'text-[#1F2A22]/80 dark:text-[#EDE3D1]/80'
                     }`}
                   >
                     {link.label}
                     {isActive && (
                       <motion.div
                         layoutId="activeNavTab"
-                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#325736] dark:bg-[#A3C2A5] rounded-full"
+                        className="absolute bottom-1 left-0 right-0 h-[2px] bg-[#325736] dark:bg-[#A3C2A5] rounded-full"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
@@ -109,15 +121,15 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Action Buttons: Theme Toggle, Cart Button, Table CTA, Mobile Hamburger */}
-            <div className="flex items-center gap-2.5 sm:gap-3.5">
+            <div className="flex items-center gap-2 sm:gap-3">
               <ThemeToggle />
 
               {/* Cart Drawer Trigger */}
               <button
                 type="button"
                 onClick={openCart}
-                className="relative inline-flex h-10 items-center gap-2 rounded-full border border-[#325736]/20 bg-[#F7FBFA]/80 px-3.5 text-[#325736] shadow-sm backdrop-blur-md transition-all hover:border-[#325736] hover:bg-[#EEF5EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] active:scale-95 dark:border-[#F7FBFA]/20 dark:bg-[#1F3A24]/90 dark:text-[#F7FBFA] dark:hover:bg-[#284A2D]"
-                aria-label={`Open Cart with ${cartItemCount} items`}
+                className="relative inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#E0D2B8] bg-white dark:bg-[#1F3A24] px-4 text-[#325736] shadow-sm backdrop-blur-md transition-all hover:border-[#325736] hover:bg-[#F5EFE4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] active:scale-95 dark:border-[#284A2D] dark:text-[#EDE3D1] dark:hover:bg-[#284A2D]"
+                aria-label={`Cart, ${cartItemCount} items`}
                 data-cursor="Cart"
               >
                 <MonolineIcon name="bag" size={18} strokeWidth={2} />
@@ -128,7 +140,7 @@ export const Navbar: React.FC = () => {
                     initial={{ scale: 0.6 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 450, damping: 20 }}
-                    className="flex h-5 w-5 items-center justify-center rounded-full bg-[#325736] text-[10px] font-bold text-[#F7FBFA] dark:bg-[#5E8662]"
+                    className="flex h-5 w-5 items-center justify-center rounded-full bg-[#325736] text-[10px] font-bold text-white dark:bg-[#5E8662]"
                   >
                     {cartItemCount}
                   </motion.span>
@@ -138,17 +150,17 @@ export const Navbar: React.FC = () => {
               {/* Reserve CTA Button (Desktop) */}
               <Link
                 to="/book"
-                className="hidden lg:inline-flex items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#F7FBFA] shadow-md transition-all hover:bg-[#284A2D] hover:shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                className="hidden lg:inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:bg-[#284A2D] hover:shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:bg-[#5E8662] dark:hover:bg-[#325736]"
                 data-cursor="Book"
               >
                 Book Table
               </Link>
 
-              {/* Mobile Hamburger Button */}
+              {/* Mobile Hamburger Button (Strictly 44x44px minimum) */}
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="inline-flex md:hidden h-10 w-10 items-center justify-center rounded-full border border-[#325736]/20 bg-[#F7FBFA]/80 text-[#325736] backdrop-blur-md transition-colors hover:border-[#325736] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:border-[#F7FBFA]/20 dark:bg-[#1F3A24]/90 dark:text-[#F7FBFA]"
+                className="inline-flex md:hidden min-h-[44px] min-w-[44px] h-11 w-11 items-center justify-center rounded-full border border-[#E0D2B8] bg-white text-[#325736] shadow-sm transition-colors hover:border-[#325736] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:border-[#284A2D] dark:bg-[#1F3A24] dark:text-[#EDE3D1]"
                 aria-expanded={isMobileMenuOpen}
                 aria-label="Toggle navigation menu"
               >
@@ -170,21 +182,21 @@ export const Navbar: React.FC = () => {
         </div>
       </header>
 
-      {/* Full-Screen Mobile Drawer with Staggered Links & Leaf Vines */}
+      {/* Full-Screen Mobile Drawer with Staggered Links */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-30 flex flex-col justify-between bg-[#F7FBFA]/98 dark:bg-[#101C13]/98 px-6 pt-28 pb-10 backdrop-blur-2xl md:hidden"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-30 flex flex-col justify-between bg-[#F5EFE4]/98 dark:bg-[#101C13]/98 px-6 pt-28 pb-10 backdrop-blur-2xl md:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation Menu"
           >
             {/* Nav links */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-5">
               <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#5E8662]">
                 Explore The Leaf
               </span>
@@ -193,46 +205,31 @@ export const Navbar: React.FC = () => {
                   key={link.href}
                   initial={{ opacity: 0, x: -25 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * idx, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.04 * idx, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <Link
                     to={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-between border-b border-[#325736]/10 dark:border-[#F7FBFA]/10 pb-3 text-2xl font-display uppercase tracking-wider text-[#142318] dark:text-[#F7FBFA] hover:text-[#325736]"
+                    className="min-h-[44px] flex items-center font-display text-2xl uppercase tracking-wider font-bold text-[#1F2A22] hover:text-[#325736] dark:text-[#EDE3D1] dark:hover:text-[#A3C2A5]"
                   >
-                    <span>{link.label}</span>
-                    <MonolineIcon name="arrow-right" size={20} className="text-[#5E8662]" />
+                    {link.label}
                   </Link>
                 </motion.div>
               ))}
-
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="mt-4 flex flex-col gap-3"
-              >
-                <Link
-                  to="/book"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-full flex items-center justify-center rounded-full bg-[#325736] py-3.5 text-sm font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md dark:bg-[#5E8662]"
-                >
-                  Book a Table
-                </Link>
-                <Link
-                  to="/admin"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-full flex items-center justify-center rounded-full border border-[#325736]/30 py-3 text-xs uppercase tracking-wider text-[#325736] dark:text-[#A3C2A5]"
-                >
-                  Staff &amp; Admin Portal
-                </Link>
-              </motion.div>
             </div>
 
-            {/* Bottom info */}
-            <div className="border-t border-[#325736]/10 dark:border-[#F7FBFA]/10 pt-5 text-xs text-[#5E8662] dark:text-[#A3C2A5] flex flex-col gap-1">
-              <p className="font-semibold text-[#325736] dark:text-[#F7FBFA]">1st Floor, E-7, Arera Colony, Bhopal</p>
-              <p>11:00 AM – 11:30 PM Daily · 100% Pure Vegetarian</p>
+            {/* Quick Action in Mobile Menu */}
+            <div className="pt-6 border-t border-[#E0D2B8] dark:border-[#284A2D] flex flex-col gap-3">
+              <Link
+                to="/book"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="min-h-[44px] flex items-center justify-center rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-widest text-white shadow-md active:scale-95"
+              >
+                Reserve a Table
+              </Link>
+              <div className="text-center text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                Arera Colony, Bhopal • 100% Pure Vegetarian
+              </div>
             </div>
           </motion.div>
         )}

@@ -18,20 +18,27 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   ];
 
   return (
-    <div className="sticky top-20 z-30 bg-[#F7FBFA]/95 dark:bg-[#101C13]/95 backdrop-blur-md border-y border-[#325736]/15 dark:border-[#F7FBFA]/15 py-3">
+    <div className="sticky top-20 z-30 bg-[#F5EFE4]/95 dark:bg-[#101C13]/95 backdrop-blur-md border-y border-[#E0D2B8] dark:border-[#325736]/30 py-2">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1">
+        <div
+          role="tablist"
+          aria-label="Menu categories"
+          className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1"
+        >
           {allTabs.map(tab => {
             const isSelected = activeCategory === tab.id;
             return (
               <button
                 key={tab.id}
+                id={`tab-${tab.id}`}
+                role="tab"
+                aria-selected={isSelected}
                 type="button"
                 onClick={() => onSelectCategory(tab.id)}
-                className={`relative shrink-0 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
+                className={`relative shrink-0 min-h-[44px] inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
                   isSelected
                     ? 'text-white'
-                    : 'text-[#142318]/70 dark:text-[#F7FBFA]/70 hover:text-[#325736] dark:hover:text-[#A3C2A5]'
+                    : 'text-[#1F2A22]/70 dark:text-[#F7FBFA]/70 hover:text-[#325736] dark:hover:text-[#A3C2A5]'
                 }`}
               >
                 {/* Active animated pill background */}

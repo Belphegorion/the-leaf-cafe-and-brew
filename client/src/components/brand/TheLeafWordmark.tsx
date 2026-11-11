@@ -25,8 +25,7 @@ export const TheLeafWordmark: React.FC<TheLeafWordmarkProps> = ({
       className={`inline-block select-none overflow-visible ${className}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="THE LEAF wordmark"
+      aria-hidden="true"
     >
       <g stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
         {/* === T === */}

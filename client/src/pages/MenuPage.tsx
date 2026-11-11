@@ -66,22 +66,22 @@ export const MenuPage: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 pb-24">
+    <main id="main-content" className="pt-24 pb-24 min-h-[100dvh]">
       {/* Header Banner */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center pt-8 pb-6">
         <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
           100% Pure Vegetarian · Arera Colony, Bhopal
         </span>
-        <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+        <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#EDE3D1] mt-1">
           THE ARTISANAL MENU
         </h1>
-        <p className="mt-2 text-sm text-[#142318]/70 dark:text-[#F7FBFA]/70 max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="mt-2 text-sm text-[#4A5A4E] dark:text-[#C9DCC9] max-w-2xl mx-auto font-light leading-relaxed">
           From single-origin pour-overs and 18-hour cold brews to hand-tossed peri peri paneer pizzas and decadent Belgian brownie shakes.
         </p>
 
         {/* Pricing Notice Disclaimer */}
-        <div className="mt-4 inline-flex items-center gap-2 rounded-2xl border border-[#C98A1B]/30 bg-[#C98A1B]/10 px-4 py-2 text-xs text-[#142318] dark:text-[#F7FBFA]">
-          <MonolineIcon name="star" size={14} color="#C98A1B" />
+        <div className="mt-4 inline-flex items-center gap-2 rounded-2xl border border-[#B8A582]/40 bg-[#EDE3D1]/60 px-4 py-2 text-xs text-[#1F2A22] dark:text-[#EDE3D1]">
+          <MonolineIcon name="star" size={14} color="#325736" />
           <span>
             <strong>Provisional Pricing Notice:</strong> All menu prices are currently estimated placeholders (avg. ₹1000 for two); admin confirmation pending before commercial launch.
           </span>
@@ -110,13 +110,13 @@ export const MenuPage: React.FC = () => {
         {/* Items Listing */}
         {filteredItems.length === 0 ? (
           <div className="py-20 text-center flex flex-col items-center justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#325736]/10 text-[#325736] mb-3">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#EDE3D1] text-[#325736] mb-3">
               <MonolineIcon name="search" size={28} />
             </div>
-            <h3 className="font-display uppercase text-lg font-bold text-[#142318] dark:text-[#F7FBFA]">
+            <h2 className="font-display uppercase text-lg font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
               No Creations Match Your Filter
-            </h3>
-            <p className="mt-1 text-xs text-[#5E8662]">
+            </h2>
+            <p className="mt-1 text-xs text-[#4A5A4E] dark:text-[#C9DCC9]">
               Try adjusting your search query or dietary filters.
             </p>
             <button
@@ -158,6 +158,6 @@ export const MenuPage: React.FC = () => {
         onClose={() => setCustomizingItem(null)}
         onAddToCart={handleAddToCartFromModal}
       />
-    </div>
+    </main>
   );
 };

@@ -96,16 +96,31 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
 
           <div className="shrink-0">
             {totalCartQty > 0 ? (
-              <div className="flex items-center rounded-full border border-[#325736] bg-[#EEF5EE] dark:bg-[#142318] px-2.5 py-1 text-xs gap-3">
-                <button type="button" onClick={handleDecrement} className="font-bold text-sm px-1">-</button>
-                <span className="font-bold tabular-nums text-[#325736] dark:text-[#A3C2A5]">{totalCartQty}</span>
-                <button type="button" onClick={handleIncrement} className="font-bold text-sm px-1">+</button>
+              <div className="flex items-center rounded-full border border-[#325736] bg-[#F5EFE4] dark:bg-[#142318] px-1 text-xs gap-1">
+                <button
+                  type="button"
+                  onClick={handleDecrement}
+                  className="font-bold text-sm min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736] text-[#1F2A22] dark:text-[#F7FBFA]"
+                  aria-label={`Decrease quantity of ${item.name}`}
+                >
+                  -
+                </button>
+                <span className="font-bold tabular-nums text-[#325736] dark:text-[#A3C2A5] px-1">{totalCartQty}</span>
+                <button
+                  type="button"
+                  onClick={handleIncrement}
+                  className="font-bold text-sm min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736] text-[#1F2A22] dark:text-[#F7FBFA]"
+                  aria-label={`Increase quantity of ${item.name}`}
+                >
+                  +
+                </button>
               </div>
             ) : (
               <button
                 type="button"
                 onClick={handleAddClick}
-                className="rounded-full bg-[#325736] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-[#284A2D] dark:bg-[#5E8662]"
+                className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-[#284A2D] dark:bg-[#5E8662]"
+                aria-label={item.customizations && item.customizations.length > 0 ? `Customise ${item.name}` : `Add ${item.name} to cart`}
                 data-cursor="Add"
               >
                 + Add
@@ -184,24 +199,24 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
               <motion.div
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
-                className="flex items-center rounded-full border border-[#325736] bg-[#EEF5EE] dark:bg-[#142318] px-3 py-1 text-xs gap-3 shadow-sm"
+                className="flex items-center rounded-full border border-[#325736] bg-[#F5EFE4] dark:bg-[#142318] px-1 text-xs gap-1 shadow-sm"
               >
                 <button
                   type="button"
                   onClick={handleDecrement}
-                  className="font-bold text-sm px-1 hover:text-[#325736]"
-                  aria-label="Decrease quantity"
+                  className="font-bold text-sm min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736] text-[#1F2A22] dark:text-[#F7FBFA]"
+                  aria-label={`Decrease quantity of ${item.name}`}
                 >
                   -
                 </button>
-                <span className="font-bold tabular-nums text-[#325736] dark:text-[#A3C2A5]">
+                <span className="font-bold tabular-nums text-[#325736] dark:text-[#A3C2A5] px-1">
                   {totalCartQty}
                 </span>
                 <button
                   type="button"
                   onClick={handleIncrement}
-                  className="font-bold text-sm px-1 hover:text-[#325736]"
-                  aria-label="Increase quantity"
+                  className="font-bold text-sm min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736] text-[#1F2A22] dark:text-[#F7FBFA]"
+                  aria-label={`Increase quantity of ${item.name}`}
                 >
                   +
                 </button>
@@ -210,12 +225,12 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
               <button
                 type="button"
                 onClick={handleAddClick}
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#325736] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] active:scale-95 transition-all dark:bg-[#5E8662] dark:hover:bg-[#325736]"
-                aria-label={`Add ${item.name} to cart`}
+                className="min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] active:scale-95 transition-all dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                aria-label={item.customizations && item.customizations.length > 0 ? `Customise ${item.name}` : `Add ${item.name} to cart`}
                 data-cursor="Add"
               >
-                <span className="text-base leading-none">+</span>
-                <span>{item.customizations && item.customizations.length > 0 ? 'Custom' : 'Add'}</span>
+                <span aria-hidden="true" className="text-base leading-none">+</span>
+                <span>{item.customizations && item.customizations.length > 0 ? 'Customise' : 'Add'}</span>
               </button>
             )}
           </div>

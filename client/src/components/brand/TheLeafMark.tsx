@@ -37,8 +37,7 @@ export const TheLeafMark: React.FC<TheLeafMarkProps> = ({
       className={`inline-block select-none overflow-visible ${className}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="The Leaf Emblem"
+      aria-hidden="true"
     >
       {showCircleBg && (
         <circle cx="200" cy="200" r="195" fill={circleBgColor} />
