@@ -52,11 +52,36 @@ A comprehensive architectural, accessibility, performance, and visual audit was 
 | **Semantic `<main>` Landmarks** | 6 pages missing | **0 missing (all have `<main>`)** | Full screen-reader support | 🟢 Complete |
 | **Label in Name (WCAG 2.5.3)** | 4 serious violations | **0 violations** | Visible text in aria-label | 🟢 Complete |
 | **Horizontal Overflows (13 viewports)**| 8 detected | **0 detected** | Flawless 320px-2560px | 🟢 Responsive |
-| **Playwright E2E Suite** | Untested / Incomplete | **8 / 8 Passed (53.9s)** | Full guest flows verified | 🟢 Verified |
+| **Playwright E2E Suite** | Untested / Incomplete | **8 / 8 Passed (30.6s)** | Full guest flows verified | 🟢 Verified |
 
 ---
 
-## 3. Comprehensive Findings & Fixes by Focus Area
+## 3. Findings Register Table
+
+| ID | Area | Route | Severity | Description | Root Cause | Status | Commit / File |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **FND-01** | 1 (Responsive) | `/book` | High | Table slot grid & seating preference buttons overflowed 320px viewport | Rigid `min-w` assertions without wrapping | **Fixed** | `BookingPage.tsx` (`dbc8cd0`) |
+| **FND-02** | 1 (Responsive) | `/checkout` | High | Payment radio option cards overflowed right screen margin on 320px/360px | Static 2-column grid without flex-wrap fallback | **Fixed** | `CheckoutPage.tsx` (`dbc8cd0`) |
+| **FND-03** | 1 (Responsive) | `/menu` | Medium | Category tabs lacked smooth scroll margins and edge padding | Fixed container without scroll snapping | **Fixed** | `CategoryTabs.tsx` (`b16ddc0`) |
+| **FND-04** | 2 (Working) | `/menu` | High | Cart drawer backdrop click closed drawer immediately when dismissing customizer | Event bubbling from modal backdrop to parent drawer | **Fixed** | `CartDrawer.tsx` (`dbc8cd0`) |
+| **FND-05** | 2 (Working) | `/track-order` | Medium | Order ID sliced `'ORD-9821'` into `'D-9821'` and failed without backend | Naive `.slice(-6)` and lack of mock fallback state | **Fixed** | `OrderTrackerPage.tsx` (`dbc8cd0`) |
+| **FND-06** | 2 (Working) | All routes | Medium | Preloader ran full 2.5s sequence on every internal page navigation | Missing session persistence flag | **Fixed** | `Preloader.tsx` (`151504f`) |
+| **FND-07** | 2 (Working) | `/account` | High | Footer link to `/account` returned 404 | Missing route mounting in router tree | **Fixed** | `AccountPage.tsx` (`c595005`) |
+| **FND-08** | 3 (Flows) | `/book` | Medium | Missing OTP guest verification step and large party routing (>12 guests) | Incomplete user journey flow | **Fixed** | `BookingPage.tsx` (`dbc8cd0`) |
+| **FND-09** | 3 (Flows) | `/checkout` | Medium | Missing payment failure and cancellation recovery UI | Only happy path handled | **Fixed** | `CheckoutPage.tsx` (`dbc8cd0`) |
+| **FND-10** | 4 (Optimization) | All routes | Blocker | Monolithic 863 kB single bundle caused 5.0s mobile LCP | No code splitting, static heavy imports | **Fixed** | `vite.config.ts`, `App.tsx` (`151504f`) |
+| **FND-11** | 5 (A11y) | `/menu` | Blocker | Critical Axe failure: unlinked `aria-controls` on filter tabs | Dead IDs on tab button elements | **Fixed** | `CategoryTabs.tsx` (`d30607c`) |
+| **FND-12** | 5 (A11y) | `/about`, `/account`, `/contact` | High | Missing `<main>` landmark tree on pages | No semantic `<main>` tag wrapping content | **Fixed** | `App.tsx`, Pages (`d30607c`) |
+| **FND-13** | 5 (A11y) | `/menu` | High | Label-in-Name (WCAG 2.5.3) mismatch on add/customise buttons | Child icon text combined into accessible label | **Fixed** | `MenuItemCard.tsx` (`d30607c`) |
+| **FND-14** | 5 (A11y) | All routes | High | Subtitle and helper text on light canvas had 3.4:1 contrast | Use of `#5E8662` for body text on light backgrounds | **Fixed** | `tokens.ts`, Components (`dbc8cd0`) |
+| **FND-15** | 6 (Animation) | All modals | High | Lenis smooth scroll continued scrolling page beneath open modals/drawers | Scroll engine not suspended on overlay open | **Fixed** | `CartDrawer.tsx`, Modals (`166070f`) |
+| **FND-16** | 6 (Animation) | All modals | Medium | Modals lacked Escape key event listener for keyboard dismissal | Missing keyboard listener | **Fixed** | Modals (`dbc8cd0`) |
+| **FND-17** | 7 (Animation) | Hero & Carousel | Medium | 3D card tilt ran on touchscreens causing stuck tilt during scroll | Missing hardware pointer capability check | **Fixed** | `HeroSection.tsx` (`166070f`) |
+| **FND-18** | 8 (Colour) | All views | Medium | Site was overly green and cold without sanctuary warmth | Lack of warm beige 60% grounding canvas | **Fixed** | `index.css`, `tokens.ts` (`c0ab4a5`) |
+
+---
+
+## 4. Comprehensive Findings & Fixes by Focus Area
 
 ### Area 1: Responsiveness & Breakpoint Hardening
 - **Issues Identified:**
@@ -150,7 +175,7 @@ A comprehensive architectural, accessibility, performance, and visual audit was 
 
 ---
 
-## 4. Animation Audit Catalog
+## 5. Animation Audit Catalog
 
 | Component | Animation / Interaction | Trigger | Spring / Timing Config | Reduced Motion Fallback | Hardware Capability Gating |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -167,7 +192,7 @@ A comprehensive architectural, accessibility, performance, and visual audit was 
 
 ---
 
-## 5. Contrast Ratio Verification Table
+## 6. Contrast Ratio Verification Table
 
 All color combinations have been tested against WCAG 2.2 contrast requirements:
 
@@ -184,7 +209,7 @@ All color combinations have been tested against WCAG 2.2 contrast requirements:
 
 ---
 
-## 6. Bundle Breakdown & Optimization Anatomy
+## 7. Bundle Breakdown & Optimization Anatomy
 
 ```
 dist/index.html                               4.15 kB │ gzip:  1.71 kB
@@ -213,7 +238,7 @@ dist/assets/vendor-react-CSyN07fv.js        210.66 kB │ gzip: 65.72 kB
 
 ---
 
-## 7. Known Risks & Reviewer Next Steps
+## 8. Known Risks & Reviewer Next Steps
 
 1. **Live Payment Gateway Handshake:**  
    The checkout flow gracefully falls back to a simulated order confirmation when Razorpay credentials or the backend endpoint are not configured in local environment variables. Prior to production release, real Razorpay webhook verification and secret keys must be mounted in the cloud runtime.
