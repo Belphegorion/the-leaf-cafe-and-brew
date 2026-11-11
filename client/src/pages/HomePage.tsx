@@ -15,7 +15,7 @@ export const HomePage: React.FC = () => {
   const [quizOpen, setQuizOpen] = useState(false);
 
   return (
-    <main id="main-content" className="flex flex-col w-full">
+    <main id="main-content" className="block w-full">
       {/* 1. Hero Section with parallax and magnetic CTAs */}
       <HeroSection />
 

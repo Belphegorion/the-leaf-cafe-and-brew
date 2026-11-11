@@ -12,11 +12,14 @@ export const useLenis = () => {
     if (prefersReducedMotion) return;
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // exponential ease-out
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.2,
     });
+
+    // Expose lenis for programmatic control and testing
+    (window as any).__lenis = lenis;
 
     let rafId: number;
     function raf(time: number) {
@@ -28,6 +31,7 @@ export const useLenis = () => {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      delete (window as any).__lenis;
     };
   }, []);
 };

@@ -27,7 +27,7 @@ export const SIGNATURE_ITEMS: MenuItem[] = [
     description: 'Penne tossed in slow-simmered rich parmesan garlic cream, exotic mushrooms, and fresh basil herb garnish.',
     price: 340,
     isPriceTbc: true,
-    image: 'https://images.unsplash.com/photo-1621996346565-e3d5d6281691?auto=format&fit=crop&w=700&q=80',
+    image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=700&q=80',
     tags: ['bestseller'],
     isAvailable: true,
     prepTimeMinutes: 15,
