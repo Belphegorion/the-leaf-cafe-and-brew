@@ -33,30 +33,33 @@ export const DesignSystemPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'tokens' | 'typography' | 'logos' | 'icons' | 'components'>('tokens');
 
   return (
-    <div className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <main id="main-content" className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="border-b border-[#325736]/20 pb-8 mb-10">
         <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
           Brand Architecture &amp; Token Library
         </span>
-        <h1 className="text-4xl sm:text-5xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-2">
+        <h1 className="text-4xl sm:text-5xl font-display uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-2">
           THE LEAF DESIGN SYSTEM
         </h1>
-        <p className="mt-2 text-sm text-[#142318]/70 dark:text-[#F7FBFA]/70 max-w-2xl">
-          Derived strictly from the official vector emblem: 2-tone leaf green identity, Art Deco geometric type, 2px monoline iconset, and double-bezel haptic enclosures.
+        <p className="mt-2 text-sm text-[#1F2A22]/70 dark:text-[#F7FBFA]/70 max-w-2xl">
+          Calibrated to the 60/25/12/3 Sanctuary Color Formula: 60% Warm Beige base, 25% Pure White crispness, 12% Leaf Green identity, and 3% Amber accents.
         </p>
 
         {/* Tab Navigation */}
-        <div className="flex flex-wrap gap-2 mt-6">
+        <div role="tablist" aria-label="Design System Sections" className="flex flex-wrap gap-2 mt-6">
           {(['tokens', 'typography', 'logos', 'icons', 'components'] as const).map(tab => (
             <button
               key={tab}
+              id={`design-tab-${tab}`}
+              role="tab"
+              aria-selected={activeTab === tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+              className={`min-h-[44px] inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
                 activeTab === tab
                   ? 'bg-[#325736] text-white dark:bg-[#5E8662]'
-                  : 'border border-[#325736]/20 bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] hover:bg-[#EEF5EE]'
+                  : 'border border-[#325736]/20 bg-[#F5EFE4] dark:bg-[#1F3A24] text-[#1F2A22] dark:text-[#F7FBFA] hover:bg-[#EAE0D0]'
               }`}
             >
               {tab}
@@ -69,25 +72,28 @@ export const DesignSystemPage: React.FC = () => {
       {activeTab === 'tokens' && (
         <section className="space-y-12">
           <div>
-            <h2 className="text-xl font-display uppercase tracking-wider font-bold mb-4">
-              Core Brand Colors
+            <h2 className="text-xl font-display uppercase tracking-wider font-bold mb-2">
+              Calibrated Sanctuary Color Palette (60 / 25 / 12 / 3)
             </h2>
+            <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] mb-4">
+              Eliminated generic stark white and sterile grey defaults. Every surface bathes in natural warm beige harmony.
+            </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="p-4 rounded-2xl bg-[#F5EFE4] text-[#1F2A22] border border-[#E0D2B8] shadow-md">
+                <p className="text-xs font-bold uppercase tracking-wider">60% Warm Beige Base</p>
+                <p className="text-sm font-mono mt-1">#F5EFE4</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-white text-[#1F2A22] border border-[#E0D2B8] shadow-md">
+                <p className="text-xs font-bold uppercase tracking-wider">25% Pure White Core</p>
+                <p className="text-sm font-mono mt-1">#FFFFFF</p>
+              </div>
               <div className="p-4 rounded-2xl bg-[#325736] text-white shadow-md">
-                <p className="text-xs font-bold uppercase tracking-wider">Leaf Green (Primary)</p>
+                <p className="text-xs font-bold uppercase tracking-wider">12% Leaf Green Mark</p>
                 <p className="text-sm font-mono mt-1">#325736</p>
               </div>
-              <div className="p-4 rounded-2xl bg-[#F7FBFA] text-[#142318] border border-[#325736]/20 shadow-md">
-                <p className="text-xs font-bold uppercase tracking-wider">Soft White (Base)</p>
-                <p className="text-sm font-mono mt-1">#F7FBFA</p>
-              </div>
-              <div className="p-4 rounded-2xl bg-[#101C13] text-white shadow-md">
-                <p className="text-xs font-bold uppercase tracking-wider">Dark Background</p>
-                <p className="text-sm font-mono mt-1">#101C13</p>
-              </div>
-              <div className="p-4 rounded-2xl bg-[#1F3A24] text-white shadow-md">
-                <p className="text-xs font-bold uppercase tracking-wider">Dark Surface</p>
-                <p className="text-sm font-mono mt-1">#1F3A24</p>
+              <div className="p-4 rounded-2xl bg-[#C98A1B] text-white shadow-md">
+                <p className="text-xs font-bold uppercase tracking-wider">3% Golden Roast Accent</p>
+                <p className="text-sm font-mono mt-1">#C98A1B</p>
               </div>
             </div>
           </div>
@@ -245,6 +251,6 @@ export const DesignSystemPage: React.FC = () => {
           </div>
         </section>
       )}
-    </div>
+    </main>
   );
 };

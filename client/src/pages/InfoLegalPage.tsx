@@ -12,7 +12,7 @@ export const InfoLegalPage: React.FC = () => {
   const currentTab: InfoType = ['contact', 'faq', 'privacy', 'terms'].includes(path) ? path : 'faq';
 
   return (
-    <main className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
+    <main id="main-content" className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
       {/* Brand Header */}
       <div className="text-center max-w-2xl mx-auto mb-10">
         <div className="flex justify-center mb-3 text-[#325736] dark:text-[#A3C2A5]">
@@ -21,7 +21,7 @@ export const InfoLegalPage: React.FC = () => {
         <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
           The Leaf • Cafe &amp; Brew • Arera Colony
         </span>
-        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
           {currentTab === 'contact' && 'Get In Touch'}
           {currentTab === 'faq' && 'Frequently Asked Questions'}
           {currentTab === 'privacy' && 'Privacy Policy'}
@@ -43,10 +43,10 @@ export const InfoLegalPage: React.FC = () => {
           <Link
             key={t.id}
             to={`/${t.id}`}
-            className={`rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all ${
+            className={`min-h-[44px] inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all ${
               currentTab === t.id
                 ? 'bg-[#325736] text-[#F7FBFA] shadow-md'
-                : 'border border-[#325736]/20 text-[#142318] dark:text-[#F7FBFA] hover:border-[#325736]/50 bg-white/60 dark:bg-[#1F3A24]/60'
+                : 'border border-[#E0D2B8] text-[#1F2A22] dark:text-[#F7FBFA] hover:border-[#325736]/50 bg-white/70 dark:bg-[#1F3A24]/60'
             }`}
           >
             {t.label}
@@ -55,7 +55,7 @@ export const InfoLegalPage: React.FC = () => {
       </nav>
 
       {/* Content Container */}
-      <div className="bg-white dark:bg-[#1F3A24] rounded-3xl p-6 md:p-10 border border-[#325736]/20 shadow-lg text-[#142318] dark:text-[#F7FBFA]">
+      <div className="bg-[#F5EFE4] dark:bg-[#1A261D] rounded-3xl p-6 md:p-10 border border-[#E0D2B8] dark:border-[#325736]/30 shadow-lg text-[#1F2A22] dark:text-[#F7FBFA]">
         {/* === 1. FAQ TAB === */}
         {currentTab === 'faq' && (
           <div className="space-y-6">
@@ -220,7 +220,7 @@ export const InfoLegalPage: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-[#325736] py-2.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#284A2D] transition-colors"
+                  className="w-full min-h-[44px] rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#284A2D] transition-colors"
                 >
                   Send Inquiry
                 </button>
