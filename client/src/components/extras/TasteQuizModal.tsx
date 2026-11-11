@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MonolineIcon } from '../brand/MonolineIcon';
 import { useCartStore } from '../../stores/useCartStore';
@@ -64,6 +64,24 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
 
   const { addItem } = useCartStore();
 
+  // Escape key and Lenis scrolling control
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    const lenis = (window as any).__lenis;
+    if (lenis && typeof lenis.stop === 'function') lenis.stop();
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      if (lenis && typeof lenis.start === 'function') lenis.start();
+    };
+  }, [isOpen, onClose]);
+
   const handleSelect = (optionId: string) => {
     const nextAnswers = { ...answers, [currentStep]: optionId };
     setAnswers(nextAnswers);
@@ -107,17 +125,22 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="taste-quiz-title"
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="max-w-lg w-full bg-white dark:bg-[#1F3A24] p-6 md:p-8 rounded-3xl border border-[#325736]/30 shadow-2xl relative"
+            className="max-w-lg w-full bg-[#F5EFE4] dark:bg-[#1A261D] p-6 md:p-8 rounded-3xl border border-[#E0D2B8] dark:border-[#325736]/30 shadow-2xl relative text-[#1F2A22] dark:text-[#F7FBFA]"
           >
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-[#142318]/70 dark:text-[#F7FBFA]/70 hover:bg-black/5"
+              className="absolute top-5 right-5 w-11 h-11 min-h-[44px] min-w-[44px] rounded-full flex items-center justify-center text-[#1F2A22]/70 dark:text-[#F7FBFA]/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               aria-label="Close quiz"
             >
               ✕
@@ -129,9 +152,9 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
                   <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#5E8662] dark:text-[#A3C2A5]">
                     Question 0{currentStep + 1} of 0{QUIZ_QUESTIONS.length}
                   </span>
-                  <h3 className="font-display uppercase text-xl font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+                  <h2 id="taste-quiz-title" className="font-display uppercase text-xl font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
                     {QUIZ_QUESTIONS[currentStep].title}
-                  </h3>
+                  </h2>
                 </div>
 
                 <div className="space-y-3">
@@ -140,12 +163,12 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
                       key={opt.id}
                       type="button"
                       onClick={() => handleSelect(opt.id)}
-                      className="w-full p-4 rounded-2xl border border-[#325736]/20 hover:border-[#325736] hover:bg-[#EEF5EE] dark:hover:bg-[#142318] text-left flex items-center gap-3 transition-all"
+                      className="w-full min-h-[52px] p-4 rounded-2xl border border-[#325736]/20 bg-white/70 dark:bg-white/5 hover:border-[#325736] hover:bg-[#EAE0D0] dark:hover:bg-[#142318] text-left flex items-center gap-3 transition-all"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-[#EEF5EE] dark:bg-[#142318] flex items-center justify-center text-[#325736] dark:text-[#A3C2A5] shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-[#EAE0D0] dark:bg-[#142318] flex items-center justify-center text-[#325736] dark:text-[#A3C2A5] shrink-0">
                         <MonolineIcon name={opt.icon as any} size={20} />
                       </div>
-                      <span className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
+                      <span className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                         {opt.text}
                       </span>
                     </button>
@@ -154,7 +177,7 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
               </div>
             ) : (
               <div className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-[#EEF5EE] dark:bg-[#142318] text-[#325736] dark:text-[#A3C2A5] mx-auto flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-[#EAE0D0] dark:bg-[#142318] text-[#325736] dark:text-[#A3C2A5] mx-auto flex items-center justify-center">
                   <MonolineIcon name="sparkles" size={32} />
                 </div>
 
@@ -162,9 +185,9 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
                   <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#5E8662] dark:text-[#A3C2A5]">
                     Your Perfect Palate Match
                   </span>
-                  <h3 className="font-display uppercase text-2xl font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+                  <h2 id="taste-quiz-title" className="font-display uppercase text-2xl font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
                     {recommended.name}
-                  </h3>
+                  </h2>
                 </div>
 
                 <img
@@ -185,14 +208,14 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="flex-1 py-3 rounded-full border border-[#325736] text-xs font-semibold uppercase tracking-wider text-[#325736] dark:text-[#A3C2A5]"
+                    className="flex-1 min-h-[44px] py-3 rounded-full border border-[#325736] text-xs font-semibold uppercase tracking-wider text-[#325736] dark:text-[#A3C2A5] hover:bg-[#EAE0D0] transition-colors"
                   >
                     Retake Quiz
                   </button>
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex-1 py-3 rounded-full bg-[#325736] text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#284A2D] shadow"
+                    className="flex-1 min-h-[44px] py-3 rounded-full bg-[#325736] text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#284A2D] shadow transition-colors"
                   >
                     Add to Cart
                   </button>

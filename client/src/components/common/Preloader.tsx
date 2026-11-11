@@ -18,9 +18,11 @@ interface PreloaderProps {
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(() => {
     if (typeof window !== 'undefined') {
-      return !sessionStorage.getItem('theleaf_visited');
+      const isRepeat = localStorage.getItem('theleaf_visited');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      return !isRepeat && !prefersReduced;
     }
-    return true;
+    return false;
   });
 
   const [leafFilled, setLeafFilled] = useState(false);
@@ -31,17 +33,21 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       return;
     }
 
-    // Step 1: Trigger leaf fill at 900ms
+    // Step 1: Trigger leaf fill at 250ms
     const fillTimer = setTimeout(() => {
       setLeafFilled(true);
-    }, 850);
+    }, 250);
 
-    // Step 2: Trigger exit iris wipe at 1600ms
+    // Step 2: Trigger exit iris wipe at 600ms
     const exitTimer = setTimeout(() => {
       setIsVisible(false);
-      sessionStorage.setItem('theleaf_visited', 'true');
+      try {
+        localStorage.setItem('theleaf_visited', 'true');
+      } catch (e) {
+        // Ignore private browsing storage quota
+      }
       onComplete?.();
-    }, 1650);
+    }, 600);
 
     return () => {
       clearTimeout(fillTimer);

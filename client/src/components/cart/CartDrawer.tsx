@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../../stores/useCartStore';
@@ -29,6 +29,23 @@ export const CartDrawer: React.FC = () => {
   const gst = getGst();
   const total = getTotal();
 
+  // Control Lenis scrolling & listen to Escape key when drawer is open
+  useEffect(() => {
+    if (isDrawerOpen) {
+      if ((window as any).__lenis) (window as any).__lenis.stop();
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeDrawer();
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        if ((window as any).__lenis) (window as any).__lenis.start();
+      };
+    } else {
+      if ((window as any).__lenis) (window as any).__lenis.start();
+    }
+  }, [isDrawerOpen, closeDrawer]);
+
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponInput) return;
@@ -39,7 +56,12 @@ export const CartDrawer: React.FC = () => {
   return (
     <AnimatePresence>
       {isDrawerOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true" aria-label="Shopping Cart Drawer">
+        <div
+          className="fixed inset-0 z-50 overflow-hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Shopping Cart Drawer"
+        >
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -49,26 +71,26 @@ export const CartDrawer: React.FC = () => {
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
           />
 
-          <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
+          <div className="fixed inset-y-0 right-0 flex max-w-full pl-6 sm:pl-10">
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="w-screen max-w-md bg-[#F7FBFA] dark:bg-[#101C13] shadow-2xl flex flex-col"
+              className="w-screen max-w-md bg-[#F5EFE4] text-[#1F2A22] dark:bg-[#101C13] dark:text-[#EDE3D1] shadow-2xl flex flex-col"
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between border-b border-[#325736]/15 dark:border-[#F7FBFA]/15 px-6 py-5">
+              <div className="flex items-center justify-between border-b border-[#E0D2B8] dark:border-[#284A2D] px-6 py-4">
                 <div className="flex items-center gap-2">
                   <MonolineIcon name="bag" size={20} color="#325736" strokeWidth={2.2} />
-                  <h2 className="font-display uppercase text-lg font-bold text-[#142318] dark:text-[#F7FBFA]">
+                  <h2 className="font-display uppercase text-lg font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
                     Your Artisanal Order
                   </h2>
                 </div>
                 <button
                   type="button"
                   onClick={closeDrawer}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-[#142318]/70 hover:bg-[#325736]/10 dark:text-[#F7FBFA]/70"
+                  className="min-h-[44px] min-w-[44px] h-11 w-11 flex items-center justify-center rounded-full text-[#1F2A22]/70 hover:bg-[#325736]/10 dark:text-[#EDE3D1]/70 transition-colors"
                   aria-label="Close cart drawer"
                 >
                   ✕
@@ -79,19 +101,19 @@ export const CartDrawer: React.FC = () => {
               <div className="flex-1 overflow-y-auto px-6 py-4">
                 {items.length === 0 ? (
                   <div className="flex h-full flex-col items-center justify-center text-center p-6">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#325736]/10 text-[#325736] dark:bg-white/10 dark:text-[#A3C2A5] mb-4">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#EDE3D1] dark:bg-[#1F3A24] text-[#325736] dark:text-[#A3C2A5] mb-4">
                       <MonolineIcon name="cup" size={36} strokeWidth={1.8} />
                     </div>
-                    <h3 className="font-display uppercase text-base font-bold text-[#142318] dark:text-[#F7FBFA]">
+                    <h3 className="font-display uppercase text-base font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
                       Your Cup is Empty
                     </h3>
-                    <p className="mt-1 text-xs text-[#5E8662] dark:text-[#A3C2A5] max-w-xs">
+                    <p className="mt-1 text-xs text-[#4A5A4E] dark:text-[#C9DCC9] max-w-xs">
                       Explore our handcrafted coffees, artisan pizzas, and cold brews to begin.
                     </p>
                     <Link
                       to="/menu"
                       onClick={closeDrawer}
-                      className="mt-6 inline-flex rounded-full bg-[#325736] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#284A2D]"
+                      className="mt-6 min-h-[44px] inline-flex items-center rounded-full bg-[#325736] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#284A2D]"
                     >
                       Browse Menu
                     </Link>
@@ -101,22 +123,22 @@ export const CartDrawer: React.FC = () => {
                     {items.map(item => (
                       <div
                         key={item.cartItemId}
-                        className="flex gap-4 p-3 rounded-2xl border border-[#325736]/15 bg-white dark:bg-[#1F3A24] shadow-sm"
+                        className="flex gap-4 p-3 rounded-2xl border border-[#E0D2B8] bg-white dark:bg-[#1F3A24] shadow-sm"
                       >
                         <img
                           src={item.menuItem.image}
                           alt={item.menuItem.name}
-                          className="h-20 w-20 shrink-0 rounded-xl object-cover bg-[#EEF5EE]"
+                          className="h-20 w-20 shrink-0 rounded-xl object-cover bg-[#F5EFE4]"
                         />
 
                         <div className="flex flex-1 flex-col justify-between">
                           <div className="flex items-start justify-between">
                             <div>
-                              <h4 className="text-sm font-bold text-[#142318] dark:text-[#F7FBFA] line-clamp-1">
+                              <h3 className="text-sm font-bold text-[#1F2A22] dark:text-[#EDE3D1] line-clamp-1">
                                 {item.menuItem.name}
-                              </h4>
+                              </h3>
                               {item.selectedCustomizations.length > 0 && (
-                                <p className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">
+                                <p className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">
                                   {item.selectedCustomizations.map(c => c.selectedOptionName).join(', ')}
                                 </p>
                               )}
@@ -124,8 +146,8 @@ export const CartDrawer: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => removeItem(item.cartItemId)}
-                              className="text-xs text-red-500 hover:text-red-700 p-1"
-                              aria-label={`Remove ${item.menuItem.name}`}
+                              className="min-h-[44px] min-w-[44px] flex items-center justify-center text-xs text-red-500 hover:text-red-700"
+                              aria-label={`Remove ${item.menuItem.name} from cart`}
                             >
                               ✕
                             </button>
@@ -136,22 +158,24 @@ export const CartDrawer: React.FC = () => {
                               ₹{item.itemTotalPrice}
                             </span>
 
-                            {/* Stepper */}
-                            <div className="flex items-center rounded-full border border-[#325736]/30 px-2 py-0.5 text-xs gap-2">
+                            {/* Stepper with 44px tap targets */}
+                            <div className="flex items-center rounded-full border border-[#E0D2B8] dark:border-[#284A2D] bg-[#F5EFE4] dark:bg-[#101C13] px-1 py-0.5 text-xs gap-1">
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                                className="font-bold text-sm px-1"
-                                aria-label="Decrease quantity"
+                                className="min-h-[44px] min-w-[44px] flex items-center justify-center font-bold text-sm text-[#1F2A22] dark:text-[#EDE3D1] hover:text-[#325736]"
+                                aria-label={`Decrease quantity of ${item.menuItem.name}`}
                               >
                                 -
                               </button>
-                              <span className="font-semibold tabular-nums">{item.quantity}</span>
+                              <span className="font-semibold tabular-nums px-1 text-xs">
+                                {item.quantity}
+                              </span>
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                                className="font-bold text-sm px-1"
-                                aria-label="Increase quantity"
+                                className="min-h-[44px] min-w-[44px] flex items-center justify-center font-bold text-sm text-[#1F2A22] dark:text-[#EDE3D1] hover:text-[#325736]"
+                                aria-label={`Increase quantity of ${item.menuItem.name}`}
                               >
                                 +
                               </button>
@@ -166,13 +190,13 @@ export const CartDrawer: React.FC = () => {
 
               {/* Drawer Footer & Checkout Calculations */}
               {items.length > 0 && (
-                <div className="border-t border-[#325736]/15 dark:border-[#F7FBFA]/15 p-6 bg-white dark:bg-[#142318] space-y-4">
+                <div className="border-t border-[#E0D2B8] dark:border-[#284A2D] p-6 bg-white dark:bg-[#142318] space-y-4">
                   {/* Coupon Code Section */}
                   <div>
                     {couponCode ? (
-                      <div className="flex items-center justify-between rounded-xl bg-[#EEF5EE] dark:bg-[#1F3A24] px-3 py-2 text-xs text-[#325736] dark:text-[#A3C2A5]">
+                      <div className="flex items-center justify-between rounded-xl bg-[#EDE3D1] dark:bg-[#1F3A24] px-3 py-2 text-xs text-[#325736] dark:text-[#A3C2A5]">
                         <span>Applied: <strong>{couponCode}</strong> (-₹{discountAmount})</span>
-                        <button type="button" onClick={removeCoupon} className="font-bold underline text-red-500">
+                        <button type="button" onClick={removeCoupon} className="font-bold underline text-red-500 min-h-[44px] flex items-center">
                           Remove
                         </button>
                       </div>
@@ -186,11 +210,11 @@ export const CartDrawer: React.FC = () => {
                           placeholder="Coupon (e.g. LEAF10)"
                           value={couponInput}
                           onChange={e => setCouponInput(e.target.value)}
-                          className="flex-1 rounded-full border border-[#325736]/30 px-3 py-1.5 text-xs uppercase bg-transparent focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                          className="flex-1 rounded-full border border-[#E0D2B8] px-3 py-2 text-xs uppercase bg-transparent text-[#1F2A22] dark:text-[#EDE3D1] focus:outline-none focus:ring-1 focus:ring-[#325736]"
                         />
                         <button
                           type="submit"
-                          className="rounded-full bg-[#325736] px-4 py-1.5 text-xs font-semibold text-white uppercase hover:bg-[#284A2D]"
+                          className="min-h-[44px] rounded-full bg-[#325736] px-4 py-2 text-xs font-semibold text-white uppercase hover:bg-[#284A2D] transition-colors"
                         >
                           Apply
                         </button>
@@ -203,7 +227,7 @@ export const CartDrawer: React.FC = () => {
 
                   {/* Tip Selection */}
                   <div>
-                    <span className="text-[11px] uppercase tracking-wider font-semibold text-[#5E8662]">
+                    <span className="text-[11px] uppercase tracking-wider font-semibold text-[#4A5A4E] dark:text-[#C9DCC9]">
                       Tip Our Baristas &amp; Kitchen
                     </span>
                     <div className="flex gap-2 mt-1.5">
@@ -212,10 +236,10 @@ export const CartDrawer: React.FC = () => {
                           key={amt}
                           type="button"
                           onClick={() => setTip(amt)}
-                          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                          className={`min-h-[44px] rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
                             tipAmount === amt
                               ? 'bg-[#325736] text-white'
-                              : 'border border-[#325736]/20 text-[#142318] dark:text-[#F7FBFA]'
+                              : 'border border-[#E0D2B8] text-[#1F2A22] dark:text-[#EDE3D1]'
                           }`}
                         >
                           {amt === 0 ? 'No tip' : `₹${amt}`}
@@ -225,28 +249,28 @@ export const CartDrawer: React.FC = () => {
                   </div>
 
                   {/* Breakdown Table */}
-                  <div className="space-y-1.5 text-xs border-t border-[#325736]/10 pt-3">
-                    <div className="flex justify-between text-[#142318]/70 dark:text-[#F7FBFA]/70">
+                  <div className="space-y-1.5 text-xs border-t border-[#E0D2B8] dark:border-[#284A2D] pt-3">
+                    <div className="flex justify-between text-[#4A5A4E] dark:text-[#C9DCC9]">
                       <span>Item Subtotal</span>
                       <span className="tabular-nums">₹{subtotal}</span>
                     </div>
-                    <div className="flex justify-between text-[#142318]/70 dark:text-[#F7FBFA]/70">
+                    <div className="flex justify-between text-[#4A5A4E] dark:text-[#C9DCC9]">
                       <span>5% Restaurant GST</span>
                       <span className="tabular-nums">₹{gst}</span>
                     </div>
                     {tipAmount > 0 && (
-                      <div className="flex justify-between text-[#5E8662]">
+                      <div className="flex justify-between text-[#325736] dark:text-[#A3C2A5]">
                         <span>Barista Gratuity</span>
                         <span className="tabular-nums">+₹{tipAmount}</span>
                       </div>
                     )}
                     {discountAmount > 0 && (
-                      <div className="flex justify-between text-[#5E8662]">
+                      <div className="flex justify-between text-[#325736] dark:text-[#A3C2A5]">
                         <span>Promo Discount</span>
                         <span className="tabular-nums">-₹{discountAmount}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-sm font-bold text-[#142318] dark:text-[#F7FBFA] pt-2 border-t border-[#325736]/10">
+                    <div className="flex justify-between text-sm font-bold text-[#1F2A22] dark:text-[#EDE3D1] pt-2 border-t border-[#E0D2B8] dark:border-[#284A2D]">
                       <span>Grand Total (Est.)</span>
                       <span className="text-[#325736] dark:text-[#A3C2A5] tabular-nums">₹{total}</span>
                     </div>
@@ -256,7 +280,7 @@ export const CartDrawer: React.FC = () => {
                   <Link
                     to="/checkout"
                     onClick={closeDrawer}
-                    className="w-full flex items-center justify-center rounded-full bg-[#325736] py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#F7FBFA] shadow-lg hover:bg-[#284A2D] transition-colors"
+                    className="min-h-[44px] w-full flex items-center justify-center rounded-full bg-[#325736] py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-white shadow-lg hover:bg-[#284A2D] transition-colors"
                   >
                     Proceed to Checkout
                   </Link>
