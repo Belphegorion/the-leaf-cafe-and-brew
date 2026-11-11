@@ -1,0 +1,171 @@
+{
+  "overflows": [],
+  "a11y": {
+    "home": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 30
+        }
+      ]
+    },
+    "menu": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 19
+        }
+      ]
+    },
+    "booking": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 16
+        }
+      ]
+    },
+    "checkout": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 2
+        }
+      ]
+    },
+    "preorder": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 11
+        }
+      ]
+    },
+    "tableqr": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 15
+        }
+      ]
+    },
+    "ordertracker": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 14
+        }
+      ]
+    },
+    "account": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 3
+        }
+      ]
+    },
+    "about": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 6
+        }
+      ]
+    },
+    "design": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 8
+        }
+      ]
+    },
+    "admin": {
+      "violationsCount": 1,
+      "criticalCount": 0,
+      "seriousCount": 1,
+      "moderateCount": 0,
+      "minorCount": 0,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 25
+        }
+      ]
+    }
+  },
+  "consoleIssues": []
+}

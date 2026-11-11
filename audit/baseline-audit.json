@@ -1,0 +1,443 @@
+{
+  "overflows": [],
+  "a11y": {
+    "home": {
+      "violationsCount": 2,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 30,
+          "nodeSummary": [
+            "<p class=\"mt-1 text-xs text-[#5E8662] dark:text-[#A3C2A5]/80 font-normal\">Verified across 646+ Reviews</p>",
+            "<p class=\"mt-1 text-xs text-[#5E8662] dark:text-[#A3C2A5]/80 font-normal\">Strictly zero meat or alcohol</p>",
+            "<p class=\"mt-1 text-xs text-[#5E8662] dark:text-[#A3C2A5]/80 font-normal\">Cherished patrons in Arera Colony</p>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    },
+    "menu": {
+      "violationsCount": 5,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 19,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">100% Pure Vegetarian · Arera Colony, Bhopal</span>",
+            "<button type=\"button\" class=\"rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors text-[#142318]/60 dark:text-[#F7FBFA]/60 hover:text-[#325736]\" aria-label=\"List layout view\">List</button>"
+          ]
+        },
+        {
+          "id": "heading-order",
+          "impact": "moderate",
+          "description": "Ensure the order of headings is semantically correct",
+          "nodes": 1,
+          "nodeSummary": [
+            "<h3 class=\"font-display uppercase text-base font-bold text-[#142318] dark:text-[#F7FBFA] line-clamp-1 group-hover:text-[#325736] dark:group-hover:text-[#A3C2A5] transition-colors\">Single-Origin V60 Pour Over</h3>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 3,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">",
+            "<button type=\"button\" class=\"inline-flex items-ce...\" aria-label=\"Add Single-Origin V6...\" data-cursor=\"Add\">",
+            "<button type=\"button\" class=\"inline-flex items-ce...\" aria-label=\"Add Artisan Flat Whi...\" data-cursor=\"Add\">"
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "description": "Ensure the document has a main landmark",
+          "nodes": 1,
+          "nodeSummary": [
+            "<html lang=\"en\" class=\"scroll-smooth lenis\">"
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 30,
+          "nodeSummary": [
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">100% Pure Vegetarian · Arera Colony, Bhopal</span>",
+            "<h1 class=\"text-4xl sm:text-6xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1\">THE ARTISANAL MENU</h1>",
+            "<p class=\"mt-2 text-sm text-[#142318]/70 dark:text-[#F7FBFA]/70 max-w-2xl mx-auto font-light leading-relaxed\">From single-origin pour-overs and 18-hour cold brews to hand-tossed peri peri paneer pizzas and decadent Belgian brownie shakes.</p>"
+          ]
+        }
+      ]
+    },
+    "booking": {
+      "violationsCount": 2,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 19,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">Artisanal Sanctuary • Arera Colony</span>",
+            "<p class=\"text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2\">Experience our tranquil plant-filled indoor space, fresh specialty pour-overs, and 100% pure-veg delicacies.</p>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    },
+    "checkout": {
+      "violationsCount": 3,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 3,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<p class=\"text-sm text-[#5E8662] dark:text-[#A3C2A5] mb-6\">You haven't selected any artisanal dishes or brews yet. Explore our pure-vegetarian menu to begin.</p>",
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>"
+          ]
+        },
+        {
+          "id": "heading-order",
+          "impact": "moderate",
+          "description": "Ensure the order of headings is semantically correct",
+          "nodes": 1,
+          "nodeSummary": [
+            "<h3 class=\"text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]\">Quick Links</h3>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    },
+    "preorder": {
+      "violationsCount": 2,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 11,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">Skip the Wait • Freshly Brewed On Arrival</span>",
+            "<p class=\"text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2\">Your specialty coffee and oven-fresh pizzas timed to perfection for when you step into our sanctuary.</p>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    },
+    "tableqr": {
+      "violationsCount": 3,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 3,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<p class=\"text-xs text-[#5E8662] dark:text-[#A3C2A5]\">The Leaf – Cafe and Brew • 100% Pure Vegetarian • Contactless Dine-In</p>",
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>"
+          ]
+        },
+        {
+          "id": "heading-order",
+          "impact": "moderate",
+          "description": "Ensure the order of headings is semantically correct",
+          "nodes": 1,
+          "nodeSummary": [
+            "<h3 class=\"text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]\">Quick Links</h3>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    },
+    "ordertracker": {
+      "violationsCount": 3,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 3,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<p class=\"text-xs text-[#5E8662] dark:text-[#A3C2A5]\">Order not found or still processing.</p>",
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>"
+          ]
+        },
+        {
+          "id": "heading-order",
+          "impact": "moderate",
+          "description": "Ensure the order of headings is semantically correct",
+          "nodes": 1,
+          "nodeSummary": [
+            "<h3 class=\"text-xs font-semibold uppercase tracking-[0.2em] text-[#A3C2A5]\">Quick Links</h3>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    },
+    "about": {
+      "violationsCount": 4,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 6,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">Our Story &amp; Philosophy</span>",
+            "<span class=\"mt-6 text-[10px] uppercase font-mono tracking-widest text-[#5E8662]\">Pillar 01</span>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "description": "Ensure the document has a main landmark",
+          "nodes": 1,
+          "nodeSummary": [
+            "<html lang=\"en\" class=\"scroll-smooth lenis\">"
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 15,
+          "nodeSummary": [
+            "<div class=\"text-center max-w-3xl mx-auto mb-16\">",
+            "<span>100% Pure Vegetarian Integrity</span>",
+            "<h2 class=\"text-2xl sm:text-3xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA]\">A ZERO-COMPROMISE VEGETARIAN SANCTUARY</h2>"
+          ]
+        }
+      ]
+    },
+    "design": {
+      "violationsCount": 4,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 5,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">Brand Architecture &amp; Token Library</span>",
+            "<p class=\"text-xs font-bold uppercase\">Green 500</p>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "description": "Ensure the document has a main landmark",
+          "nodes": 1,
+          "nodeSummary": [
+            "<html lang=\"en\" class=\"scroll-smooth lenis\">"
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 4,
+          "nodeSummary": [
+            "<span class=\"text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]\">Brand Architecture &amp; Token Library</span>",
+            "<h1 class=\"text-4xl sm:text-5xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-2\">THE LEAF DESIGN SYSTEM</h1>",
+            "<p class=\"mt-2 text-sm text-[#142318]/70 dark:text-[#F7FBFA]/70 max-w-2xl\">Derived strictly from the official vector emblem: 2-tone leaf green identity, Art Deco geometric type, 2px monoline iconset, and double-bezel haptic enclosures.</p>"
+          ]
+        }
+      ]
+    },
+    "admin": {
+      "violationsCount": 2,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 13,
+          "nodeSummary": [
+            "<span class=\"text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1\">Cafe &amp; Brew · Bhopal</span>",
+            "<span class=\"text-[11px] uppercase tracking-[0.2em] font-bold text-[#5E8662] dark:text-[#A3C2A5]\">Real-time Operations Portal</span>",
+            "<div class=\"text-[10px] uppercase font-bold text-[#5E8662] dark:text-[#A3C2A5]\">Total Revenue Today</div>"
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1,
+          "nodeSummary": [
+            "<a class=\"flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] rounded-lg\" aria-label=\"The Leaf – Cafe and Brew Home\" href=\"/\" data-discover=\"true\">"
+          ]
+        }
+      ]
+    }
+  },
+  "consoleIssues": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Error fetching table menu SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input\n    at http://localhost:4173/assets/index-LJ_2fqWt.js:57:39469"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "WebSocket connection to 'ws://localhost:4173/socket.io/?EIO=4&transport=websocket' failed: Connection closed before receiving a handshake response"
+    },
+    {
+      "type": "error",
+      "text": "WebSocket connection to 'ws://localhost:4173/socket.io/?EIO=4&transport=websocket' failed: Connection closed before receiving a handshake response"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    }
+  ]
+}
