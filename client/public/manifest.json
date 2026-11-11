@@ -1,0 +1,19 @@
+{
+  "name": "The Leaf – Cafe and Brew",
+  "short_name": "The Leaf",
+  "description": "100% Pure-Vegetarian Artisanal Cafe & Specialty Brew Bar in Arera Colony, Bhopal.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#101C13",
+  "theme_color": "#325736",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "lifestyle", "shopping"]
+}

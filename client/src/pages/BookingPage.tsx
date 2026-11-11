@@ -1,0 +1,710 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import confetti from 'canvas-confetti';
+import { MonolineIcon } from '../components/brand/MonolineIcon';
+import { BUSINESS_FACTS } from '../../../shared/constants';
+import type { SeatingPreference, TableBooking } from '../../../shared/types';
+
+// Helper to generate the next 14 dates
+const getNext14Days = () => {
+  const dates = [];
+  const today = new Date();
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    dates.push({
+      dateStr: d.toISOString().split('T')[0],
+      dayName: i === 0 ? 'Today' : i === 1 ? 'Tmrw' : d.toLocaleDateString('en-US', { weekday: 'short' }),
+      dateNum: d.getDate(),
+      monthName: d.toLocaleDateString('en-US', { month: 'short' }),
+    });
+  }
+  return dates;
+};
+
+const TIME_SLOTS = [
+  // Lunch / Afternoon Brews
+  { time: '11:30 AM', category: 'Lunch & Brew' },
+  { time: '12:15 PM', category: 'Lunch & Brew' },
+  { time: '01:00 PM', category: 'Lunch & Brew' },
+  { time: '01:45 PM', category: 'Lunch & Brew' },
+  { time: '02:30 PM', category: 'Lunch & Brew' },
+  // High Tea / Evening
+  { time: '04:00 PM', category: 'Sunset High-Tea' },
+  { time: '04:45 PM', category: 'Sunset High-Tea' },
+  { time: '05:30 PM', category: 'Sunset High-Tea' },
+  { time: '06:15 PM', category: 'Sunset High-Tea' },
+  // Dinner & Night Roasts
+  { time: '07:15 PM', category: 'Dinner & Candlelight' },
+  { time: '08:00 PM', category: 'Dinner & Candlelight' },
+  { time: '08:45 PM', category: 'Dinner & Candlelight' },
+  { time: '09:30 PM', category: 'Dinner & Candlelight' },
+  { time: '10:15 PM', category: 'Late Pour-Over' },
+];
+
+const SEATING_OPTIONS: { id: SeatingPreference; title: string; desc: string; icon: string }[] = [
+  {
+    id: 'indoor-main',
+    title: 'Botanical Courtyard',
+    desc: 'Surrounded by lush monstera & ficus indoor greenery',
+    icon: 'plant',
+  },
+  {
+    id: 'arched-window',
+    title: 'Arched Window Alcove',
+    desc: 'Natural daylight overlooking Arera Colony trees',
+    icon: 'table',
+  },
+  {
+    id: 'quiet-corner',
+    title: 'Quiet Art Deco Corner',
+    desc: 'Intimate, warm lighting for reading or focused meetings',
+    icon: 'cup',
+  },
+  {
+    id: 'group-table',
+    title: 'Artisan Communal Table',
+    desc: 'Spacious oak table ideal for teams and celebrations',
+    icon: 'sparkles',
+  },
+];
+
+export const BookingPage: React.FC = () => {
+  const days = getNext14Days();
+
+  // Booking selections
+  const [selectedDate, setSelectedDate] = useState(days[0].dateStr);
+  const [selectedTime, setSelectedTime] = useState(TIME_SLOTS[2].time);
+  const [partySize, setPartySize] = useState(2);
+  const [seatingPreference, setSeatingPreference] = useState<SeatingPreference>('indoor-main');
+  const [specialOccasion, setSpecialOccasion] = useState('Casual Dining');
+
+  // Contact Info
+  const [guestName, setGuestName] = useState('');
+  const [guestPhone, setGuestPhone] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
+  const [specialRequests, setSpecialRequests] = useState('');
+
+  // Slot Lock & Confirmation state
+  const [isLocking, setIsLocking] = useState(false);
+  const [slotLocked, setSlotLocked] = useState(false);
+  const [lockExpiresAt, setLockExpiresAt] = useState<number | null>(null);
+  const [secondsRemaining, setSecondsRemaining] = useState<number>(300);
+  const [confirmedBooking, setConfirmedBooking] = useState<TableBooking | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Large Group Modal (>12 guests)
+  const [showEventModal, setShowEventModal] = useState(false);
+
+  // 5-minute countdown timer effect
+  useEffect(() => {
+    if (!slotLocked || !lockExpiresAt) return;
+
+    const interval = setInterval(() => {
+      const diff = Math.max(0, Math.floor((lockExpiresAt - Date.now()) / 1000));
+      setSecondsRemaining(diff);
+      if (diff <= 0) {
+        setSlotLocked(false);
+        setLockExpiresAt(null);
+        setErrorMsg('Your reservation slot lock expired. Please re-select your preferred time.');
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [slotLocked, lockExpiresAt]);
+
+  const handlePartySizeChange = (delta: number) => {
+    const next = partySize + delta;
+    if (next > 12) {
+      setShowEventModal(true);
+      return;
+    }
+    if (next >= 1) {
+      setPartySize(next);
+      setSlotLocked(false);
+    }
+  };
+
+  // Lock slot on backend
+  const handleLockSlot = async () => {
+    setErrorMsg(null);
+    setIsLocking(true);
+
+    try {
+      const res = await fetch('/api/v1/bookings/lock-slot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: selectedDate,
+          timeSlot: selectedTime,
+          partySize,
+          seatingPreference,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to hold this reservation slot.');
+      }
+
+      setSlotLocked(true);
+      const expires = Date.now() + 5 * 60 * 1000;
+      setLockExpiresAt(expires);
+      setSecondsRemaining(300);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Slot currently unavailable.');
+    } finally {
+      setIsLocking(false);
+    }
+  };
+
+  // Confirm reservation
+  const handleConfirmReservation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!guestName.trim() || !guestPhone.trim()) {
+      setErrorMsg('Please provide your name and phone number to finalize.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/v1/bookings/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: selectedDate,
+          timeSlot: selectedTime,
+          partySize,
+          seatingPreference,
+          guestName,
+          guestPhone,
+          guestEmail: guestEmail || undefined,
+          specialRequests: specialRequests ? `${specialOccasion} • ${specialRequests}` : specialOccasion,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to confirm reservation.');
+      }
+
+      setConfirmedBooking(data.booking || data.data);
+
+      // Trigger celebration confetti
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.5 },
+        colors: ['#325736', '#5E8662', '#A3C2A5', '#F7FBFA'],
+      });
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Error confirming table reservation.');
+    }
+  };
+
+  // Download .ics calendar event
+  const downloadCalendarFile = () => {
+    if (!confirmedBooking) return;
+    const icsData = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//The Leaf Cafe and Brew//Table Reservation//EN',
+      'BEGIN:VEVENT',
+      `SUMMARY:Table for ${confirmedBooking.partySize} at The Leaf Cafe & Brew`,
+      `DESCRIPTION:Reservation Reference: ${confirmedBooking.bookingRef}\\nPure Vegetarian Artisanal Sanctuary\\nSpecial Request: ${confirmedBooking.specialNotes || 'None'}`,
+      `LOCATION:${BUSINESS_FACTS.address}`,
+      `DTSTART:${confirmedBooking.date.replace(/-/g, '')}T120000Z`,
+      `DTEND:${confirmedBooking.date.replace(/-/g, '')}T140000Z`,
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n');
+
+    const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `TheLeaf_Reservation_${confirmedBooking.bookingRef}.ics`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <main className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="mb-10 text-center max-w-2xl mx-auto">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+          Artisanal Sanctuary • Arera Colony
+        </span>
+        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+          Reserve a Table
+        </h1>
+        <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2">
+          Experience our tranquil plant-filled indoor space, fresh specialty pour-overs, and 100% pure-veg delicacies.
+        </p>
+      </div>
+
+      <AnimatePresence mode="wait">
+        {confirmedBooking ? (
+          /* Confirmation View */
+          <motion.div
+            key="confirmed"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-2xl mx-auto bg-white dark:bg-[#1F3A24] p-8 md:p-10 rounded-3xl border border-[#325736]/20 shadow-2xl text-center space-y-6"
+          >
+            <div className="w-20 h-20 rounded-full bg-[#EEF5EE] dark:bg-[#142318] text-[#325736] dark:text-[#A3C2A5] mx-auto flex items-center justify-center">
+              <MonolineIcon name="sparkles" size={40} />
+            </div>
+
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#5E8662] dark:text-[#A3C2A5]">
+                Reservation Confirmed
+              </span>
+              <h2 className="font-display text-3xl font-bold uppercase text-[#142318] dark:text-[#F7FBFA] mt-1">
+                We Look Forward to Welcoming You
+              </h2>
+              <div className="mt-3 inline-block rounded-full bg-[#325736]/10 dark:bg-white/10 px-5 py-2 font-mono text-sm font-bold text-[#325736] dark:text-[#F7FBFA]">
+                Ref: {confirmedBooking.bookingRef}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-5 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] text-left text-xs">
+              <div>
+                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Date</span>
+                <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">{confirmedBooking.date}</p>
+              </div>
+              <div>
+                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Time Slot</span>
+                <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">{confirmedBooking.timeSlot}</p>
+              </div>
+              <div>
+                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Party</span>
+                <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">{confirmedBooking.partySize} Guests</p>
+              </div>
+              <div>
+                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Seating</span>
+                <p className="font-bold text-[#142318] dark:text-[#F7FBFA] capitalize">
+                  {confirmedBooking.seatingPreference.replace('_', ' ')}
+                </p>
+              </div>
+            </div>
+
+            <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+              A confirmation WhatsApp &amp; SMS has been queued for {confirmedBooking.guestPhone}. No cancellation fees apply.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+              <button
+                type="button"
+                onClick={downloadCalendarFile}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#325736] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#284A2D] transition-colors"
+              >
+                <MonolineIcon name="clock" size={16} />
+                Add to Calendar (.ics)
+              </button>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(BUSINESS_FACTS.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#325736] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#325736] dark:text-[#A3C2A5] hover:bg-[#EEF5EE] dark:hover:bg-[#142318] transition-colors"
+              >
+                <MonolineIcon name="pin" size={16} />
+                Get Directions
+              </a>
+            </div>
+          </motion.div>
+        ) : (
+          /* Main Interactive Reservation Form */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Steps Column (7 cols) */}
+            <div className="lg:col-span-7 bg-white dark:bg-[#1F3A24] p-6 md:p-8 rounded-3xl border border-[#325736]/20 shadow-lg space-y-8">
+              {/* Step 1: 14-day Date Strip */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA]">
+                    1. Choose Date
+                  </label>
+                  <span className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">Next 14 Days</span>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                  {days.map(d => {
+                    const isSelected = selectedDate === d.dateStr;
+                    return (
+                      <button
+                        key={d.dateStr}
+                        type="button"
+                        onClick={() => {
+                          setSelectedDate(d.dateStr);
+                          setSlotLocked(false);
+                        }}
+                        className={`shrink-0 w-16 py-3 rounded-2xl flex flex-col items-center justify-center transition-all ${
+                          isSelected
+                            ? 'bg-[#325736] text-white shadow-md ring-2 ring-[#325736]'
+                            : 'border border-[#325736]/20 hover:border-[#325736]/50 text-[#142318] dark:text-[#F7FBFA]'
+                        }`}
+                      >
+                        <span className="text-[10px] uppercase font-semibold opacity-80">{d.dayName}</span>
+                        <span className="text-base font-bold my-0.5">{d.dateNum}</span>
+                        <span className="text-[10px] opacity-75">{d.monthName}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Step 2: Time Slots */}
+              <div>
+                <label className="block text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA] mb-3">
+                  2. Select Time Slot
+                </label>
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                  {TIME_SLOTS.map(s => {
+                    const isSelected = selectedTime === s.time;
+                    return (
+                      <button
+                        key={s.time}
+                        type="button"
+                        onClick={() => {
+                          setSelectedTime(s.time);
+                          setSlotLocked(false);
+                        }}
+                        className={`py-2 px-3 rounded-xl text-center text-xs font-semibold transition-all ${
+                          isSelected
+                            ? 'bg-[#325736] text-white shadow-sm'
+                            : 'border border-[#325736]/15 hover:border-[#325736]/40 text-[#142318] dark:text-[#F7FBFA]'
+                        }`}
+                      >
+                        {s.time}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Step 3: Party Size Stepper */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA]">
+                    3. Number of Guests
+                  </label>
+                  <span className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">
+                    {partySize} {partySize === 1 ? 'Guest' : 'Guests'} (Max 12)
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center border border-[#325736]/30 rounded-2xl p-1 gap-3 bg-[#F7FBFA] dark:bg-[#142318]">
+                    <button
+                      type="button"
+                      onClick={() => handlePartySizeChange(-1)}
+                      disabled={partySize <= 1}
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg hover:bg-[#325736]/10 disabled:opacity-30"
+                      aria-label="Decrease party size"
+                    >
+                      -
+                    </button>
+                    <span className="w-8 text-center font-bold text-base tabular-nums text-[#142318] dark:text-[#F7FBFA]">
+                      {partySize}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handlePartySizeChange(1)}
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg hover:bg-[#325736]/10"
+                      aria-label="Increase party size"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+                    Planning a party over 12?{' '}
+                    <button
+                      type="button"
+                      onClick={() => setShowEventModal(true)}
+                      className="underline font-bold text-[#325736] dark:text-white"
+                    >
+                      Inquire for Private Gatherings
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4: Seating Preference */}
+              <div>
+                <label className="block text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA] mb-3">
+                  4. Seating Ambience
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {SEATING_OPTIONS.map(opt => {
+                    const isSelected = seatingPreference === opt.id;
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => {
+                          setSeatingPreference(opt.id);
+                          setSlotLocked(false);
+                        }}
+                        className={`p-3.5 rounded-2xl text-left border transition-all flex flex-col justify-between ${
+                          isSelected
+                            ? 'border-[#325736] bg-[#EEF5EE] dark:bg-[#142318] shadow-sm ring-1 ring-[#325736]'
+                            : 'border-[#325736]/15 hover:border-[#325736]/40'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
+                            {opt.title}
+                          </span>
+                          <MonolineIcon name={opt.icon as any} size={16} color={isSelected ? '#325736' : 'currentColor'} />
+                        </div>
+                        <p className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">{opt.desc}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Step 5: Occasion */}
+              <div>
+                <label className="block text-xs uppercase font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA] mb-2">
+                  5. Dining Occasion
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {['Casual Dining', 'Birthday Celebration', 'Anniversary', 'Coffee Date', 'Business Meet'].map(occ => (
+                    <button
+                      key={occ}
+                      type="button"
+                      onClick={() => setSpecialOccasion(occ)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        specialOccasion === occ
+                          ? 'bg-[#325736] text-white'
+                          : 'border border-[#325736]/20 text-[#142318] dark:text-[#F7FBFA] hover:bg-[#325736]/10'
+                      }`}
+                    >
+                      {occ}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Summary & Lock Column (5 cols) */}
+            <div className="lg:col-span-5 bg-white dark:bg-[#1F3A24] p-6 md:p-8 rounded-3xl border border-[#325736]/20 shadow-lg space-y-6">
+              <h2 className="font-display uppercase text-sm font-bold tracking-wider text-[#142318] dark:text-[#F7FBFA] border-b border-[#325736]/15 pb-4">
+                Reservation Overview
+              </h2>
+
+              {/* Selection Summary */}
+              <div className="space-y-3 text-xs">
+                <div className="flex justify-between py-1 border-b border-[#325736]/10">
+                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Date</span>
+                  <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{selectedDate}</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#325736]/10">
+                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Time</span>
+                  <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{selectedTime}</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#325736]/10">
+                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Guests</span>
+                  <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{partySize} Persons</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#325736]/10">
+                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Ambience</span>
+                  <span className="font-bold text-[#142318] dark:text-[#F7FBFA] capitalize">
+                    {seatingPreference.replace('_', ' ')}
+                  </span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#325736]/10">
+                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Occasion</span>
+                  <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{specialOccasion}</span>
+                </div>
+              </div>
+
+              {/* Slot Lock Action or Active Countdown Ring */}
+              {!slotLocked ? (
+                <div className="space-y-3">
+                  <button
+                    type="button"
+                    onClick={handleLockSlot}
+                    disabled={isLocking}
+                    className="w-full flex items-center justify-center gap-2 rounded-full bg-[#325736] py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-all disabled:opacity-50"
+                  >
+                    {isLocking ? (
+                      <>
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <span>Holding Table Slot...</span>
+                      </>
+                    ) : (
+                      <>
+                        <MonolineIcon name="clock" size={16} />
+                        <span>Hold Table for 5 Minutes</span>
+                      </>
+                    )}
+                  </button>
+                  <p className="text-[11px] text-center text-[#5E8662] dark:text-[#A3C2A5]">
+                    Holding the table prevents double-booking while you enter guest details.
+                  </p>
+                </div>
+              ) : (
+                /* Slot Locked Countdown Indicator */
+                <div className="p-4 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] border border-[#325736]/30 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                      </span>
+                      <span className="text-xs font-bold text-[#325736] dark:text-[#A3C2A5] uppercase tracking-wider">
+                        Slot Reserved for You
+                      </span>
+                    </div>
+                    {/* SVG Countdown Ring */}
+                    <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-[#325736] dark:text-white">
+                      <span>{Math.floor(secondsRemaining / 60)}:</span>
+                      <span>{(secondsRemaining % 60).toString().padStart(2, '0')}</span>
+                    </div>
+                  </div>
+
+                  {/* Guest Contact Form */}
+                  <form onSubmit={handleConfirmReservation} className="space-y-3 pt-2">
+                    <div>
+                      <label htmlFor="res-name" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                        Primary Guest Name *
+                      </label>
+                      <input
+                        id="res-name"
+                        name="guestName"
+                        aria-label="Primary Guest Name"
+                        type="text"
+                        required
+                        value={guestName}
+                        onChange={e => setGuestName(e.target.value)}
+                        placeholder="e.g. Radhika Sharma"
+                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="res-phone" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                        Contact Phone (for WhatsApp pass) *
+                      </label>
+                      <input
+                        id="res-phone"
+                        name="guestPhone"
+                        aria-label="Contact Phone"
+                        type="tel"
+                        required
+                        value={guestPhone}
+                        onChange={e => setGuestPhone(e.target.value)}
+                        placeholder="e.g. 98260 00000"
+                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="res-email" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                        Email Address (optional)
+                      </label>
+                      <input
+                        id="res-email"
+                        name="guestEmail"
+                        aria-label="Email Address"
+                        type="email"
+                        value={guestEmail}
+                        onChange={e => setGuestEmail(e.target.value)}
+                        placeholder="e.g. radhika@example.com"
+                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="res-notes" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                        Special Requests (e.g. high chair, quiet corner)
+                      </label>
+                      <input
+                        id="res-notes"
+                        name="specialRequests"
+                        aria-label="Special Requests"
+                        type="text"
+                        value={specialRequests}
+                        onChange={e => setSpecialRequests(e.target.value)}
+                        placeholder="Any special hospitality requirements"
+                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-colors mt-2"
+                    >
+                      Confirm Reservation Free
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {errorMsg && (
+                <div className="p-3 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-200 text-xs text-red-600">
+                  {errorMsg}
+                </div>
+              )}
+
+              {/* Policy notes */}
+              <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] space-y-1">
+                <p>• Tables are held for 15 minutes past reservation time before release.</p>
+                <p>• 100% Pure Vegetarian dining environment. Free indoor parking available.</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Large Gatherings Modal */}
+      <AnimatePresence>
+        {showEventModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="max-w-md w-full bg-white dark:bg-[#1F3A24] p-6 rounded-3xl border border-[#325736]/30 shadow-2xl space-y-4"
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="font-display uppercase text-lg font-bold text-[#142318] dark:text-[#F7FBFA]">
+                  Private Events &amp; Large Gatherings
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setShowEventModal(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#142318]/70 dark:text-[#F7FBFA]/70 hover:bg-black/5"
+                  aria-label="Close modal"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+                For gatherings larger than 12 guests, birthday banquets, or corporate coffee mixers, our dedicated hospitality team curates custom vegetarian tasting menus and private zone arrangements.
+              </p>
+              <div className="p-4 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] text-xs space-y-2">
+                <div>
+                  <strong>Location:</strong> 1st Floor, E7/161, Arera Colony, Bhopal
+                </div>
+                <div>
+                  <strong>Instagram DM:</strong>{' '}
+                  <a href={BUSINESS_FACTS.instagramUrl} target="_blank" rel="noreferrer" className="underline font-bold text-[#325736] dark:text-[#A3C2A5]">
+                    {BUSINESS_FACTS.instagramHandle}
+                  </a>
+                </div>
+                <div>
+                  <strong>Direct Inquiries:</strong> {BUSINESS_FACTS.phonePlaceholder}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEventModal(false)}
+                className="w-full rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#284A2D]"
+              >
+                Got It
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </main>
+  );
+};

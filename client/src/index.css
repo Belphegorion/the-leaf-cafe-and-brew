@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-leaf-primary: #325736;
+    --color-leaf-white: #F7FBFA;
+    --color-green-50: #EEF5EE;
+    --color-green-100: #E2EEE2;
+    --color-green-200: #C9DCC9;
+    --color-green-300: #A3C2A5;
+    --color-green-500: #5E8662;
+    --color-green-700: #325736;
+    --color-green-800: #284A2D;
+    --color-green-900: #1F3A24;
+    --color-green-950: #142318;
+
+    --color-dark-bg: #101C13;
+    --color-dark-surface: #1F3A24;
+    --color-dark-border: #284A2D;
+
+    --font-display: 'Josefin Sans', sans-serif;
+    --font-artdeco: 'Poiret One', cursive;
+    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-leaf-white);
+    color: var(--color-green-950);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.04em;
+  }
+
+  .font-artdeco {
+    font-family: var(--font-artdeco);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #A3C2A5;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5E8662;
+}
+
+/* Double-Bezel Nested Card Architecture */
+.double-bezel-shell {
+  background: rgba(50, 87, 54, 0.05);
+  border: 1px solid rgba(50, 87, 54, 0.12);
+  border-radius: 1.5rem;
+  padding: 0.375rem;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dark .double-bezel-shell {
+  background: rgba(247, 251, 250, 0.03);
+  border: 1px solid rgba(247, 251, 250, 0.1);
+}
+.double-bezel-core {
+  background: #FFFFFF;
+  border-radius: calc(1.5rem - 0.375rem);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 4px 16px -2px rgba(50, 87, 54, 0.04);
+}
+.dark .double-bezel-core {
+  background: #1F3A24;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle Leaf-Vein Background Pattern */
+.leaf-vein-pattern {
+  background-image: radial-gradient(circle at 10% 20%, rgba(50, 87, 54, 0.04) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(94, 134, 98, 0.04) 0%, transparent 40%);
+}
+.dark .leaf-vein-pattern {
+  background-image: radial-gradient(circle at 10% 20%, rgba(163, 194, 165, 0.04) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(94, 134, 98, 0.04) 0%, transparent 40%);
+}
+
+/* SVG Path Draw Animations for Preloader */
+@keyframes pathDraw {
+  from {
+    stroke-dashoffset: 800;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.path-draw {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: pathDraw 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes waveOscillate {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-15px); }
+  100% { transform: translateX(0); }
+}
+.wave-animated {
+  animation: waveOscillate 6s ease-in-out infinite;
+}
+
+/* Glass Surface with reduced blur for performance */
+.glass-panel {
+  background: rgba(247, 251, 250, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(50, 87, 54, 0.12);
+}
+.dark .glass-panel {
+  background: rgba(31, 58, 36, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(247, 251, 250, 0.12);
+}
+
+/* Arched Image Masks */
+.arch-mask {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  overflow: hidden;
+}

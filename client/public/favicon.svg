@@ -1,0 +1,28 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#325736" />
+  <g stroke="#F7FBFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Arch -->
+    <path d="M 31 41 C 29 25, 40 13, 50 13 C 60 13, 71 25, 69 41" />
+    <!-- Leaf -->
+    <path d="M 50 20 C 40 31, 35 42, 37 52 C 39 59, 46 62, 50 62 C 54 62, 61 59, 63 52 C 65 42, 60 31, 50 20 Z" />
+    <!-- Spine -->
+    <line x1="50" y1="23" x2="50" y2="61" />
+    <!-- Veins -->
+    <path d="M 50 34 L 42 29" />
+    <path d="M 50 34 L 58 29" />
+    <path d="M 50 46 L 40 42" />
+    <path d="M 50 46 L 60 42" />
+    <!-- Cup Rim -->
+    <line x1="28" y1="46" x2="38" y2="46" />
+    <line x1="62" y1="46" x2="69" y2="46" />
+    <!-- Cup Bowl -->
+    <path d="M 32 50 C 34 62, 42 67, 50 67 C 58 67, 66 62, 68 50" />
+    <!-- Handle -->
+    <path d="M 69 46 C 76 46, 76 58, 68 58" />
+    <!-- Saucer -->
+    <path d="M 33 60 C 38 71, 62 71, 67 60" />
+    <!-- Under waves -->
+    <path d="M 30 78 C 35 75, 40 81, 45 78 C 50 75, 55 81, 60 78 C 65 75, 70 81, 75 78" stroke-width="1.8" />
+    <path d="M 30 83 C 35 80, 40 86, 45 83 C 50 80, 55 86, 60 83 C 65 80, 70 86, 75 83" stroke-width="1.8" />
+  </g>
+</svg>
