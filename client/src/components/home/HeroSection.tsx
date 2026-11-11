@@ -79,7 +79,7 @@ export const HeroSection: React.FC = () => {
                   initial={{ y: '100%' }}
                   animate={{ y: 0 }}
                   transition={{ delay: 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="block text-[#325736] dark:text-[#5E8662]"
+                  className="block text-[#325736] dark:text-[#A3C2A5]"
                 >
                   MEET PEACEFUL
                 </motion.span>
@@ -91,7 +91,7 @@ export const HeroSection: React.FC = () => {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -40, opacity: 0 }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-[#5E8662] dark:text-[#A3C2A5] underline decoration-[#325736]/30 font-artdeco italic font-normal"
+                  className="text-[#325736] dark:text-[#A3C2A5] underline decoration-[#325736]/30 font-artdeco italic font-normal"
                 >
                   {ROTATING_WORDS[wordIndex]}.
                 </motion.span>
@@ -103,7 +103,7 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.6 }}
-              className="mt-6 text-base sm:text-lg text-[#142318]/80 dark:text-[#F7FBFA]/80 max-w-xl font-normal leading-relaxed"
+              className="mt-6 text-base sm:text-lg text-[#38483C] dark:text-[#C9DCC9] max-w-xl font-normal leading-relaxed"
             >
               Step away from the rush. Experience single-origin pour-overs, chilled botanical cold brews, and hand-tossed artisan pizzas in Bhopal’s calmest vegetarian haven.
             </motion.p>
@@ -118,7 +118,7 @@ export const HeroSection: React.FC = () => {
               <Link
                 to="/book"
                 data-cursor="Book"
-                className="group relative inline-flex items-center justify-center rounded-full bg-[#325736] px-8 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#F7FBFA] shadow-lg transition-all duration-300 hover:bg-[#284A2D] hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                className="group relative inline-flex items-center justify-center rounded-full bg-[#325736] px-8 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#F7FBFA] shadow-lg transition-all duration-300 hover:bg-[#284A2D] hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] dark:bg-[#325736] dark:hover:bg-[#284A2D]"
               >
                 <span>Reserve a Table</span>
                 <span className="ml-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform duration-300 group-hover:translate-x-1">
@@ -143,17 +143,17 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="mt-10 flex items-center gap-4 text-xs text-[#142318]/70 dark:text-[#F7FBFA]/70"
+              className="mt-10 flex items-center gap-4 text-xs text-[#38483C] dark:text-[#C9DCC9]"
             >
               <div className="flex items-center gap-1 text-[#C98A1B]">
                 {[...Array(5)].map((_, i) => (
                   <MonolineIcon key={i} name="star" size={14} color="#C98A1B" />
                 ))}
               </div>
-              <span className="font-medium text-[#142318] dark:text-[#F7FBFA]">
+              <span className="font-medium text-[#1F2A22] dark:text-[#F7FBFA]">
                 <strong>4.9 / 5.0</strong> Rating on Google
               </span>
-              <span className="text-[#5E8662]">·</span>
+              <span className="text-[#325736]">·</span>
               <span>646+ Bhopal Reviewers</span>
             </motion.div>
           </div>
@@ -170,6 +170,9 @@ export const HeroSection: React.FC = () => {
                     alt="The Leaf Cafe Ambience in Arera Colony Bhopal"
                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                     loading="eager"
+                    fetchPriority="high"
+                    width={900}
+                    height={600}
                   />
                   {/* Subtle dark green vignette */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#142318]/80 via-transparent to-transparent" />

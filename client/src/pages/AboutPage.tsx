@@ -5,10 +5,10 @@ import { TheLeafMark } from '../components/brand/TheLeafMark';
 
 export const AboutPage: React.FC = () => {
   return (
-    <main id="main-content" className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Hero Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
           Our Story &amp; Philosophy
         </span>
         <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-2">
@@ -69,7 +69,7 @@ export const AboutPage: React.FC = () => {
               We source specialty Arabica beans directly from sustainable estates in Chikmagalur and Coorg, dialing in grind sizes and temperatures for each brewing method: V60 pour-overs, aeropress, and 18-hour cold extractions.
             </p>
           </div>
-          <span className="mt-6 text-[10px] uppercase font-mono tracking-widest text-[#5E8662]">Pillar 01</span>
+          <span className="mt-6 text-[10px] uppercase font-mono tracking-widest text-[#38483C] dark:text-[#A3C2A5]">Pillar 01</span>
         </div>
 
         <div className="p-8 rounded-3xl bg-white/90 dark:bg-[#1A261D] border border-[#E0D2B8] dark:border-[#325736]/20 shadow-sm flex flex-col justify-between">
@@ -84,7 +84,7 @@ export const AboutPage: React.FC = () => {
               Our 1st-floor space in E-7 Arera Colony is designed as an unhurried green haven. Flooded with natural daylight, arched windows, living plants, and ergonomic wood seating for work or intimate conversations.
             </p>
           </div>
-          <span className="mt-6 text-[10px] uppercase font-mono tracking-widest text-[#5E8662]">Pillar 02</span>
+          <span className="mt-6 text-[10px] uppercase font-mono tracking-widest text-[#38483C] dark:text-[#A3C2A5]">Pillar 02</span>
         </div>
 
         <div className="p-8 rounded-3xl bg-white/90 dark:bg-[#1A261D] border border-[#E0D2B8] dark:border-[#325736]/20 shadow-sm flex flex-col justify-between">
@@ -99,7 +99,7 @@ export const AboutPage: React.FC = () => {
               Honoured by a 4.9-star Google rating across 646+ genuine reviews. We greet each guest with warmth, accommodating Jain diets, gluten sensitivities, and customized brew strengths.
             </p>
           </div>
-          <span className="mt-6 text-[10px] uppercase font-mono tracking-widest text-[#5E8662]">Pillar 03</span>
+          <span className="mt-6 text-[10px] uppercase font-mono tracking-widest text-[#38483C] dark:text-[#A3C2A5]">Pillar 03</span>
         </div>
       </div>
     </main>

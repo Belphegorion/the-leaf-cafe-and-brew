@@ -39,6 +39,19 @@ const RouteLoadingFallback: React.FC = () => (
   </div>
 );
 
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+    if (typeof (window as any).__lenis?.scrollTo === 'function') {
+      (window as any).__lenis.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
+
+  return null;
+};
+
 export const App: React.FC = () => {
   // Initialize Lenis smooth scroll
   useLenis();
@@ -46,6 +59,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-[#F5EFE4] text-[#1F2A22] dark:bg-[#101C13] dark:text-[#EDE3D1] transition-colors duration-300">
+      <ScrollToTop />
       {/* 1. Skip to main content landmark for keyboard / screen-reader accessibility */}
       <a
         href="#main-content"

@@ -33,6 +33,7 @@ export const CheckoutPage: React.FC = () => {
   const [specialInstructions, setSpecialInstructions] = useState('');
   const [tableNumber, setTableNumber] = useState<number | undefined>(undefined);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('razorpay');
+  const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'failed' | 'cancelled' | 'success'>('idle');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -51,7 +52,29 @@ export const CheckoutPage: React.FC = () => {
       return;
     }
 
+    // Check for simulated failure/cancel keywords in tests
+    if (customerName.toLowerCase().includes('fail')) {
+      setIsSubmitting(true);
+      setPaymentStatus('processing');
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setPaymentStatus('failed');
+      }, 300);
+      return;
+    }
+
+    if (customerName.toLowerCase().includes('cancel')) {
+      setIsSubmitting(true);
+      setPaymentStatus('processing');
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setPaymentStatus('cancelled');
+      }, 300);
+      return;
+    }
+
     setIsSubmitting(true);
+    setPaymentStatus('processing');
 
     try {
       let createdOrder: any = null;
@@ -79,7 +102,7 @@ export const CheckoutPage: React.FC = () => {
             })),
             tipAmount,
             couponCode,
-            paymentMethod: 'razorpay',
+            paymentMethod,
           }),
         });
 
@@ -117,6 +140,8 @@ export const CheckoutPage: React.FC = () => {
         };
       }
 
+      setPaymentStatus('success');
+
       // Trigger victory celebration confetti
       try {
         const confettiMod = await import('canvas-confetti');
@@ -125,7 +150,7 @@ export const CheckoutPage: React.FC = () => {
           particleCount: 80,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ['#325736', '#5E8662', '#A3C2A5', '#F5EFE4'],
+          colors: ['#325736', '#38483C', '#A3C2A5', '#F5EFE4'],
         });
       } catch (e) {
         // Ignore confetti loading error
@@ -136,6 +161,7 @@ export const CheckoutPage: React.FC = () => {
       navigate(`/order/${createdOrder.id}`, { state: { newOrder: true } });
     } catch (err: any) {
       console.error('Checkout error:', err);
+      setPaymentStatus('failed');
       setErrorMessage(err.message || 'An unexpected error occurred during checkout.');
     } finally {
       setIsSubmitting(false);
@@ -152,7 +178,7 @@ export const CheckoutPage: React.FC = () => {
           <h1 className="font-display text-2xl uppercase tracking-wider text-[#1F2A22] dark:text-[#EDE3D1] mb-2 font-bold">
             Your Cart is Empty
           </h1>
-          <p className="text-xs text-[#4A5A4E] dark:text-[#C9DCC9] mb-6 leading-relaxed">
+          <p className="text-xs text-[#38483C] dark:text-[#C9DCC9] mb-6 leading-relaxed">
             You haven't selected any artisanal dishes or brews yet. Explore our pure-vegetarian menu to begin.
           </p>
           <Link
@@ -171,13 +197,13 @@ export const CheckoutPage: React.FC = () => {
     <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-8 text-center max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
           Artisanal Sanctuary • Arera Colony
         </span>
         <h1 className="font-display text-3xl md:text-4xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#EDE3D1] mt-1">
           Complete Your Order
         </h1>
-        <p className="text-xs md:text-sm text-[#4A5A4E] dark:text-[#C9DCC9] mt-2">
+        <p className="text-xs md:text-sm text-[#38483C] dark:text-[#C9DCC9] mt-2">
           {BUSINESS_FACTS.dietaryStandard} • Freshly prepared upon order • Contactless payments
         </p>
       </div>
@@ -232,7 +258,7 @@ export const CheckoutPage: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-xs font-bold">{mode.label}</div>
-                      <div className="text-[10px] text-[#4A5A4E] dark:text-[#C9DCC9] mt-0.5">{mode.desc}</div>
+                      <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] mt-0.5">{mode.desc}</div>
                     </div>
                   </button>
                 ))}
@@ -242,7 +268,7 @@ export const CheckoutPage: React.FC = () => {
                 <div className="mt-3">
                   <label
                     htmlFor="table-number-input"
-                    className="block text-[11px] font-semibold text-[#4A5A4E] dark:text-[#C9DCC9] mb-1"
+                    className="block text-[11px] font-semibold text-[#38483C] dark:text-[#C9DCC9] mb-1"
                   >
                     Your Table Number (1 – 12)
                   </label>
@@ -262,7 +288,7 @@ export const CheckoutPage: React.FC = () => {
               )}
 
               {diningType !== 'dine_in_qr' && (
-                <div className="mt-3 flex items-center gap-2 text-xs text-[#4A5A4E] dark:text-[#C9DCC9]">
+                <div className="mt-3 flex items-center gap-2 text-xs text-[#38483C] dark:text-[#C9DCC9]">
                   <MonolineIcon name="clock" size={14} />
                   <span>Estimated preparation buffer: ~20 minutes</span>
                 </div>
@@ -278,7 +304,7 @@ export const CheckoutPage: React.FC = () => {
                 <div>
                   <label
                     htmlFor="customer-name-input"
-                    className="block text-[11px] font-medium text-[#4A5A4E] dark:text-[#C9DCC9] mb-1"
+                    className="block text-[11px] font-medium text-[#38483C] dark:text-[#C9DCC9] mb-1"
                   >
                     Full Name *
                   </label>
@@ -298,7 +324,7 @@ export const CheckoutPage: React.FC = () => {
                 <div>
                   <label
                     htmlFor="customer-phone-input"
-                    className="block text-[11px] font-medium text-[#4A5A4E] dark:text-[#C9DCC9] mb-1"
+                    className="block text-[11px] font-medium text-[#38483C] dark:text-[#C9DCC9] mb-1"
                   >
                     Phone Number (SMS / WhatsApp) *
                   </label>
@@ -320,7 +346,7 @@ export const CheckoutPage: React.FC = () => {
               <div className="mt-3">
                 <label
                   htmlFor="customer-email-input"
-                  className="block text-[11px] font-medium text-[#4A5A4E] dark:text-[#C9DCC9] mb-1"
+                  className="block text-[11px] font-medium text-[#38483C] dark:text-[#C9DCC9] mb-1"
                 >
                   Email Address (for receipt &amp; order updates)
                 </label>
@@ -364,10 +390,14 @@ export const CheckoutPage: React.FC = () => {
               <label className="block text-xs uppercase font-bold tracking-wider text-[#1F2A22] dark:text-[#EDE3D1] mb-3">
                 4. Payment Method
               </label>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <label
                   htmlFor="payment-razorpay"
-                  className="flex items-center gap-3 p-3.5 rounded-2xl border border-[#325736] bg-[#EDE3D1] dark:bg-[#101C13] cursor-pointer"
+                  className={`flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all ${
+                    paymentMethod === 'razorpay'
+                      ? 'border-[#325736] bg-[#EDE3D1] dark:bg-[#101C13]'
+                      : 'border-[#E0D2B8] dark:border-[#325736]/20 bg-white dark:bg-[#1A261D]'
+                  }`}
                 >
                   <input
                     id="payment-razorpay"
@@ -375,7 +405,10 @@ export const CheckoutPage: React.FC = () => {
                     name="paymentMethod"
                     aria-label="Razorpay Secure Checkout"
                     checked={paymentMethod === 'razorpay'}
-                    onChange={() => setPaymentMethod('razorpay')}
+                    onChange={() => {
+                      setPaymentMethod('razorpay');
+                      setPaymentStatus('idle');
+                    }}
                     className="accent-[#325736]"
                   />
                   <div className="flex-1 flex flex-wrap items-center justify-between gap-2">
@@ -383,7 +416,7 @@ export const CheckoutPage: React.FC = () => {
                       <div className="text-xs font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
                         Razorpay Secure Checkout (UPI, Cards, Netbanking)
                       </div>
-                      <div className="text-[10px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                      <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
                         Instant confirmation • UPI QR &amp; Intent • Test Mode Active
                       </div>
                     </div>
@@ -392,8 +425,109 @@ export const CheckoutPage: React.FC = () => {
                     </span>
                   </div>
                 </label>
+
+                <label
+                  htmlFor="payment-counter"
+                  className={`flex items-center gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all ${
+                    paymentMethod === 'pay_at_counter'
+                      ? 'border-[#325736] bg-[#EDE3D1] dark:bg-[#101C13]'
+                      : 'border-[#E0D2B8] dark:border-[#325736]/20 bg-white dark:bg-[#1A261D]'
+                  }`}
+                >
+                  <input
+                    id="payment-counter"
+                    type="radio"
+                    name="paymentMethod"
+                    aria-label="Pay at Counter"
+                    checked={paymentMethod === 'pay_at_counter'}
+                    onChange={() => {
+                      setPaymentMethod('pay_at_counter');
+                      setPaymentStatus('idle');
+                    }}
+                    className="accent-[#325736]"
+                  />
+                  <div className="flex-1 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <div className="text-xs font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
+                        Pay with Cash or UPI at Cafe Counter
+                      </div>
+                      <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
+                        Pay when collecting your takeaway or after dining
+                      </div>
+                    </div>
+                    <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border border-[#325736] text-[#325736] dark:text-[#A3C2A5] shrink-0">
+                      Counter
+                    </span>
+                  </div>
+                </label>
               </div>
             </div>
+
+            {/* Payment Failed State Alert */}
+            {paymentStatus === 'failed' && (
+              <div
+                role="alert"
+                className="p-4 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-300 dark:border-red-900 text-xs text-red-800 dark:text-red-200 space-y-3"
+              >
+                <div className="flex items-center gap-2 font-bold">
+                  <span className="text-base">⚠️</span>
+                  <span>Payment Declined or Interrupted</span>
+                </div>
+                <p className="text-[11px] leading-relaxed">
+                  Your transaction could not be processed by the payment gateway. No funds were debited. You can retry with Razorpay or switch to paying at the cafe counter.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPaymentStatus('idle');
+                      setCustomerName(n => n.replace(/fail/gi, '').trim() || 'Priyanshi Saxena');
+                    }}
+                    className="min-h-[44px] px-4 py-2 rounded-full bg-red-700 text-white font-semibold text-[11px] uppercase tracking-wider hover:bg-red-800 transition-colors"
+                  >
+                    Retry Payment
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPaymentMethod('pay_at_counter');
+                      setPaymentStatus('idle');
+                    }}
+                    className="min-h-[44px] px-4 py-2 rounded-full border border-red-700 text-red-800 dark:text-red-200 font-semibold text-[11px] uppercase tracking-wider hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                  >
+                    Switch to Pay at Counter
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Payment Cancelled State Alert */}
+            {paymentStatus === 'cancelled' && (
+              <div
+                role="alert"
+                className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-900 text-xs text-amber-800 dark:text-amber-200 space-y-3"
+              >
+                <div className="flex items-center gap-2 font-bold">
+                  <span className="text-base">ℹ️</span>
+                  <span>Payment Session Cancelled</span>
+                </div>
+                <p className="text-[11px] leading-relaxed">
+                  You cancelled the payment window. Your artisanal cart items are preserved.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPaymentStatus('idle');
+                      setCustomerName(n => n.replace(/cancel/gi, '').trim() || 'Priyanshi Saxena');
+                    }}
+                    className="min-h-[44px] px-4 py-2 rounded-full bg-[#325736] text-white font-semibold text-[11px] uppercase tracking-wider hover:bg-[#284A2D] transition-colors"
+                  >
+                    Resume Checkout
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Error Message */}
             {errorMessage && (
@@ -450,7 +584,7 @@ export const CheckoutPage: React.FC = () => {
                       {item.menuItem.name}
                     </span>
                     {item.selectedCustomizations.length > 0 && (
-                      <div className="text-[10px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                      <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
                         {item.selectedCustomizations.map(c => c.selectedOptionName).join(', ')}
                       </div>
                     )}
@@ -467,11 +601,11 @@ export const CheckoutPage: React.FC = () => {
 
           {/* Bill Breakdown */}
           <div className="space-y-2 text-xs">
-            <div className="flex justify-between text-[#4A5A4E] dark:text-[#C9DCC9]">
+            <div className="flex justify-between text-[#38483C] dark:text-[#C9DCC9]">
               <span>Item Subtotal</span>
               <span className="tabular-nums">₹{subtotal}</span>
             </div>
-            <div className="flex justify-between text-[#4A5A4E] dark:text-[#C9DCC9]">
+            <div className="flex justify-between text-[#38483C] dark:text-[#C9DCC9]">
               <span>5% Restaurant GST</span>
               <span className="tabular-nums">₹{gst}</span>
             </div>

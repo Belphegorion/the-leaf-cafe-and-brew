@@ -40,6 +40,7 @@ export const OrderTrackerPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [hasArrived, setHasArrived] = useState(false);
   const [arrivedNotified, setArrivedNotified] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
 
   // Fetch initial order details with offline fallback
   useEffect(() => {
@@ -115,10 +116,20 @@ export const OrderTrackerPage: React.FC = () => {
     const s = io(window.location.origin, {
       path: '/socket.io',
       transports: ['websocket', 'polling'],
+      reconnectionAttempts: 5,
     });
 
     s.on('connect', () => {
+      setSocketConnected(true);
       s.emit('join:order', id);
+    });
+
+    s.on('disconnect', () => {
+      setSocketConnected(false);
+    });
+
+    s.on('connect_error', () => {
+      setSocketConnected(false);
     });
 
     s.on('order:status_updated', (updatedOrder: Order) => {
@@ -148,7 +159,7 @@ export const OrderTrackerPage: React.FC = () => {
 
   if (loading) {
     return (
-      <main className="min-h-screen pt-32 pb-20 flex flex-col items-center justify-center">
+      <main className="min-h-[100dvh] pt-32 pb-20 flex flex-col items-center justify-center">
         <div className="w-12 h-12 animate-spin rounded-full border-4 border-[#325736] border-t-transparent mb-4" />
         <p className="font-display text-base uppercase tracking-wider text-[#142318] dark:text-[#F7FBFA]">
           Connecting to The Leaf Kitchen...
@@ -159,7 +170,7 @@ export const OrderTrackerPage: React.FC = () => {
 
   if (!order) {
     return (
-      <main className="min-h-screen pt-32 pb-20 px-4 max-w-lg mx-auto text-center">
+      <main className="min-h-[100dvh] pt-32 pb-20 px-4 max-w-lg mx-auto text-center">
         <div className="p-8 rounded-3xl bg-white dark:bg-[#1F3A24] border border-[#325736]/20 shadow-xl space-y-4">
           <div className="w-16 h-16 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center">
             <MonolineIcon name="bell" size={28} />
@@ -167,7 +178,7 @@ export const OrderTrackerPage: React.FC = () => {
           <h1 className="font-display text-2xl font-bold uppercase text-[#142318] dark:text-[#F7FBFA]">
             Order Not Found
           </h1>
-          <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+          <p className="text-xs text-[#38483C] dark:text-[#A3C2A5]">
             We couldn't locate this order in our kitchen system.
           </p>
           <Link
@@ -187,18 +198,32 @@ export const OrderTrackerPage: React.FC = () => {
   const activeStage = STAGES[currentStageIndex] || STAGES[0];
 
   return (
-    <main id="main-content" className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-4xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 md:px-8 max-w-4xl mx-auto">
       {/* Top Banner */}
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAE0D0] dark:bg-[#1F3A24] border border-[#325736]/30 text-xs font-mono font-bold text-[#325736] dark:text-[#A3C2A5] mb-3">
-          <span>LIVE TRACKER</span>
-          <span>•</span>
-          <span>ORDER #{order.orderNumber || order.id}</span>
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAE0D0] dark:bg-[#1F3A24] border border-[#325736]/30 text-xs font-mono font-bold text-[#325736] dark:text-[#A3C2A5]">
+            <span>LIVE TRACKER</span>
+            <span>•</span>
+            <span>ORDER #{order.orderNumber || order.id}</span>
+          </div>
+          <div
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium border ${
+              socketConnected
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
+                : 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800'
+            }`}
+            role="status"
+            aria-live="polite"
+          >
+            <span className={`h-2 w-2 rounded-full ${socketConnected ? 'bg-emerald-600 animate-pulse' : 'bg-amber-500'}`} />
+            <span>{socketConnected ? 'Live Kitchen Stream' : 'Offline Mode · Reconnecting'}</span>
+          </div>
         </div>
         <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
           {activeStage.title}
         </h1>
-        <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-1 max-w-md mx-auto">
+        <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] mt-1 max-w-md mx-auto">
           {activeStage.subtitle}
         </p>
       </div>
@@ -283,7 +308,7 @@ export const OrderTrackerPage: React.FC = () => {
                     : 'border-dashed border-[#325736]/20 opacity-40'
                 }`}
               >
-                <div className="text-[10px] uppercase font-bold text-[#5E8662] dark:text-[#A3C2A5]">
+                <div className="text-[10px] uppercase font-bold text-[#38483C] dark:text-[#A3C2A5]">
                   Step 0{index + 1}
                 </div>
                 <div className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-0.5">
@@ -306,7 +331,7 @@ export const OrderTrackerPage: React.FC = () => {
               <div className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                 Are you arriving at our Arera Colony cafe?
               </div>
-              <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">
+              <div className="text-[11px] text-[#38483C] dark:text-[#A3C2A5]">
                 Tap below so our floor hosts have your freshly poured drink immediately ready.
               </div>
             </div>
@@ -332,7 +357,7 @@ export const OrderTrackerPage: React.FC = () => {
             <h2 className="font-display uppercase font-bold text-sm text-[#1F2A22] dark:text-[#F7FBFA]">
               Artisanal Order Details
             </h2>
-            <span className="text-[#5E8662] dark:text-[#A3C2A5] capitalize">
+            <span className="text-[#38483C] dark:text-[#A3C2A5] capitalize">
               {(order.diningType || order.orderType || 'takeaway').replace(/[-_]/g, ' ')}
             </span>
           </div>
@@ -345,7 +370,7 @@ export const OrderTrackerPage: React.FC = () => {
                     {item.quantity}× {item.name}
                   </span>
                   {item.selectedCustomizations && item.selectedCustomizations.length > 0 && (
-                    <span className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5] block">
+                    <span className="text-[10px] text-[#38483C] dark:text-[#A3C2A5] block">
                       {item.selectedCustomizations.map(c => c.selectedOptionName).join(', ')}
                     </span>
                   )}
@@ -367,7 +392,7 @@ export const OrderTrackerPage: React.FC = () => {
               <span className="tabular-nums">₹{order.gstAmount || order.gst || 0}</span>
             </div>
             {order.tipAmount > 0 && (
-              <div className="flex justify-between text-[#5E8662]">
+              <div className="flex justify-between text-[#38483C] dark:text-[#A3C2A5]">
                 <span>Barista Gratuity</span>
                 <span className="tabular-nums">+₹{order.tipAmount}</span>
               </div>

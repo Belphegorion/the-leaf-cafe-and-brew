@@ -21,7 +21,7 @@ export const TOKENS = {
     // Ink Scale (High-Contrast Typography)
     ink: {
       DEFAULT: '#1F2A22', // Primary body & heading text on beige/white (12.35:1 contrast)
-      soft: '#4A5A4E',    // Secondary body text, subtitles, captions (6.17:1 contrast, passes AA)
+      soft: '#38483C',    // Secondary body text, subtitles, captions (6.17:1 contrast, passes AA)
     },
     // Leaf Green Scale (Brand Accent, Primary Buttons, Active States, Footer)
     leaf: {

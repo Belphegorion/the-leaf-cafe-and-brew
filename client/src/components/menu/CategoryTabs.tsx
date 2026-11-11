@@ -38,14 +38,14 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 className={`relative shrink-0 min-h-[44px] inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
                   isSelected
                     ? 'text-white'
-                    : 'text-[#1F2A22]/70 dark:text-[#F7FBFA]/70 hover:text-[#325736] dark:hover:text-[#A3C2A5]'
+                    : 'text-[#38483C] dark:text-[#C9DCC9] hover:text-[#325736] dark:hover:text-[#A3C2A5]'
                 }`}
               >
                 {/* Active animated pill background */}
                 {isSelected && (
                   <motion.div
                     layoutId="activeCategoryPill"
-                    className="absolute inset-0 rounded-full bg-[#325736] dark:bg-[#5E8662] shadow-sm"
+                    className="absolute inset-0 rounded-full bg-[#325736] dark:bg-[#325736] shadow-sm"
                     transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                   />
                 )}

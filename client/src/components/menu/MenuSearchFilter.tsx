@@ -34,7 +34,7 @@ export const MenuSearchFilter: React.FC<MenuSearchFilterProps> = ({
       {/* Top Search Input & Layout Toggle */}
       <div className="flex items-center gap-3">
         <div className="relative flex-1">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-[#5E8662]">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-[#38483C] dark:text-[#A3C2A5]">
             <MonolineIcon name="search" size={16} />
           </div>
           <input
@@ -66,7 +66,7 @@ export const MenuSearchFilter: React.FC<MenuSearchFilterProps> = ({
             className={`rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
               viewMode === 'grid'
                 ? 'bg-[#325736] text-white'
-                : 'text-[#142318]/60 dark:text-[#F7FBFA]/60 hover:text-[#325736]'
+                : 'text-[#38483C] dark:text-[#C9DCC9] hover:text-[#325736]'
             }`}
             aria-label="Grid layout view"
           >
@@ -78,7 +78,7 @@ export const MenuSearchFilter: React.FC<MenuSearchFilterProps> = ({
             className={`rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
               viewMode === 'list'
                 ? 'bg-[#325736] text-white'
-                : 'text-[#142318]/60 dark:text-[#F7FBFA]/60 hover:text-[#325736]'
+                : 'text-[#38483C] dark:text-[#C9DCC9] hover:text-[#325736]'
             }`}
             aria-label="List layout view"
           >
@@ -99,7 +99,7 @@ export const MenuSearchFilter: React.FC<MenuSearchFilterProps> = ({
                 onClick={() => onTagChange(filter.id)}
                 className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all ${
                   isSelected
-                    ? 'bg-[#5E8662] text-white shadow-sm'
+                    ? 'bg-[#325736] text-white shadow-sm'
                     : 'border border-[#325736]/15 bg-white dark:bg-[#1F3A24] text-[#142318]/80 dark:text-[#F7FBFA]/80 hover:bg-[#EEF5EE]'
                 }`}
               >
@@ -109,7 +109,7 @@ export const MenuSearchFilter: React.FC<MenuSearchFilterProps> = ({
           })}
         </div>
 
-        <span className="text-xs text-[#5E8662] dark:text-[#A3C2A5] font-semibold whitespace-nowrap">
+        <span className="text-xs text-[#325736] dark:text-[#A3C2A5] font-semibold whitespace-nowrap">
           Showing {totalCount} items
         </span>
       </div>

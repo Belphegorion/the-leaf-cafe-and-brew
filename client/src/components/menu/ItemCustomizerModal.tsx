@@ -15,10 +15,27 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   onClose,
   onAddToCart,
 }) => {
-  if (!item) return null;
-
   const [quantity, setQuantity] = useState(1);
   const [instructions, setInstructions] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+
+  // Reset or initialize state when item changes or modal opens
+  useEffect(() => {
+    if (item && isOpen) {
+      setQuantity(1);
+      setInstructions('');
+      const initial: Record<string, string> = {};
+      if (item.customizations) {
+        item.customizations.forEach(g => {
+          const defaultOpt = g.options.find(o => o.isDefault) || g.options[0];
+          if (defaultOpt) {
+            initial[g.id] = defaultOpt.id;
+          }
+        });
+      }
+      setSelectedOptions(initial);
+    }
+  }, [item, isOpen]);
 
   // Handle Escape key and Lenis scrolling pause
   useEffect(() => {
@@ -37,19 +54,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       if (lenis && typeof lenis.start === 'function') lenis.start();
     };
   }, [isOpen, onClose]);
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(() => {
-    // Default selections
-    const initial: Record<string, string> = {};
-    if (item.customizations) {
-      item.customizations.forEach(g => {
-        const defaultOpt = g.options.find(o => o.isDefault) || g.options[0];
-        if (defaultOpt) {
-          initial[g.id] = defaultOpt.id;
-        }
-      });
-    }
-    return initial;
-  });
+
+  if (!item) return null;
 
   const handleOptionSelect = (groupId: string, optionId: string) => {
     setSelectedOptions(prev => ({ ...prev, [groupId]: optionId }));
@@ -140,7 +146,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                   {item.description}
                 </p>
                 <div className="mt-2 text-sm font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
-                  Base Price: ₹{item.price} <span className="text-[10px] text-[#5E8662] uppercase font-normal">(Est. TBC)</span>
+                  Base Price: ₹{item.price} <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase font-normal">(Est. TBC)</span>
                 </div>
               </div>
 
@@ -149,7 +155,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 <div className="space-y-5 border-t border-[#325736]/10 pt-4">
                   {item.customizations.map(group => (
                     <div key={group.id} className="space-y-2.5">
-                      <div className="flex justify-between items-center text-xs font-semibold uppercase tracking-wider text-[#5E8662] dark:text-[#A3C2A5]">
+                      <div className="flex justify-between items-center text-xs font-semibold uppercase tracking-wider text-[#38483C] dark:text-[#A3C2A5]">
                         <span>{group.name}</span>
                         {group.required && <span className="text-[10px] text-red-500 font-bold">*Required</span>}
                       </div>
@@ -183,7 +189,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
               {/* Special Instructions */}
               <div className="border-t border-[#325736]/10 pt-4">
-                <label htmlFor="instructions" className="block text-xs font-semibold uppercase tracking-wider text-[#5E8662] dark:text-[#A3C2A5] mb-2">
+                <label htmlFor="instructions" className="block text-xs font-semibold uppercase tracking-wider text-[#38483C] dark:text-[#A3C2A5] mb-2">
                   Special Kitchen Notes (e.g. Jain preparation, less spicy)
                 </label>
                 <input
@@ -224,7 +230,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="flex-1 min-h-[44px] flex items-center justify-center gap-2 rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-lg hover:bg-[#284A2D] transition-colors dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                className="flex-1 min-h-[44px] flex items-center justify-center gap-2 rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-lg hover:bg-[#284A2D] transition-colors dark:bg-[#325736] dark:hover:bg-[#284A2D]"
               >
                 <span>Add to Order</span>
                 <span>·</span>

@@ -355,7 +355,7 @@ export const StoryScrollSection: React.FC = () => {
                             <MonolineIcon
                               name={step.icon}
                               size={16}
-                              color={isActive ? '#A3C2A5' : '#5E8662'}
+                              color={isActive ? '#A3C2A5' : '#8FA892'}
                               strokeWidth={2}
                             />
                             <h3 className="font-display uppercase tracking-wider text-base sm:text-lg font-bold text-white truncate">

@@ -64,7 +64,7 @@ export const LocationSection: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[#142318] dark:text-[#F7FBFA]">Full Address</p>
-                      <p className="text-[#5E8662] dark:text-[#C9DCC9]">{BUSINESS_FACTS.address}</p>
+                      <p className="text-[#38483C] dark:text-[#C9DCC9]">{BUSINESS_FACTS.address}</p>
                     </div>
                   </div>
 
@@ -74,7 +74,7 @@ export const LocationSection: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[#142318] dark:text-[#F7FBFA]">Operating Hours</p>
-                      <p className="text-[#5E8662] dark:text-[#C9DCC9]">{BUSINESS_FACTS.hoursDisplay}</p>
+                      <p className="text-[#38483C] dark:text-[#C9DCC9]">{BUSINESS_FACTS.hoursDisplay}</p>
                     </div>
                   </div>
 
@@ -84,7 +84,7 @@ export const LocationSection: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[#142318] dark:text-[#F7FBFA]">Telephone Contact</p>
-                      <p className="text-[#5E8662] dark:text-[#C9DCC9]">{BUSINESS_FACTS.phone}</p>
+                      <p className="text-[#38483C] dark:text-[#C9DCC9]">{BUSINESS_FACTS.phone}</p>
                     </div>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export const LocationSection: React.FC = () => {
                     href={PLACEHOLDERS.GOOGLE_MAPS_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-[#325736] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-colors dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#325736] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-colors dark:bg-[#325736] dark:hover:bg-[#284A2D]"
                   >
                     <MonolineIcon name="pin" size={14} color="#F7FBFA" />
                     <span>Get Directions</span>

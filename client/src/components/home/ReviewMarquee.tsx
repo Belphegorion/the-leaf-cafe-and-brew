@@ -76,7 +76,7 @@ export const ReviewMarquee: React.FC = () => {
         <h2 className="text-3xl sm:text-4xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA]">
           WORDS FROM BHOPAL PATRONS
         </h2>
-        <p className="text-xs sm:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-1">
+        <p className="text-xs sm:text-sm text-[#38483C] dark:text-[#A3C2A5] mt-1">
           Hover over any card to pause reading
         </p>
       </div>
@@ -119,11 +119,11 @@ export const ReviewMarquee: React.FC = () => {
                     <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">
                       {review.author}
                     </p>
-                    <p className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">
+                    <p className="text-[11px] text-[#38483C] dark:text-[#A3C2A5]">
                       {review.location}
                     </p>
                   </div>
-                  <span className="text-[10px] text-[#142318]/50 dark:text-[#F7FBFA]/50">
+                  <span className="text-[10px] text-[#38483C] dark:text-[#A3C2A5]">
                     {review.timeAgo}
                   </span>
                 </div>

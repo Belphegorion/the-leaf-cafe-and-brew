@@ -181,7 +181,7 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
             </span>
           )}
           {item.tags.includes('vegan') && (
-            <span className="absolute top-3 right-3 rounded-full bg-[#5E8662] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#F7FBFA] shadow-md">
+            <span className="absolute top-3 right-3 rounded-full bg-[#284A2D] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#F7FBFA] shadow-md">
               Vegan
             </span>
           )}
@@ -204,7 +204,7 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
               <span className="text-base font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
                 ₹{item.price}
               </span>
-              <span className="ml-1 text-[10px] text-[#5E8662] uppercase tracking-wider">
+              <span className="ml-1 text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase tracking-wider">
                 (Est. TBC)
               </span>
             </div>
@@ -215,8 +215,8 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
               disabled={added}
               className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 min-h-[44px] text-xs font-semibold uppercase tracking-wider transition-all active:scale-95 ${
                 added
-                  ? 'bg-[#5E8662] text-white shadow-md'
-                  : 'bg-[#325736] text-[#F7FBFA] hover:bg-[#284A2D] dark:bg-[#5E8662] dark:hover:bg-[#325736]'
+                  ? 'bg-[#284A2D] text-white shadow-md'
+                  : 'bg-[#325736] text-[#F7FBFA] hover:bg-[#284A2D] dark:bg-[#325736] dark:hover:bg-[#284A2D]'
               }`}
               aria-label={`Add ${item.name} to cart`}
               data-cursor="Add"
@@ -245,19 +245,19 @@ export const SignatureCarousel: React.FC = () => {
     <section className="py-24 bg-[#F5EFE4] dark:bg-[#101C13] overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#325736] dark:text-[#A3C2A5]">
             Handcrafted with Care
           </span>
           <h2 className="text-3xl sm:text-5xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
             SIGNATURE CREATIONS
           </h2>
-          <p className="text-sm text-[#142318]/70 dark:text-[#F7FBFA]/70 mt-2">
+          <p className="text-sm text-[#38483C] dark:text-[#C9DCC9] mt-2">
             Top customer favourites curated from 646+ genuine guest reviews in Arera Colony.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-[#5E8662] dark:text-[#A3C2A5] font-medium">
-          <MonolineIcon name="sparkles" size={16} color="#5E8662" />
+        <div className="flex items-center gap-2 text-xs text-[#38483C] dark:text-[#C9DCC9] font-medium">
+          <MonolineIcon name="sparkles" size={16} color="#325736" />
           <span>Swipe or drag horizontally</span>
         </div>
       </div>

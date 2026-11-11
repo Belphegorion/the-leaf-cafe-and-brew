@@ -83,7 +83,9 @@ export const TheLeafLogo: React.FC<TheLeafLogoProps> = ({
       />
       <div className="flex flex-col">
         <TheLeafWordmark size={size ? Number(size) * 2.8 : 112} color={defaultStroke} />
-        <span className="text-[9px] uppercase tracking-[0.28em] font-medium text-[#5E8662] dark:text-[#A3C2A5] -mt-1 pl-1">
+        <span className={`text-[9px] uppercase tracking-[0.28em] font-semibold -mt-1 pl-1 ${
+          isDark ? 'text-[#C9DCC9]' : 'text-[#38483C] dark:text-[#C9DCC9]'
+        }`}>
           Cafe &amp; Brew · Bhopal
         </span>
       </div>

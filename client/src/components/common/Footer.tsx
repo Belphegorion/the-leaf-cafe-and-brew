@@ -8,7 +8,7 @@ import { BUSINESS_FACTS, PLACEHOLDERS } from '../../../../shared/constants';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-[#142318] text-[#F7FBFA] overflow-hidden pt-12 pb-8">
+    <footer className="dark relative bg-[#142318] text-[#F7FBFA] overflow-hidden pt-12 pb-8">
       {/* Top undulating wave divider */}
       <WaveDivider strokeColor="#5E8662" animated={true} className="mb-8" />
 

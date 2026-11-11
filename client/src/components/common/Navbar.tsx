@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { TheLeafLogo } from '../brand/TheLeafLogo';
 import { MonolineIcon } from '../brand/MonolineIcon';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
 import { useCartStore } from '../../stores/useCartStore';
 
 export const Navbar: React.FC = () => {
@@ -120,9 +121,10 @@ export const Navbar: React.FC = () => {
               })}
             </div>
 
-            {/* Action Buttons: Theme Toggle, Cart Button, Table CTA, Mobile Hamburger */}
+            {/* Action Buttons: Theme Toggle, Language Toggle, Cart Button, Table CTA, Mobile Hamburger */}
             <div className="flex items-center gap-2 sm:gap-3">
               <ThemeToggle />
+              <LanguageToggle />
 
               {/* Cart Drawer Trigger */}
               <button
@@ -140,7 +142,7 @@ export const Navbar: React.FC = () => {
                     initial={{ scale: 0.6 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 450, damping: 20 }}
-                    className="flex h-5 w-5 items-center justify-center rounded-full bg-[#325736] text-[10px] font-bold text-white dark:bg-[#5E8662]"
+                    className="flex h-5 w-5 items-center justify-center rounded-full bg-[#325736] text-[10px] font-bold text-white dark:bg-[#325736]"
                   >
                     {cartItemCount}
                   </motion.span>
@@ -150,7 +152,7 @@ export const Navbar: React.FC = () => {
               {/* Reserve CTA Button (Desktop) */}
               <Link
                 to="/book"
-                className="hidden lg:inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:bg-[#284A2D] hover:shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                className="hidden lg:inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:bg-[#284A2D] hover:shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:bg-[#325736] dark:hover:bg-[#284A2D]"
                 data-cursor="Book"
               >
                 Book Table
@@ -197,7 +199,7 @@ export const Navbar: React.FC = () => {
           >
             {/* Nav links */}
             <div className="flex flex-col gap-5">
-              <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#5E8662]">
+              <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
                 Explore The Leaf
               </span>
               {navLinks.map((link, idx) => (
@@ -227,7 +229,7 @@ export const Navbar: React.FC = () => {
               >
                 Reserve a Table
               </Link>
-              <div className="text-center text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+              <div className="text-center text-[11px] text-[#38483C] dark:text-[#C9DCC9]">
                 Arera Colony, Bhopal • 100% Pure Vegetarian
               </div>
             </div>

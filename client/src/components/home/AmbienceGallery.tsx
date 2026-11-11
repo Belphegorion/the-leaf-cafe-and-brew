@@ -56,7 +56,7 @@ export const AmbienceGallery: React.FC = () => {
     <section className="py-24 bg-[#F5EFE4] dark:bg-[#101C13]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
             Visual Sanctuary
           </span>
           <h2 className="text-3xl sm:text-5xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">

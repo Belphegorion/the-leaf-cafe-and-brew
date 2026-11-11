@@ -89,7 +89,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
                 <span className="font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
                   ₹{item.price}
                 </span>
-                <span className="text-[10px] text-[#5E8662] uppercase">(Est. TBC)</span>
+                <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase font-medium">(Est. TBC)</span>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
               <button
                 type="button"
                 onClick={handleAddClick}
-                className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-[#284A2D] dark:bg-[#5E8662]"
+                className="min-h-[44px] inline-flex items-center justify-center rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-[#284A2D] dark:bg-[#325736]"
                 aria-label={item.customizations && item.customizations.length > 0 ? `Customise ${item.name}` : `Add ${item.name} to cart`}
                 data-cursor="Add"
               >
@@ -157,7 +157,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
                 </span>
               )}
               {item.tags.includes('jain') && (
-                <span className="rounded-full bg-[#5E8662] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#F7FBFA] shadow-md">
+                <span className="rounded-full bg-[#284A2D] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#F7FBFA] shadow-md">
                   Jain Available
                 </span>
               )}
@@ -189,7 +189,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
             <span className="text-base font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
               ₹{item.price}
             </span>
-            <span className="ml-1 text-[10px] text-[#5E8662] uppercase tracking-wider">
+            <span className="ml-1 text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase tracking-wider font-medium">
               (Est. TBC)
             </span>
           </div>
@@ -225,7 +225,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
               <button
                 type="button"
                 onClick={handleAddClick}
-                className="min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] active:scale-95 transition-all dark:bg-[#5E8662] dark:hover:bg-[#325736]"
+                className="min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-full bg-[#325736] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] active:scale-95 transition-all dark:bg-[#325736] dark:hover:bg-[#284A2D]"
                 aria-label={item.customizations && item.customizations.length > 0 ? `Customise ${item.name}` : `Add ${item.name} to cart`}
                 data-cursor="Add"
               >

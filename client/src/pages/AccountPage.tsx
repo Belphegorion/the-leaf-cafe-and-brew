@@ -22,7 +22,7 @@ export const AccountPage: React.FC = () => {
       items: '1× Cold Brew Tonic, 1× Peri Peri Paneer Pizza',
       total: 785,
       status: 'Ready for Pickup',
-      statusColor: 'bg-emerald-600',
+      statusColor: 'bg-[#325736]',
     },
     {
       id: 'ORD-8942',
@@ -75,7 +75,7 @@ export const AccountPage: React.FC = () => {
                 Leaf Member
               </span>
             </div>
-            <p className="text-xs text-[#4A5A4E] dark:text-[#C9DCC9] mt-0.5">
+            <p className="text-xs text-[#38483C] dark:text-[#C9DCC9] mt-0.5">
               aryan.sharma@example.com • +91 98260 00000
             </p>
           </div>
@@ -85,7 +85,7 @@ export const AccountPage: React.FC = () => {
         <div className="flex items-center gap-3 bg-[#F5EFE4] dark:bg-[#101C13] px-4 py-2.5 rounded-2xl border border-[#E0D2B8] dark:border-[#284A2D]">
           <TheLeafMark size={24} strokeColor="#325736" />
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-[#4A5A4E] dark:text-[#C9DCC9] font-medium">
+            <div className="text-[10px] uppercase tracking-wider text-[#38483C] dark:text-[#C9DCC9] font-medium">
               Leaf Club Points
             </div>
             <div className="text-base font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
@@ -115,7 +115,7 @@ export const AccountPage: React.FC = () => {
             className={`min-h-[44px] px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-2 transition-all ${
               activeTab === tab.id
                 ? 'bg-[#325736] text-white shadow-md'
-                : 'text-[#4A5A4E] dark:text-[#C9DCC9] hover:bg-[#EDE3D1] dark:hover:bg-[#1F3A24]'
+                : 'text-[#38483C] dark:text-[#C9DCC9] hover:bg-[#EDE3D1] dark:hover:bg-[#1F3A24]'
             }`}
           >
             <MonolineIcon name={tab.icon} size={16} />
@@ -140,7 +140,7 @@ export const AccountPage: React.FC = () => {
                   <span className="font-mono font-bold text-xs text-[#1F2A22] dark:text-[#EDE3D1]">
                     {order.id}
                   </span>
-                  <span className="text-[10px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                  <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
                     • {order.date} • {order.type}
                   </span>
                 </div>
@@ -203,7 +203,7 @@ export const AccountPage: React.FC = () => {
                   <div className="text-xs font-bold text-[#1F2A22] dark:text-[#EDE3D1] mt-0.5">
                     {b.date} at {b.time} • {b.partySize} Guests
                   </div>
-                  <div className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                  <div className="text-[11px] text-[#38483C] dark:text-[#C9DCC9]">
                     Seating: {b.seating}
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export const AccountPage: React.FC = () => {
                   <h3 className="font-display uppercase text-sm font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
                     {item.name}
                   </h3>
-                  <p className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9] line-clamp-2 mt-1">
+                  <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] line-clamp-2 mt-1">
                     {item.description}
                   </p>
                 </div>
@@ -326,7 +326,7 @@ export const AccountPage: React.FC = () => {
               <h3 className="font-bold text-xs uppercase tracking-wider text-[#1F2A22] dark:text-[#EDE3D1]">
                 10% High-Tea Discount
               </h3>
-              <p className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9] mt-1">
+              <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] mt-1">
                 Valid on all artisanal bakery &amp; pour-over orders from 4:00 PM to 6:30 PM.
               </p>
             </div>
@@ -338,7 +338,7 @@ export const AccountPage: React.FC = () => {
               <h3 className="font-bold text-xs uppercase tracking-wider text-[#1F2A22] dark:text-[#EDE3D1]">
                 Priority Weekend Alcove
               </h3>
-              <p className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9] mt-1">
+              <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] mt-1">
                 Guaranteed window and corner table holds during peak Saturday and Sunday dinner roasts.
               </p>
             </div>
@@ -350,7 +350,7 @@ export const AccountPage: React.FC = () => {
               <h3 className="font-bold text-xs uppercase tracking-wider text-[#1F2A22] dark:text-[#EDE3D1]">
                 Birthday Tasting Flight
               </h3>
-              <p className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9] mt-1">
+              <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] mt-1">
                 Complimentary 3-bean cold brew tasting flight and dessert on your birthday month.
               </p>
             </div>

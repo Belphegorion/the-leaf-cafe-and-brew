@@ -149,7 +149,7 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
             {!recommended ? (
               <div className="space-y-6">
                 <div>
-                  <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#5E8662] dark:text-[#A3C2A5]">
+                  <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#38483C] dark:text-[#A3C2A5]">
                     Question 0{currentStep + 1} of 0{QUIZ_QUESTIONS.length}
                   </span>
                   <h2 id="taste-quiz-title" className="font-display uppercase text-xl font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
@@ -182,7 +182,7 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
                 </div>
 
                 <div>
-                  <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#5E8662] dark:text-[#A3C2A5]">
+                  <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#38483C] dark:text-[#A3C2A5]">
                     Your Perfect Palate Match
                   </span>
                   <h2 id="taste-quiz-title" className="font-display uppercase text-2xl font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
@@ -196,7 +196,7 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
                   className="w-full h-40 rounded-2xl object-cover"
                 />
 
-                <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] max-w-sm mx-auto">
+                <p className="text-xs text-[#38483C] dark:text-[#A3C2A5] max-w-sm mx-auto">
                   {recommended.description}
                 </p>
 

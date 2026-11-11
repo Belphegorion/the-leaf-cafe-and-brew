@@ -33,7 +33,7 @@ export const HomePage: React.FC = () => {
               <h2 className="font-display uppercase text-lg md:text-xl font-bold text-[#142318] dark:text-[#F7FBFA]">
                 Undecided on Your Order?
               </h2>
-              <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] mt-0.5">
+              <p className="text-xs text-[#38483C] dark:text-[#A3C2A5] mt-0.5">
                 Take our 30-second Palate Quiz to match your mood with our chef's signature roasts and sourdoughs.
               </p>
             </div>

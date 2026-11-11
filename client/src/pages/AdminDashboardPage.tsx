@@ -209,13 +209,13 @@ export const AdminDashboardPage: React.FC = () => {
   const occupiedTablesCount = tables.filter(t => t.isOccupied).length;
 
   return (
-    <main id="main-content" className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
       {/* Top Admin Header */}
       <div className="flex flex-col md:flex-row items-center justify-between pb-6 mb-8 border-b border-[#325736]/20 gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#5E8662] dark:text-[#A3C2A5]">
+            <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#38483C] dark:text-[#A3C2A5]">
               Real-time Operations Portal
             </span>
           </div>
@@ -245,7 +245,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`flex items-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all touch-manipulation focus-visible:outline-2 focus-visible:outline-[#28492C] ${
                 role === tab.id
                   ? 'bg-[#28492C] text-white shadow-sm'
-                  : 'text-[#1F2A22]/80 dark:text-[#F7FBFA]/70 hover:text-[#1F2A22] dark:hover:text-white'
+                  : 'text-[#1F2A22] dark:text-[#F7FBFA] hover:text-[#325736] dark:hover:text-white'
               }`}
             >
               <MonolineIcon name={tab.icon as any} size={14} color={role === tab.id ? '#FFF' : 'currentColor'} />
@@ -256,7 +256,7 @@ export const AdminDashboardPage: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="py-24 text-center text-xs text-[#5E8662]">Connecting to cafe services...</div>
+        <div className="py-24 text-center text-xs text-[#38483C]">Connecting to cafe services...</div>
       ) : (
         <div>
           {/* VIEW 1: MANAGER OVERVIEW */}
@@ -265,43 +265,43 @@ export const AdminDashboardPage: React.FC = () => {
               {/* Stat Metric Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="p-5 rounded-2xl bg-white dark:bg-[#1F3A24] border border-[#325736]/20 shadow-sm">
-                  <div className="text-[10px] uppercase font-bold text-[#5E8662] dark:text-[#A3C2A5]">
+                  <div className="text-[10px] uppercase font-bold text-[#38483C] dark:text-[#A3C2A5]">
                     Total Revenue Today
                   </div>
                   <div className="text-2xl font-bold text-[#142318] dark:text-[#F7FBFA] tabular-nums mt-1">
                     ₹{totalRevenue}
                   </div>
-                  <div className="text-[10px] text-emerald-600 mt-0.5">Est. sales volume</div>
+                  <div className="text-[10px] text-[#325736] dark:text-[#A3C2A5] font-semibold mt-0.5">Est. sales volume</div>
                 </div>
 
                 <div className="p-5 rounded-2xl bg-white dark:bg-[#1F3A24] border border-[#325736]/20 shadow-sm">
-                  <div className="text-[10px] uppercase font-bold text-[#5E8662] dark:text-[#A3C2A5]">
+                  <div className="text-[10px] uppercase font-bold text-[#38483C] dark:text-[#A3C2A5]">
                     Active Live Orders
                   </div>
                   <div className="text-2xl font-bold text-[#142318] dark:text-[#F7FBFA] tabular-nums mt-1">
                     {activeOrdersCount}
                   </div>
-                  <div className="text-[10px] text-[#5E8662] mt-0.5">Queued / In Kitchen</div>
+                  <div className="text-[10px] text-[#38483C] mt-0.5">Queued / In Kitchen</div>
                 </div>
 
                 <div className="p-5 rounded-2xl bg-white dark:bg-[#1F3A24] border border-[#325736]/20 shadow-sm">
-                  <div className="text-[10px] uppercase font-bold text-[#5E8662] dark:text-[#A3C2A5]">
+                  <div className="text-[10px] uppercase font-bold text-[#38483C] dark:text-[#A3C2A5]">
                     Occupied Tables
                   </div>
                   <div className="text-2xl font-bold text-[#142318] dark:text-[#F7FBFA] tabular-nums mt-1">
                     {occupiedTablesCount} / {tables.length}
                   </div>
-                  <div className="text-[10px] text-[#5E8662] mt-0.5">Indoor sanctuary seats</div>
+                  <div className="text-[10px] text-[#38483C] mt-0.5">Indoor sanctuary seats</div>
                 </div>
 
                 <div className="p-5 rounded-2xl bg-white dark:bg-[#1F3A24] border border-[#325736]/20 shadow-sm">
-                  <div className="text-[10px] uppercase font-bold text-[#5E8662] dark:text-[#A3C2A5]">
+                  <div className="text-[10px] uppercase font-bold text-[#38483C] dark:text-[#A3C2A5]">
                     Google Rating Trust
                   </div>
                   <div className="text-2xl font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums mt-1">
                     ★ 4.9
                   </div>
-                  <div className="text-[10px] text-[#5E8662] mt-0.5">646 Bhopal reviews</div>
+                  <div className="text-[10px] text-[#38483C] mt-0.5">646 Bhopal reviews</div>
                 </div>
               </div>
 
@@ -312,11 +312,11 @@ export const AdminDashboardPage: React.FC = () => {
                     <h2 className="font-display uppercase text-base font-bold text-[#142318] dark:text-[#F7FBFA]">
                       Quick 86 / Availability Control
                     </h2>
-                    <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+                    <p className="text-xs text-[#38483C] dark:text-[#A3C2A5]">
                       Toggle items out-of-stock when fresh ingredient batches run low
                     </p>
                   </div>
-                  <span className="text-xs font-mono text-[#5E8662]">{menuItems.length} items registered</span>
+                  <span className="text-xs font-mono text-[#38483C]">{menuItems.length} items registered</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-80 overflow-y-auto pr-1">
@@ -331,7 +331,7 @@ export const AdminDashboardPage: React.FC = () => {
                           <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA] line-clamp-1">
                             {item.name}
                           </div>
-                          <div className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">₹{item.price}</div>
+                          <div className="text-[10px] text-[#38483C] dark:text-[#A3C2A5]">₹{item.price}</div>
                         </div>
                       </div>
 
@@ -340,8 +340,8 @@ export const AdminDashboardPage: React.FC = () => {
                         onClick={() => handleToggleAvailability(item)}
                         className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors ${
                           item.isAvailable
-                            ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                            : 'bg-red-100 text-red-800 hover:bg-red-200'
+                            ? 'bg-[#325736] text-white hover:bg-[#28492C]'
+                            : 'bg-red-800 text-white hover:bg-red-900'
                         }`}
                       >
                         {item.isAvailable ? 'In Stock' : '86 / Sold Out'}
@@ -482,7 +482,7 @@ export const AdminDashboardPage: React.FC = () => {
                         >
                           <div className="flex justify-between items-start">
                             <span className="font-mono font-bold text-xs">#{ord.id.slice(-5).toUpperCase()}</span>
-                            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200">
+                            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#325736] text-white">
                               Ready Hot
                             </span>
                           </div>
@@ -494,7 +494,7 @@ export const AdminDashboardPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleUpdateOrderStatus(ord.id, 'served')}
-                            className="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider transition-colors"
+                            className="w-full py-2.5 rounded-xl bg-[#325736] hover:bg-[#28492C] text-white font-bold text-xs uppercase tracking-wider transition-colors"
                           >
                             Mark Served / Handed Over
                           </button>
@@ -513,7 +513,7 @@ export const AdminDashboardPage: React.FC = () => {
                 <h2 className="font-display uppercase text-base font-bold text-[#142318] dark:text-[#F7FBFA]">
                   Botanical Dining Sanctuary • Floor Matrix
                 </h2>
-                <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+                <p className="text-xs text-[#38483C] dark:text-[#A3C2A5]">
                   12 Boutique Tables in Arera Colony
                 </p>
               </div>
@@ -545,7 +545,7 @@ export const AdminDashboardPage: React.FC = () => {
                         <span className="font-display font-bold text-lg text-[#142318] dark:text-[#F7FBFA]">
                           T-{table.tableNumber}
                         </span>
-                        <span className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">
+                        <span className="text-[10px] text-[#38483C] dark:text-[#A3C2A5]">
                           Cap: {table.capacity}p
                         </span>
                       </div>
@@ -568,7 +568,7 @@ export const AdminDashboardPage: React.FC = () => {
                           </button>
                         </div>
                       ) : (
-                        <div className="text-[10px] uppercase font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+                        <div className="text-[10px] uppercase font-semibold text-[#38483C] dark:text-[#A3C2A5]">
                           {table.isOccupied ? 'Occupied / Dining' : 'Available'}
                         </div>
                       )}
@@ -587,7 +587,7 @@ export const AdminDashboardPage: React.FC = () => {
                   <h2 className="font-display uppercase text-base font-bold text-[#142318] dark:text-[#F7FBFA]">
                     Printable Table QR Codes (Tables 1 – 12)
                   </h2>
-                  <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+                  <p className="text-xs text-[#38483C] dark:text-[#A3C2A5]">
                     Laminate and affix to the wooden acrylic table stands for instant customer contactless ordering.
                   </p>
                 </div>
@@ -632,12 +632,12 @@ export const AdminDashboardPage: React.FC = () => {
                         <div className="font-display uppercase text-xl font-bold tracking-wider text-[#325736]">
                           Table {table.tableNumber}
                         </div>
-                        <div className="text-[10px] text-[#5E8662] uppercase tracking-wider mt-0.5">
+                        <div className="text-[10px] text-[#38483C] uppercase tracking-wider mt-0.5">
                           Scan to View Menu &amp; Order
                         </div>
                       </div>
 
-                      <div className="text-[9px] text-[#5E8662]/80 border-t border-[#325736]/15 pt-2">
+                      <div className="text-[9px] text-[#38483C]/80 border-t border-[#325736]/15 pt-2">
                         100% Pure Vegetarian • Free WiFi Available
                       </div>
                     </div>

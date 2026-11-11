@@ -1,13 +1,14 @@
 {
   "name": "the-leaf---cafe-and-brew",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "The Leaf – Cafe and Brew: High-End Sanctuary Web Experience",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "audit": "npm --prefix client run audit",
+    "test": "npm --prefix client test"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "ISC"
 }

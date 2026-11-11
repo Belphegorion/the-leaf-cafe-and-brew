@@ -53,7 +53,7 @@ const AnimatedCounter: React.FC<CounterItemProps> = ({
       <h3 className="mt-2 text-sm sm:text-base font-semibold uppercase tracking-wider text-[#142318] dark:text-[#F7FBFA]">
         {label}
       </h3>
-      <p className="mt-1 text-xs text-[#5E8662] dark:text-[#A3C2A5]/80 font-normal">
+      <p className="mt-1 text-xs text-[#38483C] dark:text-[#C9DCC9] font-normal">
         {sublabel}
       </p>
     </div>

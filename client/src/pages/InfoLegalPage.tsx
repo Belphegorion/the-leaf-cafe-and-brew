@@ -12,13 +12,13 @@ export const InfoLegalPage: React.FC = () => {
   const currentTab: InfoType = ['contact', 'faq', 'privacy', 'terms'].includes(path) ? path : 'faq';
 
   return (
-    <main id="main-content" className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
       {/* Brand Header */}
       <div className="text-center max-w-2xl mx-auto mb-10">
         <div className="flex justify-center mb-3 text-[#325736] dark:text-[#A3C2A5]">
           <TheLeafMark size={44} />
         </div>
-        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
           The Leaf • Cafe &amp; Brew • Arera Colony
         </span>
         <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
@@ -27,7 +27,7 @@ export const InfoLegalPage: React.FC = () => {
           {currentTab === 'privacy' && 'Privacy Policy'}
           {currentTab === 'terms' && 'Terms & Cancellation Policy'}
         </h1>
-        <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2">
+        <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] mt-2">
           {BUSINESS_FACTS.dietaryStandard} • Pure Vegetarian Sanctuary in Bhopal
         </p>
       </div>
@@ -63,7 +63,7 @@ export const InfoLegalPage: React.FC = () => {
               <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA] mb-2">
                 🌱 Is "The Leaf" strictly pure-vegetarian?
               </h2>
-              <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
                 Yes, absolutely. The Leaf is 100% pure vegetarian. We strictly do not prepare, serve, or allow any meat, poultry, seafood, fish, eggs, gelatin, or animal rennet on our premises.
               </p>
             </div>
@@ -72,7 +72,7 @@ export const InfoLegalPage: React.FC = () => {
               <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA] mb-2">
                 🧅 Do you have Jain and Vegan preparation options?
               </h2>
-              <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
                 Yes. Many of our artisan pizzas, pastas, coolers, and coffees can be prepared Jain (no root vegetables, onion, or garlic) upon request. For vegans, we offer oat milk and almond milk alternatives for all espresso beverages.
               </p>
             </div>
@@ -81,7 +81,7 @@ export const InfoLegalPage: React.FC = () => {
               <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA] mb-2">
                 🚗 Where are you located and is parking available?
               </h2>
-              <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
                 We are located at 1st Floor, E7/161, E-7, Arera Colony, Bhopal, MP 462016. Dedicated visitor parking is available on-site for both two-wheelers and cars.
               </p>
             </div>
@@ -90,7 +90,7 @@ export const InfoLegalPage: React.FC = () => {
               <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA] mb-2">
                 🍷 Do you serve alcohol or have live loud music?
               </h2>
-              <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
                 No alcohol is permitted or served. We do not host loud live music; our cafe plays mellow ambient lo-fi, acoustic, and botanical jazz calibrated for reading, conversation, and calm unwinding.
               </p>
             </div>
@@ -99,7 +99,7 @@ export const InfoLegalPage: React.FC = () => {
               <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA] mb-2">
                 📱 How do table reservations work?
               </h2>
-              <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
                 Table bookings are free and held for up to 15 minutes past your booked time slot. You can reserve directly on this website, download an .ics calendar invite, and order ahead if desired.
               </p>
             </div>
@@ -131,7 +131,7 @@ export const InfoLegalPage: React.FC = () => {
                   Hours of Sanctuary
                 </h2>
                 <p className="text-sm">{BUSINESS_FACTS.hoursDisplay}</p>
-                <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] mt-1">
+                <p className="text-xs text-[#38483C] dark:text-[#A3C2A5] mt-1">
                   11:00 AM – 11:30 PM daily (Config placeholder, unconfirmed)
                 </p>
               </div>
@@ -152,10 +152,10 @@ export const InfoLegalPage: React.FC = () => {
                       {BUSINESS_FACTS.instagramHandle}
                     </a>
                   </p>
-                  <p className="text-[#5E8662] dark:text-[#A3C2A5]">
+                  <p className="text-[#38483C] dark:text-[#A3C2A5]">
                     Phone: {BUSINESS_FACTS.phone}
                   </p>
-                  <p className="text-[#5E8662] dark:text-[#A3C2A5]">
+                  <p className="text-[#38483C] dark:text-[#A3C2A5]">
                     WhatsApp: {BUSINESS_FACTS.whatsapp}
                   </p>
                 </div>
@@ -167,7 +167,7 @@ export const InfoLegalPage: React.FC = () => {
               <h2 className="text-sm font-bold uppercase tracking-wider text-[#142318] dark:text-[#F7FBFA] mb-1">
                 Send Us a Note
               </h2>
-              <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] mb-4">
+              <p className="text-xs text-[#38483C] dark:text-[#A3C2A5] mb-4">
                 Have a feedback, corporate catering, or private event inquiry?
               </p>
               <form
@@ -231,7 +231,7 @@ export const InfoLegalPage: React.FC = () => {
 
         {/* === 3. PRIVACY TAB === */}
         {currentTab === 'privacy' && (
-          <div className="space-y-4 text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+          <div className="space-y-4 text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
             <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA]">
               Customer Privacy &amp; Data Safeguards
             </h2>
@@ -252,7 +252,7 @@ export const InfoLegalPage: React.FC = () => {
 
         {/* === 4. TERMS TAB === */}
         {currentTab === 'terms' && (
-          <div className="space-y-4 text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+          <div className="space-y-4 text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] leading-relaxed">
             <h2 className="text-base font-bold text-[#142318] dark:text-[#F7FBFA]">
               Terms of Service &amp; Cancellation Policy
             </h2>

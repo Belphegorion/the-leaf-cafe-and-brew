@@ -34,13 +34,13 @@ export const InstagramSection: React.FC = () => {
     <section className="py-20 px-4 md:px-8 max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
         <div>
-          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
             Community &amp; Culture
           </span>
           <h2 className="font-display text-2xl md:text-4xl uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
             Follow {BUSINESS_FACTS.instagramHandle}
           </h2>
-          <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-1">
+          <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] mt-1">
             Tag us in your coffee stories to be featured on our community wall.
           </p>
         </div>

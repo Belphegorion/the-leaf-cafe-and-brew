@@ -16,7 +16,7 @@ export const NotFoundPage: React.FC = () => {
         <TheLeafMark size={70} strokeColor="#F7FBFA" />
       </motion.div>
 
-      <span className="text-xs uppercase tracking-[0.3em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+      <span className="text-xs uppercase tracking-[0.3em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
         Error 404 · Page Not Found
       </span>
 
@@ -31,7 +31,7 @@ export const NotFoundPage: React.FC = () => {
       <div className="mt-8 flex flex-wrap justify-center gap-4">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full bg-[#28492C] px-6 py-3 min-h-[44px] text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#1F3A24] transition-colors dark:bg-[#5E8662] dark:hover:bg-[#28492C] touch-manipulation focus-visible:outline-2 focus-visible:outline-[#28492C]"
+          className="inline-flex items-center gap-2 rounded-full bg-[#28492C] px-6 py-3 min-h-[44px] text-xs font-semibold uppercase tracking-wider text-white shadow-md hover:bg-[#1F3A24] transition-colors dark:bg-[#325736] dark:hover:bg-[#28492C] touch-manipulation focus-visible:outline-2 focus-visible:outline-[#28492C]"
         >
           <MonolineIcon name="cup" size={16} color="#F7FBFA" />
           <span>Return to Cafe Home</span>

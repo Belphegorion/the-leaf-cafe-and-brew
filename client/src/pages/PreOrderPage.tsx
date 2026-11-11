@@ -25,16 +25,16 @@ export const PreOrderPage: React.FC = () => {
   const formattedReadyTime = readyTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
-    <main id="main-content" className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-10 text-center max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#325736] dark:text-[#A3C2A5]">
           Skip the Wait • Freshly Brewed On Arrival
         </span>
         <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
           Pre-Order Ahead
         </h1>
-        <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2">
+        <p className="text-xs md:text-sm text-[#38483C] dark:text-[#C9DCC9] mt-2">
           Your specialty coffee and oven-fresh pizzas timed to perfection for when you step into our sanctuary.
         </p>
       </div>
@@ -64,7 +64,7 @@ export const PreOrderPage: React.FC = () => {
                   <div className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                     Curbside / Grab &amp; Go
                   </div>
-                  <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] mt-0.5">
+                  <div className={`text-[11px] mt-0.5 ${orderMode === 'takeaway' ? 'text-[#1F2A22] dark:text-[#EDE3D1]' : 'text-[#38483C] dark:text-[#C9DCC9]'}`}>
                     Packed securely for immediate pickup
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export const PreOrderPage: React.FC = () => {
                   <div className="text-xs font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                     Dine-in on Arrival
                   </div>
-                  <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] mt-0.5">
+                  <div className={`text-[11px] mt-0.5 ${orderMode === 'dine_in' ? 'text-[#1F2A22] dark:text-[#EDE3D1]' : 'text-[#38483C] dark:text-[#C9DCC9]'}`}>
                     Served hot at your reserved table
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export const PreOrderPage: React.FC = () => {
               ))}
             </div>
 
-            <p className="mt-3 text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">
+            <p className="mt-3 text-[11px] text-[#38483C] dark:text-[#C9DCC9]">
               * Our baristas and chefs start extracting pour-overs and baking sourdough crusts 10 minutes before your arrival so your meal never sits cold.
             </p>
           </div>
@@ -171,7 +171,7 @@ export const PreOrderPage: React.FC = () => {
                         <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
                           {item.menuItem.name}
                         </div>
-                        <div className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">
+                        <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
                           ₹{item.itemTotalPrice} • {item.quantity} serving(s)
                         </div>
                       </div>
@@ -221,21 +221,21 @@ export const PreOrderPage: React.FC = () => {
 
           <div className="space-y-3 text-xs">
             <div className="flex justify-between py-1 border-b border-[#325736]/10">
-              <span className="text-[#5E8662] dark:text-[#A3C2A5]">Mode</span>
+              <span className="text-[#38483C] dark:text-[#C9DCC9]">Mode</span>
               <span className="font-bold text-[#142318] dark:text-[#F7FBFA] capitalize">
                 {orderMode === 'takeaway' ? 'Curbside / Grab & Go' : 'Dine-In on Arrival'}
               </span>
             </div>
             <div className="flex justify-between py-1 border-b border-[#325736]/10">
-              <span className="text-[#5E8662] dark:text-[#A3C2A5]">Target Arrival</span>
+              <span className="text-[#38483C] dark:text-[#C9DCC9]">Target Arrival</span>
               <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{formattedReadyTime}</span>
             </div>
             <div className="flex justify-between py-1 border-b border-[#325736]/10">
-              <span className="text-[#5E8662] dark:text-[#A3C2A5]">Total Items</span>
+              <span className="text-[#38483C] dark:text-[#C9DCC9]">Total Items</span>
               <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{items.length} items</span>
             </div>
             <div className="flex justify-between py-1 border-b border-[#325736]/10">
-              <span className="text-[#5E8662] dark:text-[#A3C2A5]">Subtotal</span>
+              <span className="text-[#38483C] dark:text-[#C9DCC9]">Subtotal</span>
               <span className="font-bold text-[#142318] dark:text-[#F7FBFA] tabular-nums">₹{subtotal}</span>
             </div>
             <div className="flex justify-between py-2 text-base font-bold text-[#142318] dark:text-[#F7FBFA]">

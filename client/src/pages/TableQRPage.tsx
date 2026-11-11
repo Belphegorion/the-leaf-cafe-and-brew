@@ -103,19 +103,19 @@ export const TableQRPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content" className="min-h-screen pt-28 pb-24 px-4 md:px-8 max-w-5xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-24 px-4 md:px-8 max-w-5xl mx-auto">
       {/* Table Welcome Header Plinth */}
       <div className="bg-[#F5EFE4] dark:bg-[#142318] p-6 rounded-3xl border border-[#E0D2B8] dark:border-[#325736]/30 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4 text-center md:text-left">
           <div className="w-16 h-16 rounded-2xl bg-[#325736] text-white flex flex-col items-center justify-center font-bold shadow-md">
-            <span className="text-[10px] uppercase tracking-wider opacity-80">Table</span>
+            <span className="text-[10px] uppercase tracking-wider text-[#F7FBFA] font-bold">Table</span>
             <span className="font-display text-2xl leading-none">{tableNum}</span>
           </div>
           <div>
             <h1 className="font-display text-2xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
               Table {tableNum} • Botanical Sanctuary
             </h1>
-            <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+            <p className="text-xs text-[#38483C] dark:text-[#C9DCC9]">
               {BUSINESS_FACTS.name} • 100% Pure Vegetarian • Contactless Dine-In
             </p>
           </div>
@@ -178,7 +178,7 @@ export const TableQRPage: React.FC = () => {
             <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
               Active Table Tab: {cartItems.length} items • ₹{total} (Est.)
             </div>
-            <div className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">
+            <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
               Ready to send directly to the kitchen
             </div>
           </div>
@@ -236,7 +236,7 @@ export const TableQRPage: React.FC = () => {
 
       {/* Menu Grid */}
       {loading ? (
-        <div className="py-20 text-center text-xs text-[#5E8662]">Loading table menu...</div>
+        <div className="py-20 text-center text-xs text-[#38483C]">Loading table menu...</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {filteredItems.map(item => (
@@ -258,7 +258,7 @@ export const TableQRPage: React.FC = () => {
                     {item.name}
                   </h3>
                 </div>
-                <p className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] line-clamp-2">
+                <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] line-clamp-2">
                   {item.description}
                 </p>
               </div>
@@ -311,7 +311,7 @@ export const TableQRPage: React.FC = () => {
               </div>
 
               <div className="p-4 rounded-2xl bg-[#EAE0D0] dark:bg-[#142318] text-center space-y-1">
-                <div className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">Total Table Bill (Est.)</div>
+                <div className="text-xs text-[#38483C] dark:text-[#C9DCC9]">Total Table Bill (Est.)</div>
                 <div className="font-display text-3xl font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
                   ₹{total}
                 </div>
@@ -347,7 +347,7 @@ export const TableQRPage: React.FC = () => {
                     ₹{Math.ceil(total / splitCount)}
                   </span>
                 </div>
-                <p className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">
+                <p className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
                   * Includes 5% GST and any selected barista gratuity. UPI payment QR can be scanned separately at the counter or directly at table checkout.
                 </p>
               </div>

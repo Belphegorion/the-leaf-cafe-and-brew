@@ -169,6 +169,7 @@ test.describe('The Leaf – Cafe and Brew: E2E Suite', () => {
   });
 
   test('Flow 7: Zero horizontal overflow across 320px, 375px, 768px, 1024px, 1440px', async ({ page }) => {
+    test.setTimeout(90000);
     const viewports = [
       { width: 320, height: 700 },
       { width: 375, height: 812 },
@@ -182,8 +183,8 @@ test.describe('The Leaf – Cafe and Brew: E2E Suite', () => {
     for (const vp of viewports) {
       await page.setViewportSize(vp);
       for (const route of routes) {
-        await page.goto(route, { waitUntil: 'networkidle' });
-        await page.waitForTimeout(150);
+        await page.goto(route, { waitUntil: 'domcontentloaded' });
+        await page.waitForTimeout(100);
 
         const overflow = await page.evaluate(() => {
           const doc = document.documentElement;

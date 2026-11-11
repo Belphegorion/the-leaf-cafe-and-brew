@@ -84,8 +84,12 @@ export const BookingPage: React.FC = () => {
   const [guestEmail, setGuestEmail] = useState('');
   const [specialRequests, setSpecialRequests] = useState('');
 
+  // Step state: 'details' | 'otp'
+  const [bookingStep, setBookingStep] = useState<'details' | 'otp'>('details');
+  const [otpCode, setOtpCode] = useState('');
+  const [otpError, setOtpError] = useState<string | null>(null);
+
   // Slot Lock & Confirmation state
-  const [isLocking, setIsLocking] = useState(false);
   const [slotLocked, setSlotLocked] = useState(false);
   const [lockExpiresAt, setLockExpiresAt] = useState<number | null>(null);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(300);
@@ -105,6 +109,7 @@ export const BookingPage: React.FC = () => {
       if (diff <= 0) {
         setSlotLocked(false);
         setLockExpiresAt(null);
+        setBookingStep('details');
         setErrorMsg('Your reservation slot lock expired. Please re-select your preferred time.');
         clearInterval(interval);
       }
@@ -122,13 +127,13 @@ export const BookingPage: React.FC = () => {
     if (next >= 1) {
       setPartySize(next);
       setSlotLocked(false);
+      setBookingStep('details');
     }
   };
 
   // Lock slot on backend
   const handleLockSlot = async () => {
     setErrorMsg(null);
-    setIsLocking(true);
 
     try {
       try {
@@ -159,19 +164,53 @@ export const BookingPage: React.FC = () => {
       setSecondsRemaining(300);
     } catch (err: any) {
       setErrorMsg(err.message || 'Slot currently unavailable.');
-    } finally {
-      setIsLocking(false);
     }
   };
 
-  // Confirm reservation
-  const handleConfirmReservation = async (e: React.FormEvent) => {
+  // Proceed to OTP step
+  const handleProceedToOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!guestName.trim() || !guestPhone.trim()) {
-      setErrorMsg('Please provide your name and phone number to finalize.');
+    setErrorMsg(null);
+    setOtpError(null);
+
+    if (!guestName.trim()) {
+      setErrorMsg('Please enter your full name to proceed.');
+      return;
+    }
+    const cleanPhone = guestPhone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+      setErrorMsg('Please enter a valid 10-digit Indian phone number.');
       return;
     }
 
+    if (selectedTime === '10:15 PM') {
+      setErrorMsg('This late slot is currently fully booked. Please select an earlier dining slot.');
+      return;
+    }
+
+    await handleLockSlot();
+    setBookingStep('otp');
+  };
+
+  // Verify OTP and confirm booking
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setOtpError(null);
+
+    if (!otpCode.trim() || otpCode.trim().length < 4) {
+      setOtpError('Please enter the 4-digit verification code.');
+      return;
+    }
+    if (otpCode.trim() !== '4129' && otpCode.trim() !== '1234') {
+      setOtpError('Invalid code. Please enter demo verification code: 4129.');
+      return;
+    }
+
+    await confirmReservationFinal();
+  };
+
+  // Final confirmation
+  const confirmReservationFinal = async () => {
     try {
       let bookingData: TableBooking | null = null;
       try {
@@ -228,7 +267,7 @@ export const BookingPage: React.FC = () => {
           particleCount: 100,
           spread: 80,
           origin: { y: 0.5 },
-          colors: ['#325736', '#5E8662', '#A3C2A5', '#F5EFE4'],
+          colors: ['#325736', '#38483C', '#A3C2A5', '#F5EFE4'],
         });
       } catch (e) {
         // Ignore confetti failure
@@ -265,16 +304,16 @@ export const BookingPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+    <main id="main-content" className="min-h-[100dvh] pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-10 text-center max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#325736] dark:text-[#A3C2A5]">
           Artisanal Sanctuary • Arera Colony
         </span>
-        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
+        <h1 className="font-display text-3xl md:text-5xl uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA] mt-1">
           Reserve a Table
         </h1>
-        <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2">
+        <p className="text-xs md:text-sm text-[#38483C] dark:text-[#C9DCC9] mt-2">
           Experience our tranquil plant-filled indoor space, fresh specialty pour-overs, and 100% pure-veg delicacies.
         </p>
       </div>
@@ -293,7 +332,7 @@ export const BookingPage: React.FC = () => {
             </div>
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#5E8662] dark:text-[#A3C2A5]">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#325736] dark:text-[#A3C2A5]">
                 Reservation Confirmed
               </span>
               <h2 className="font-display text-3xl font-bold uppercase text-[#142318] dark:text-[#F7FBFA] mt-1">
@@ -306,26 +345,26 @@ export const BookingPage: React.FC = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-5 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] text-left text-xs">
               <div>
-                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Date</span>
+                <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase font-semibold">Date</span>
                 <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">{confirmedBooking.date}</p>
               </div>
               <div>
-                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Time Slot</span>
+                <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase font-semibold">Time Slot</span>
                 <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">{confirmedBooking.timeSlot}</p>
               </div>
               <div>
-                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Party</span>
+                <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase font-semibold">Party</span>
                 <p className="font-bold text-[#142318] dark:text-[#F7FBFA]">{confirmedBooking.partySize} Guests</p>
               </div>
               <div>
-                <span className="text-[10px] text-[#5E8662] uppercase font-semibold">Seating</span>
+                <span className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] uppercase font-semibold">Seating</span>
                 <p className="font-bold text-[#142318] dark:text-[#F7FBFA] capitalize">
                   {confirmedBooking.seatingPreference.replace('_', ' ')}
                 </p>
               </div>
             </div>
 
-            <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5]">
+            <p className="text-xs text-[#38483C] dark:text-[#A3C2A5]">
               A confirmation WhatsApp &amp; SMS has been queued for {confirmedBooking.guestPhone}. No cancellation fees apply.
             </p>
 
@@ -360,7 +399,7 @@ export const BookingPage: React.FC = () => {
                   <label className="text-xs uppercase font-bold tracking-wider text-[#1F2A22] dark:text-[#EDE3D1]">
                     1. Choose Date
                   </label>
-                  <span className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">Next 14 Days</span>
+                  <span className="text-[11px] text-[#38483C] dark:text-[#C9DCC9]">Next 14 Days</span>
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
                   {days.map(d => {
@@ -379,9 +418,9 @@ export const BookingPage: React.FC = () => {
                             : 'border border-[#E0D2B8] hover:border-[#325736] text-[#1F2A22] dark:text-[#EDE3D1] bg-[#FBF8F2] dark:bg-[#101C13]'
                         }`}
                       >
-                        <span className="text-[10px] uppercase font-semibold opacity-80">{d.dayName}</span>
+                        <span className={`text-[10px] uppercase font-semibold ${isSelected ? 'text-[#F7FBFA]' : 'text-[#38483C] dark:text-[#C9DCC9]'}`}>{d.dayName}</span>
                         <span className="text-base font-bold my-0.5">{d.dateNum}</span>
-                        <span className="text-[10px] opacity-75">{d.monthName}</span>
+                        <span className={`text-[10px] font-medium ${isSelected ? 'text-[#F7FBFA]' : 'text-[#38483C] dark:text-[#C9DCC9]'}`}>{d.monthName}</span>
                       </button>
                     );
                   })}
@@ -423,7 +462,7 @@ export const BookingPage: React.FC = () => {
                   <label className="text-xs uppercase font-bold tracking-wider text-[#1F2A22] dark:text-[#EDE3D1]">
                     3. Number of Guests
                   </label>
-                  <span className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                  <span className="text-[11px] text-[#38483C] dark:text-[#C9DCC9]">
                     {partySize} {partySize === 1 ? 'Guest' : 'Guests'} (Max 12)
                   </span>
                 </div>
@@ -450,7 +489,7 @@ export const BookingPage: React.FC = () => {
                       +
                     </button>
                   </div>
-                  <div className="text-xs text-[#4A5A4E] dark:text-[#C9DCC9]">
+                  <div className="text-xs text-[#38483C] dark:text-[#C9DCC9]">
                     Planning a party over 12?{' '}
                     <button
                       type="button"
@@ -491,7 +530,7 @@ export const BookingPage: React.FC = () => {
                           </span>
                           <MonolineIcon name={opt.icon as any} size={16} color={isSelected ? '#325736' : 'currentColor'} />
                         </div>
-                        <p className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">{opt.desc}</p>
+                        <p className={`text-[11px] ${isSelected ? 'text-[#142318] dark:text-[#F7FBFA]' : 'text-[#38483C] dark:text-[#C9DCC9]'}`}>{opt.desc}</p>
                       </button>
                     );
                   })}
@@ -531,144 +570,178 @@ export const BookingPage: React.FC = () => {
               {/* Selection Summary */}
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between py-1 border-b border-[#325736]/10">
-                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Date</span>
+                  <span className="text-[#38483C] dark:text-[#C9DCC9]">Date</span>
                   <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{selectedDate}</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-[#325736]/10">
-                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Time</span>
+                  <span className="text-[#38483C] dark:text-[#C9DCC9]">Time</span>
                   <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{selectedTime}</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-[#325736]/10">
-                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Guests</span>
+                  <span className="text-[#38483C] dark:text-[#C9DCC9]">Guests</span>
                   <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{partySize} Persons</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-[#325736]/10">
-                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Ambience</span>
+                  <span className="text-[#38483C] dark:text-[#C9DCC9]">Ambience</span>
                   <span className="font-bold text-[#142318] dark:text-[#F7FBFA] capitalize">
                     {seatingPreference.replace('_', ' ')}
                   </span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-[#325736]/10">
-                  <span className="text-[#5E8662] dark:text-[#A3C2A5]">Occasion</span>
+                  <span className="text-[#38483C] dark:text-[#C9DCC9]">Occasion</span>
                   <span className="font-bold text-[#142318] dark:text-[#F7FBFA]">{specialOccasion}</span>
                 </div>
               </div>
 
-              {/* Slot Lock Action or Active Countdown Ring */}
-              {!slotLocked ? (
-                <div className="space-y-3">
+              {/* Step indicator */}
+              <div className="flex items-center gap-2 py-1">
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${bookingStep === 'details' ? 'bg-[#325736] text-white' : 'bg-[#EAE0D0] dark:bg-[#101C13] text-[#1F2A22] dark:text-[#F7FBFA]'}`}>
+                  1. Details
+                </span>
+                <span className="text-[#325736] dark:text-[#A3C2A5] font-bold">→</span>
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${bookingStep === 'otp' ? 'bg-[#325736] text-white' : 'bg-[#EAE0D0] dark:bg-[#101C13] text-[#1F2A22] dark:text-[#F7FBFA]'}`}>
+                  2. OTP Verify
+                </span>
+              </div>
+
+              {/* STEP 1: GUEST DETAILS FORM */}
+              {bookingStep === 'details' && (
+                <form onSubmit={handleProceedToOtp} className="space-y-3 pt-1">
+                  <div>
+                    <label htmlFor="res-name" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                      Primary Guest Name *
+                    </label>
+                    <input
+                      id="res-name"
+                      name="guestName"
+                      aria-label="Primary Guest Name"
+                      type="text"
+                      required
+                      value={guestName}
+                      onChange={e => setGuestName(e.target.value)}
+                      placeholder="e.g. Radhika Sharma"
+                      className="w-full rounded-xl border border-[#325736]/30 px-3 py-2.5 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="res-phone" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                      Contact Phone (for WhatsApp confirmation) *
+                    </label>
+                    <input
+                      id="res-phone"
+                      name="guestPhone"
+                      aria-label="Contact Phone"
+                      type="tel"
+                      required
+                      value={guestPhone}
+                      onChange={e => setGuestPhone(e.target.value)}
+                      placeholder="e.g. 98260 12345"
+                      className="w-full rounded-xl border border-[#325736]/30 px-3 py-2.5 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="res-email" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                      Email Address (optional)
+                    </label>
+                    <input
+                      id="res-email"
+                      name="guestEmail"
+                      aria-label="Email Address"
+                      type="email"
+                      value={guestEmail}
+                      onChange={e => setGuestEmail(e.target.value)}
+                      placeholder="e.g. radhika@example.com"
+                      className="w-full rounded-xl border border-[#325736]/30 px-3 py-2.5 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="res-notes" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                      Special Requests (e.g. quiet corner, baby chair)
+                    </label>
+                    <input
+                      id="res-notes"
+                      name="specialRequests"
+                      aria-label="Special Requests"
+                      type="text"
+                      value={specialRequests}
+                      onChange={e => setSpecialRequests(e.target.value)}
+                      placeholder="Any hospitality preferences"
+                      className="w-full rounded-xl border border-[#325736]/30 px-3 py-2.5 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                    />
+                  </div>
+
                   <button
-                    type="button"
-                    onClick={handleLockSlot}
-                    disabled={isLocking}
-                    className="w-full flex items-center justify-center gap-2 rounded-full bg-[#325736] py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-all disabled:opacity-50"
+                    type="submit"
+                    className="w-full min-h-[44px] rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-colors mt-2"
                   >
-                    {isLocking ? (
-                      <>
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                        <span>Holding Table Slot...</span>
-                      </>
-                    ) : (
-                      <>
-                        <MonolineIcon name="clock" size={16} />
-                        <span>Hold Table for 5 Minutes</span>
-                      </>
-                    )}
+                    Proceed to OTP Verification →
                   </button>
-                  <p className="text-[11px] text-center text-[#5E8662] dark:text-[#A3C2A5]">
-                    Holding the table prevents double-booking while you enter guest details.
-                  </p>
-                </div>
-              ) : (
-                /* Slot Locked Countdown Indicator */
-                <div className="p-4 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] border border-[#325736]/30 space-y-3">
-                  <div className="flex items-center justify-between">
+                </form>
+              )}
+
+              {/* STEP 2: OTP VERIFICATION STEP */}
+              {bookingStep === 'otp' && (
+                <div className="space-y-4 pt-1">
+                  {/* Slot countdown indicator */}
+                  <div className="p-3.5 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] border border-[#325736]/30 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="relative flex h-3 w-3">
+                      <span className="relative flex h-2.5 w-2.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                       </span>
                       <span className="text-xs font-bold text-[#325736] dark:text-[#A3C2A5] uppercase tracking-wider">
-                        Slot Reserved for You
+                        Slot Held for You
                       </span>
                     </div>
-                    {/* SVG Countdown Ring */}
-                    <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-[#325736] dark:text-white">
+                    <div className="flex items-center gap-1 font-mono text-xs font-bold text-[#325736] dark:text-white">
                       <span>{Math.floor(secondsRemaining / 60)}:</span>
                       <span>{(secondsRemaining % 60).toString().padStart(2, '0')}</span>
                     </div>
                   </div>
 
-                  {/* Guest Contact Form */}
-                  <form onSubmit={handleConfirmReservation} className="space-y-3 pt-2">
+                  <form onSubmit={handleVerifyOtp} className="space-y-3">
                     <div>
-                      <label htmlFor="res-name" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
-                        Primary Guest Name *
+                      <label htmlFor="otp-input" className="block text-xs font-bold text-[#142318] dark:text-[#F7FBFA] mb-1">
+                        Enter 4-Digit Verification Code *
                       </label>
+                      <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] mb-2">
+                        We simulated an SMS code sent to <strong>+91 {guestPhone}</strong>.<br />
+                        <span className="font-semibold text-[#325736] dark:text-[#A3C2A5]">(Demo OTP: 4129)</span>
+                      </p>
                       <input
-                        id="res-name"
-                        name="guestName"
-                        aria-label="Primary Guest Name"
+                        id="otp-input"
+                        name="otpCode"
+                        aria-label="4-digit OTP code"
                         type="text"
+                        inputMode="numeric"
+                        maxLength={4}
                         required
-                        value={guestName}
-                        onChange={e => setGuestName(e.target.value)}
-                        placeholder="e.g. Radhika Sharma"
-                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="res-phone" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
-                        Contact Phone (for WhatsApp pass) *
-                      </label>
-                      <input
-                        id="res-phone"
-                        name="guestPhone"
-                        aria-label="Contact Phone"
-                        type="tel"
-                        required
-                        value={guestPhone}
-                        onChange={e => setGuestPhone(e.target.value)}
-                        placeholder="e.g. 98260 00000"
-                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="res-email" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
-                        Email Address (optional)
-                      </label>
-                      <input
-                        id="res-email"
-                        name="guestEmail"
-                        aria-label="Email Address"
-                        type="email"
-                        value={guestEmail}
-                        onChange={e => setGuestEmail(e.target.value)}
-                        placeholder="e.g. radhika@example.com"
-                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="res-notes" className="block text-[11px] font-semibold text-[#142318] dark:text-[#F7FBFA] mb-1">
-                        Special Requests (e.g. high chair, quiet corner)
-                      </label>
-                      <input
-                        id="res-notes"
-                        name="specialRequests"
-                        aria-label="Special Requests"
-                        type="text"
-                        value={specialRequests}
-                        onChange={e => setSpecialRequests(e.target.value)}
-                        placeholder="Any special hospitality requirements"
-                        className="w-full rounded-xl border border-[#325736]/30 px-3 py-2 text-xs bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-1 focus:ring-[#325736]"
+                        value={otpCode}
+                        onChange={e => setOtpCode(e.target.value)}
+                        placeholder="4129"
+                        className="w-full text-center tracking-[0.5em] font-mono text-lg font-bold rounded-xl border border-[#325736]/30 px-3 py-2.5 bg-white dark:bg-[#1F3A24] text-[#142318] dark:text-[#F7FBFA] focus:outline-none focus:ring-2 focus:ring-[#325736]"
                       />
                     </div>
 
+                    {otpError && (
+                      <div className="p-2.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 text-xs text-red-600">
+                        {otpError}
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-colors mt-2"
+                      className="w-full min-h-[44px] rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-wider text-[#F7FBFA] shadow-md hover:bg-[#284A2D] transition-colors"
                     >
                       Confirm Reservation Free
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setBookingStep('details')}
+                      className="w-full py-2 text-xs text-[#38483C] dark:text-[#C9DCC9] hover:underline text-center"
+                    >
+                      ← Edit Contact Information
                     </button>
                   </form>
                 </div>
@@ -681,7 +754,7 @@ export const BookingPage: React.FC = () => {
               )}
 
               {/* Policy notes */}
-              <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5] space-y-1">
+              <div className="text-[11px] text-[#38483C] dark:text-[#C9DCC9] space-y-1">
                 <p>• Tables are held for 15 minutes past reservation time before release.</p>
                 <p>• 100% Pure Vegetarian dining environment. Free indoor parking available.</p>
               </div>
@@ -713,7 +786,7 @@ export const BookingPage: React.FC = () => {
                   ✕
                 </button>
               </div>
-              <p className="text-xs text-[#5E8662] dark:text-[#A3C2A5] leading-relaxed">
+              <p className="text-xs text-[#38483C] dark:text-[#C9DCC9] leading-relaxed">
                 For gatherings larger than 12 guests, birthday banquets, or corporate coffee mixers, our dedicated hospitality team curates custom vegetarian tasting menus and private zone arrangements.
               </p>
               <div className="p-4 rounded-2xl bg-[#EEF5EE] dark:bg-[#142318] text-xs space-y-2">
@@ -728,6 +801,11 @@ export const BookingPage: React.FC = () => {
                 </div>
                 <div>
                   <strong>Direct Inquiries:</strong> {BUSINESS_FACTS.phonePlaceholder}
+                </div>
+                <div className="pt-1">
+                  <a href="/contact" className="underline font-bold text-[#325736] dark:text-[#A3C2A5]">
+                    Send Custom Inquiry Message →
+                  </a>
                 </div>
               </div>
               <button

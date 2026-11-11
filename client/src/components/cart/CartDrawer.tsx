@@ -107,7 +107,7 @@ export const CartDrawer: React.FC = () => {
                     <h3 className="font-display uppercase text-base font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
                       Your Cup is Empty
                     </h3>
-                    <p className="mt-1 text-xs text-[#4A5A4E] dark:text-[#C9DCC9] max-w-xs">
+                    <p className="mt-1 text-xs text-[#38483C] dark:text-[#C9DCC9] max-w-xs">
                       Explore our handcrafted coffees, artisan pizzas, and cold brews to begin.
                     </p>
                     <Link
@@ -138,7 +138,7 @@ export const CartDrawer: React.FC = () => {
                                 {item.menuItem.name}
                               </h3>
                               {item.selectedCustomizations.length > 0 && (
-                                <p className="text-[11px] text-[#4A5A4E] dark:text-[#C9DCC9]">
+                                <p className="text-[11px] text-[#38483C] dark:text-[#C9DCC9]">
                                   {item.selectedCustomizations.map(c => c.selectedOptionName).join(', ')}
                                 </p>
                               )}
@@ -227,7 +227,7 @@ export const CartDrawer: React.FC = () => {
 
                   {/* Tip Selection */}
                   <div>
-                    <span className="text-[11px] uppercase tracking-wider font-semibold text-[#4A5A4E] dark:text-[#C9DCC9]">
+                    <span className="text-[11px] uppercase tracking-wider font-semibold text-[#38483C] dark:text-[#C9DCC9]">
                       Tip Our Baristas &amp; Kitchen
                     </span>
                     <div className="flex gap-2 mt-1.5">
@@ -250,11 +250,11 @@ export const CartDrawer: React.FC = () => {
 
                   {/* Breakdown Table */}
                   <div className="space-y-1.5 text-xs border-t border-[#E0D2B8] dark:border-[#284A2D] pt-3">
-                    <div className="flex justify-between text-[#4A5A4E] dark:text-[#C9DCC9]">
+                    <div className="flex justify-between text-[#38483C] dark:text-[#C9DCC9]">
                       <span>Item Subtotal</span>
                       <span className="tabular-nums">₹{subtotal}</span>
                     </div>
-                    <div className="flex justify-between text-[#4A5A4E] dark:text-[#C9DCC9]">
+                    <div className="flex justify-between text-[#38483C] dark:text-[#C9DCC9]">
                       <span>5% Restaurant GST</span>
                       <span className="tabular-nums">₹{gst}</span>
                     </div>

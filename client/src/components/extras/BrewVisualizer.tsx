@@ -65,13 +65,13 @@ export const BrewVisualizer: React.FC = () => {
       <div className="bg-[#EEF5EE] dark:bg-[#142318] rounded-3xl p-6 md:p-12 border border-[#325736]/20 shadow-xl">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+          <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
             Artisanal Laboratory
           </span>
           <h2 className="font-display text-2xl md:text-4xl uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] mt-1">
             Craft Your Bespoke Brew
           </h2>
-          <p className="text-xs md:text-sm text-[#5E8662] dark:text-[#A3C2A5] mt-2">
+          <p className="text-xs md:text-sm text-[#38483C] dark:text-[#A3C2A5] mt-2">
             Tailor bean origin, non-dairy plant milks, and botanicals. Our master baristas will brew it fresh on your arrival.
           </p>
         </div>
@@ -114,7 +114,7 @@ export const BrewVisualizer: React.FC = () => {
                   }}
                   className="w-full transition-colors flex items-center justify-center"
                 >
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-[#325736]/60">
+                  <span className="text-[9px] uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#F7FBFA]">
                     {selectedBase.name.split(' ')[0]}
                   </span>
                 </motion.div>
@@ -200,7 +200,7 @@ export const BrewVisualizer: React.FC = () => {
                       <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
                         {roast.name}
                       </div>
-                      <div className="text-[11px] text-[#5E8662] dark:text-[#A3C2A5]">{roast.notes}</div>
+                      <div className="text-[11px] text-[#38483C] dark:text-[#A3C2A5]">{roast.notes}</div>
                     </div>
                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: roast.color }} />
                   </button>
@@ -226,7 +226,7 @@ export const BrewVisualizer: React.FC = () => {
                     }`}
                   >
                     <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">{b.name}</div>
-                    <div className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">
+                    <div className="text-[10px] text-[#38483C] dark:text-[#A3C2A5]">
                       {b.price === 0 ? 'Included' : `+₹${b.price}`}
                     </div>
                   </button>
@@ -252,7 +252,7 @@ export const BrewVisualizer: React.FC = () => {
                     }`}
                   >
                     <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA] line-clamp-1">{f.name}</div>
-                    <div className="text-[10px] text-[#5E8662] dark:text-[#A3C2A5]">
+                    <div className="text-[10px] text-[#38483C] dark:text-[#A3C2A5]">
                       {f.price === 0 ? 'Pure' : `+₹${f.price}`}
                     </div>
                   </button>

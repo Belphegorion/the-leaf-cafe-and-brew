@@ -47,7 +47,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <h1 className="font-display text-2xl uppercase tracking-wider font-bold mb-2">
               {this.props.fallbackTitle || 'A Gentle Pause in the Sanctuary'}
             </h1>
-            <p className="text-xs text-[#4A5A4E] dark:text-[#C9DCC9] mb-6 leading-relaxed">
+            <p className="text-xs text-[#38483C] dark:text-[#C9DCC9] mb-6 leading-relaxed">
               {this.props.fallbackMessage ||
                 'Something unexpected occurred while crafting this page. Refreshing will restore our serene cafe experience.'}
             </p>

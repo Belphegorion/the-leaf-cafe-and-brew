@@ -69,13 +69,13 @@ export const MenuPage: React.FC = () => {
     <main id="main-content" className="pt-24 pb-24 min-h-[100dvh]">
       {/* Header Banner */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center pt-8 pb-6">
-        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#5E8662] dark:text-[#A3C2A5]">
+        <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
           100% Pure Vegetarian · Arera Colony, Bhopal
         </span>
         <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-wider font-bold text-[#1F2A22] dark:text-[#EDE3D1] mt-1">
           THE ARTISANAL MENU
         </h1>
-        <p className="mt-2 text-sm text-[#4A5A4E] dark:text-[#C9DCC9] max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="mt-2 text-sm text-[#38483C] dark:text-[#C9DCC9] max-w-2xl mx-auto font-light leading-relaxed">
           From single-origin pour-overs and 18-hour cold brews to hand-tossed peri peri paneer pizzas and decadent Belgian brownie shakes.
         </p>
 
@@ -116,7 +116,7 @@ export const MenuPage: React.FC = () => {
             <h2 className="font-display uppercase text-lg font-bold text-[#1F2A22] dark:text-[#EDE3D1]">
               No Creations Match Your Filter
             </h2>
-            <p className="mt-1 text-xs text-[#4A5A4E] dark:text-[#C9DCC9]">
+            <p className="mt-1 text-xs text-[#38483C] dark:text-[#C9DCC9]">
               Try adjusting your search query or dietary filters.
             </p>
             <button
