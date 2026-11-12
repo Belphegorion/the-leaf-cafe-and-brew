@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
     <button
       type="button"
       onClick={toggleTheme}
-      className={`relative inline-flex min-h-[44px] min-w-[44px] h-11 w-11 items-center justify-center rounded-full border border-[#E0D2B8] bg-white text-[#325736] shadow-sm backdrop-blur-md transition-colors hover:border-[#325736] hover:bg-[#F5EFE4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] active:scale-95 dark:border-[#284A2D] dark:bg-[#1F3A24] dark:text-[#A3C2A5] dark:hover:bg-[#284A2D] dark:focus-visible:ring-[#A3C2A5] ${className}`}
+      className={`relative inline-flex min-h-[44px] min-w-[44px] h-11 w-11 items-center justify-center rounded-full border border-[#E0D2B8] bg-white text-[#325736] shadow-sm backdrop-blur-md transition-colors hover:border-[#325736] hover:bg-[#F5EFE4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] touch-press active:scale-95 dark:border-[#284A2D] dark:bg-[#1F3A24] dark:text-[#A3C2A5] dark:hover:bg-[#284A2D] dark:focus-visible:ring-[#A3C2A5] ${className}`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Current: ${theme} mode (Click to toggle)`}
     >

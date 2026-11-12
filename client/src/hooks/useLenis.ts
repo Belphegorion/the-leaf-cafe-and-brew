@@ -11,11 +11,14 @@ export const useLenis = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: isTouch ? 0.8 : 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // exponential ease-out
       smoothWheel: true,
-      touchMultiplier: 1.2,
+      syncTouch: false,
+      touchMultiplier: 1, // Do not accelerate or hijack native inertial touch scrolling
     });
 
     // Expose lenis for programmatic control and testing

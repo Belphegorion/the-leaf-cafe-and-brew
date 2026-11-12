@@ -162,18 +162,18 @@ export const Navbar: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="inline-flex md:hidden min-h-[44px] min-w-[44px] h-11 w-11 items-center justify-center rounded-full border border-[#E0D2B8] bg-white text-[#325736] shadow-sm transition-colors hover:border-[#325736] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:border-[#284A2D] dark:bg-[#1F3A24] dark:text-[#EDE3D1]"
+                className="inline-flex md:hidden min-h-[44px] min-w-[44px] h-11 w-11 items-center justify-center rounded-full border border-[#E0D2B8] bg-white text-[#325736] shadow-sm transition-colors hover:border-[#325736] touch-press active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] dark:border-[#284A2D] dark:bg-[#1F3A24] dark:text-[#EDE3D1]"
                 aria-expanded={isMobileMenuOpen}
                 aria-label="Toggle navigation menu"
               >
                 <div className="relative h-4 w-4">
                   <span
-                    className={`absolute left-0 top-1 h-[2px] w-4 bg-current transition-all duration-300 ${
+                    className={`absolute left-0 top-1 h-[2px] w-4 bg-current transition-all duration-200 ${
                       isMobileMenuOpen ? 'top-2 rotate-45' : ''
                     }`}
                   />
                   <span
-                    className={`absolute left-0 top-3 h-[2px] w-4 bg-current transition-all duration-300 ${
+                    className={`absolute left-0 top-3 h-[2px] w-4 bg-current transition-all duration-200 ${
                       isMobileMenuOpen ? 'top-2 -rotate-45' : ''
                     }`}
                   />
@@ -191,28 +191,28 @@ export const Navbar: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-30 flex flex-col justify-between bg-[#F5EFE4]/98 dark:bg-[#101C13]/98 px-6 pt-28 pb-10 backdrop-blur-2xl md:hidden"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-30 flex flex-col justify-between bg-[#F5EFE4]/98 dark:bg-[#101C13]/98 px-6 pt-28 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] backdrop-blur-2xl md:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation Menu"
           >
             {/* Nav links */}
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4 overflow-y-auto">
               <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#38483C] dark:text-[#A3C2A5]">
                 Explore The Leaf
               </span>
               {navLinks.map((link, idx) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, x: -25 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.04 * idx, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.03 * idx, duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <Link
                     to={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="min-h-[44px] flex items-center font-display text-2xl uppercase tracking-wider font-bold text-[#1F2A22] hover:text-[#325736] dark:text-[#EDE3D1] dark:hover:text-[#A3C2A5]"
+                    className="min-h-[44px] flex items-center font-display text-2xl uppercase tracking-wider font-bold text-[#1F2A22] hover:text-[#325736] dark:text-[#EDE3D1] dark:hover:text-[#A3C2A5] touch-press active:scale-[0.98]"
                   >
                     {link.label}
                   </Link>
@@ -221,11 +221,11 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Quick Action in Mobile Menu */}
-            <div className="pt-6 border-t border-[#E0D2B8] dark:border-[#284A2D] flex flex-col gap-3">
+            <div className="pt-5 border-t border-[#E0D2B8] dark:border-[#284A2D] flex flex-col gap-3 shrink-0">
               <Link
                 to="/book"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="min-h-[44px] flex items-center justify-center rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-widest text-white shadow-md active:scale-95"
+                className="min-h-[44px] flex items-center justify-center rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-widest text-white shadow-md touch-press active:scale-95"
               >
                 Reserve a Table
               </Link>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { hasFinePointer } from '../../motion';
 
 interface GalleryImage {
   id: string;
@@ -42,6 +43,11 @@ const GALLERY_PHOTOS: GalleryImage[] = [
 
 export const AmbienceGallery: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryImage | null>(null);
+  const [isFine, setIsFine] = useState(false);
+
+  useEffect(() => {
+    setIsFine(hasFinePointer());
+  }, []);
 
   useEffect(() => {
     if (!selectedPhoto) return;
@@ -72,23 +78,24 @@ export const AmbienceGallery: React.FC = () => {
           {GALLERY_PHOTOS.map((item, idx) => (
             <motion.div
               key={item.id}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
+              whileHover={isFine ? { y: -6 } : undefined}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
               onClick={() => setSelectedPhoto(item)}
               className={`group relative cursor-pointer overflow-hidden ${item.aspect} ${
                 idx % 2 === 0 ? 'arch-mask' : 'rounded-3xl'
-              } border border-[#325736]/20 bg-[#284A2D] shadow-lg`}
+              } border border-[#325736]/20 bg-[#284A2D] shadow-lg touch-press`}
               data-cursor="View"
             >
               <img
                 src={item.src}
                 alt={item.title}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="h-full w-full object-cover transition-transform duration-500 md:group-hover:scale-105"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#142318]/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#142318]/90 via-black/20 to-transparent opacity-80 sm:opacity-0 transition-opacity duration-300 sm:group-hover:opacity-100" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-white transform translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-white transform translate-y-0 sm:translate-y-4 opacity-100 sm:opacity-0 transition-all duration-300 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
                 <p className="text-xs font-bold uppercase tracking-wider text-[#A3C2A5]">
                   {item.title}
                 </p>
@@ -129,7 +136,7 @@ export const AmbienceGallery: React.FC = () => {
               <img
                 src={selectedPhoto.src}
                 alt={selectedPhoto.title}
-                className="max-h-[75vh] w-auto rounded-2xl object-contain shadow-2xl border border-white/10"
+                className="max-h-[75dvh] w-auto rounded-2xl object-contain shadow-2xl border border-white/10"
               />
               <div className="mt-4 text-center text-white">
                 <h3 className="font-display text-xl uppercase tracking-wider font-bold">

@@ -6,6 +6,7 @@ import { MonolineIcon } from '../components/brand/MonolineIcon';
 import { TheLeafMark } from '../components/brand/TheLeafMark';
 import { BUSINESS_FACTS } from '../../../shared/constants';
 import type { Order, OrderStatus } from '../../../shared/types';
+import { usePrefersReducedMotion } from '../motion';
 
 const STAGES: { status: OrderStatus; title: string; subtitle: string; fillPercent: number }[] = [
   {
@@ -41,6 +42,7 @@ export const OrderTrackerPage: React.FC = () => {
   const [hasArrived, setHasArrived] = useState(false);
   const [arrivedNotified, setArrivedNotified] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
+  const prefersReduced = usePrefersReducedMotion();
 
   // Fetch initial order details with offline fallback
   useEffect(() => {
@@ -239,16 +241,21 @@ export const OrderTrackerPage: React.FC = () => {
                 {[0, 1, 2].map(i => (
                   <motion.div
                     key={i}
-                    animate={{
-                      y: [-4, -18, -4],
-                      opacity: [0.3, 0.8, 0],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: i * 0.4,
-                      ease: 'easeInOut',
-                    }}
+                    animate={
+                      prefersReduced
+                        ? { y: -8, opacity: 0.5 }
+                        : { y: [-4, -18, -4], opacity: [0.3, 0.8, 0] }
+                    }
+                    transition={
+                      prefersReduced
+                        ? { duration: 0 }
+                        : {
+                            duration: 2,
+                            repeat: Infinity,
+                            delay: i * 0.4,
+                            ease: 'easeInOut',
+                          }
+                    }
                     className="w-1.5 h-6 rounded-full bg-[#5E8662]/40"
                   />
                 ))}

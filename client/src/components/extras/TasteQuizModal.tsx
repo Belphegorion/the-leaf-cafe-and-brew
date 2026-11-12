@@ -126,21 +126,27 @@ export const TasteQuizModal: React.FC<{ isOpen: boolean; onClose: () => void }> 
     <AnimatePresence>
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="taste-quiz-title"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="max-w-lg w-full bg-[#F5EFE4] dark:bg-[#1A261D] p-6 md:p-8 rounded-3xl border border-[#E0D2B8] dark:border-[#325736]/30 shadow-2xl relative text-[#1F2A22] dark:text-[#F7FBFA]"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+            className="max-w-lg w-full max-h-[90dvh] overflow-y-auto bg-[#F5EFE4] dark:bg-[#1A261D] p-6 md:p-8 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] rounded-t-3xl sm:rounded-3xl border border-[#E0D2B8] dark:border-[#325736]/30 shadow-2xl relative text-[#1F2A22] dark:text-[#F7FBFA]"
           >
+            {/* Grab handle for mobile */}
+            <div className="sm:hidden -mt-2 mb-4 flex justify-center">
+              <div className="w-12 h-1.5 rounded-full bg-[#325736]/20 dark:bg-[#A3C2A5]/30" />
+            </div>
+
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-5 right-5 w-11 h-11 min-h-[44px] min-w-[44px] rounded-full flex items-center justify-center text-[#1F2A22]/70 dark:text-[#F7FBFA]/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-11 h-11 min-h-[44px] min-w-[44px] rounded-full flex items-center justify-center text-[#1F2A22]/70 dark:text-[#F7FBFA]/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               aria-label="Close quiz"
             >
               ✕

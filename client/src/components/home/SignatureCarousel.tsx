@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { MonolineIcon } from '../brand/MonolineIcon';
 import { useCartStore } from '../../stores/useCartStore';
+import { hasFinePointer, usePrefersReducedMotion } from '../../motion';
 import type { MenuItem } from '../../../../shared/types';
 
 export const SIGNATURE_ITEMS: MenuItem[] = [
@@ -111,6 +112,12 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
   const addItem = useCartStore(state => state.addItem);
   const openCart = useCartStore(state => state.openDrawer);
   const [added, setAdded] = useState(false);
+  const prefersReduced = usePrefersReducedMotion();
+  const [isFine, setIsFine] = useState(false);
+
+  useEffect(() => {
+    setIsFine(hasFinePointer());
+  }, []);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -122,10 +129,7 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (typeof window !== 'undefined' && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      return;
-    }
-    if (!cardRef.current) return;
+    if (!isFine || prefersReduced || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
@@ -159,11 +163,11 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d',
+        rotateX: isFine && !prefersReduced ? rotateX : undefined,
+        rotateY: isFine && !prefersReduced ? rotateY : undefined,
+        transformStyle: isFine && !prefersReduced ? 'preserve-3d' : undefined,
       }}
-      className="double-bezel-shell w-[300px] sm:w-[340px] shrink-0 cursor-grab active:cursor-grabbing select-none"
+      className="double-bezel-shell w-[80vw] sm:w-[320px] md:w-[340px] shrink-0 snap-start select-none cursor-grab active:cursor-grabbing touch-press active:scale-[0.98]"
     >
       <div className="double-bezel-core p-4 flex flex-col h-full bg-white dark:bg-[#1F3A24]">
         {/* Card Image */}
@@ -171,7 +175,7 @@ const TiltCard: React.FC<{ item: MenuItem }> = ({ item }) => {
           <img
             src={item.image}
             alt={item.name}
-            className="h-full w-full object-cover transition-transform duration-500 hover:scale-110 pointer-events-none"
+            className="h-full w-full object-cover transition-transform duration-500 md:hover:scale-105 pointer-events-none"
             loading="lazy"
           />
           {/* Badge */}
@@ -262,8 +266,8 @@ export const SignatureCarousel: React.FC = () => {
         </div>
       </div>
 
-      {/* Horizontal Carousel Track */}
-      <div className="flex gap-6 overflow-x-auto px-4 sm:px-8 lg:px-12 pb-6 pt-2 no-scrollbar scroll-smooth">
+      {/* Horizontal Carousel Track with snap-mandatory on mobile */}
+      <div className="flex gap-4 sm:gap-6 overflow-x-auto px-4 sm:px-8 lg:px-12 pb-6 pt-2 no-scrollbar scroll-smooth snap-x snap-mandatory touch-pan-x">
         {SIGNATURE_ITEMS.map(item => (
           <TiltCard key={item.id} item={item} />
         ))}

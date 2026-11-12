@@ -67,38 +67,86 @@ export const StoryScrollSection: React.FC = () => {
       return;
     }
 
-    const ctx = gsap.context(() => {
-      // 1. Entrance animation when scroll begins ("when the scroll begun")
-      // Right side (mug & 3 points) glides in from right; Left side (image) glides in from left
-      gsap.fromTo(
-        rightCol,
-        { opacity: 0, x: 60 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
-      gsap.fromTo(
-        leftCol,
-        { opacity: 0, x: -60 },
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
         {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
+          isDesktop: '(min-width: 768px)',
+          isMobile: '(max-width: 767px)',
+        },
+        context => {
+          const { isDesktop } = context.conditions as { isDesktop: boolean; isMobile: boolean };
+
+          if (isDesktop) {
+            // Desktop entrance: refined horizontal glide
+            gsap.fromTo(
+              rightCol,
+              { opacity: 0, x: 48 },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 80%',
+                  toggleActions: 'play none none none',
+                },
+              }
+            );
+
+            gsap.fromTo(
+              leftCol,
+              { opacity: 0, x: -48 },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 80%',
+                  toggleActions: 'play none none none',
+                },
+              }
+            );
+          } else {
+            // Mobile entrance: subtle vertical reveal without horizontal overflow risk
+            gsap.fromTo(
+              leftCol,
+              { opacity: 0, y: 20 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.45,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 85%',
+                  toggleActions: 'play none none none',
+                },
+              }
+            );
+
+            gsap.fromTo(
+              rightCol,
+              { opacity: 0, y: 20 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.45,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 80%',
+                  toggleActions: 'play none none none',
+                },
+              }
+            );
+          }
         }
       );
 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../../stores/useCartStore';
 import { MonolineIcon } from '../brand/MonolineIcon';
+import { useIsMobile, responsiveDrawerVariants } from '../../motion';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -24,6 +25,7 @@ export const CartDrawer: React.FC = () => {
 
   const [couponInput, setCouponInput] = useState('');
   const [couponStatus, setCouponStatus] = useState<string | null>(null);
+  const isMobile = useIsMobile(640);
 
   const subtotal = getSubtotal();
   const gst = getGst();
@@ -71,14 +73,22 @@ export const CartDrawer: React.FC = () => {
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
           />
 
-          <div className="fixed inset-y-0 right-0 flex max-w-full pl-6 sm:pl-10">
+          <div className="fixed inset-x-0 bottom-0 sm:inset-y-0 sm:right-0 sm:left-auto flex max-w-full sm:pl-10 justify-end">
             <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="w-screen max-w-md bg-[#F5EFE4] text-[#1F2A22] dark:bg-[#101C13] dark:text-[#EDE3D1] shadow-2xl flex flex-col"
+              custom={isMobile}
+              variants={responsiveDrawerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="w-full sm:w-screen sm:max-w-md max-h-[88dvh] sm:max-h-full rounded-t-3xl sm:rounded-none bg-[#F5EFE4] text-[#1F2A22] dark:bg-[#101C13] dark:text-[#EDE3D1] shadow-2xl flex flex-col"
             >
+              {/* Mobile grab handle pill */}
+              {isMobile && (
+                <div className="pt-3 pb-1 flex justify-center shrink-0">
+                  <div className="w-12 h-1.5 rounded-full bg-[#325736]/20 dark:bg-[#A3C2A5]/30" />
+                </div>
+              )}
+
               {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-[#E0D2B8] dark:border-[#284A2D] px-6 py-4">
                 <div className="flex items-center gap-2">
@@ -190,7 +200,7 @@ export const CartDrawer: React.FC = () => {
 
               {/* Drawer Footer & Checkout Calculations */}
               {items.length > 0 && (
-                <div className="border-t border-[#E0D2B8] dark:border-[#284A2D] p-6 bg-white dark:bg-[#142318] space-y-4">
+                <div className="border-t border-[#E0D2B8] dark:border-[#284A2D] p-5 sm:p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] bg-white dark:bg-[#142318] space-y-4">
                   {/* Coupon Code Section */}
                   <div>
                     {couponCode ? (

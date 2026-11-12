@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { MonolineIcon } from '../brand/MonolineIcon';
 import { TheLeafMark } from '../brand/TheLeafMark';
 import { useCartStore } from '../../stores/useCartStore';
+import { usePrefersReducedMotion } from '../../motion';
 
 const ROASTS = [
   { id: 'chikmagalur', name: 'Chikmagalur Medium Roast', notes: 'Caramel & chocolate notes', color: '#4A2E18' },
@@ -33,6 +34,7 @@ export const BrewVisualizer: React.FC = () => {
   const [addedNotice, setAddedNotice] = useState(false);
 
   const { addItem } = useCartStore();
+  const prefersReduced = usePrefersReducedMotion();
 
   const basePrice = 240;
   const totalPrice = basePrice + selectedBase.price + selectedFlavour.price;
@@ -86,8 +88,16 @@ export const BrewVisualizer: React.FC = () => {
                   {[0, 1, 2].map(i => (
                     <motion.div
                       key={i}
-                      animate={{ y: [-4, -16, -4], opacity: [0.3, 0.8, 0] }}
-                      transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.3 }}
+                      animate={
+                        prefersReduced
+                          ? { y: -8, opacity: 0.5 }
+                          : { y: [-4, -16, -4], opacity: [0.3, 0.8, 0] }
+                      }
+                      transition={
+                        prefersReduced
+                          ? { duration: 0 }
+                          : { duration: 1.8, repeat: Infinity, delay: i * 0.3 }
+                      }
                       className="w-1.5 h-6 rounded-full bg-[#5E8662]/50"
                     />
                   ))}
@@ -245,7 +255,7 @@ export const BrewVisualizer: React.FC = () => {
                     key={f.id}
                     type="button"
                     onClick={() => setSelectedFlavour(f)}
-                    className={`p-3 rounded-2xl border text-left transition-all ${
+                    className={`min-h-[44px] p-3 rounded-2xl border text-left transition-all touch-press active:scale-[0.98] ${
                       selectedFlavour.id === f.id
                         ? 'border-[#325736] bg-white dark:bg-[#1F3A24] ring-1 ring-[#325736]'
                         : 'border-[#325736]/15 hover:border-[#325736]/40'
@@ -265,7 +275,7 @@ export const BrewVisualizer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="w-full flex items-center justify-center gap-2 rounded-full bg-[#325736] py-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#F7FBFA] shadow-lg hover:bg-[#284A2D] transition-all"
+                className="w-full min-h-[44px] flex items-center justify-center gap-2 rounded-full bg-[#325736] py-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#F7FBFA] shadow-lg hover:bg-[#284A2D] touch-press active:scale-[0.98] transition-all"
               >
                 <MonolineIcon name="cup" size={16} />
                 <span>Add Bespoke Brew to Cart (₹{totalPrice})</span>

@@ -23,7 +23,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
         <div
           role="tablist"
           aria-label="Menu categories"
-          className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1"
+          className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth touch-pan-x py-1"
         >
           {allTabs.map(tab => {
             const isSelected = activeCategory === tab.id;
@@ -35,7 +35,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 aria-selected={isSelected}
                 type="button"
                 onClick={() => onSelectCategory(tab.id)}
-                className={`relative shrink-0 min-h-[44px] inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
+                className={`relative shrink-0 min-h-[44px] inline-flex items-center justify-center rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 touch-press active:scale-[0.98] ${
                   isSelected
                     ? 'text-white'
                     : 'text-[#38483C] dark:text-[#C9DCC9] hover:text-[#325736] dark:hover:text-[#A3C2A5]'

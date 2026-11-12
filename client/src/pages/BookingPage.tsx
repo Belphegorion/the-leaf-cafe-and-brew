@@ -401,7 +401,7 @@ export const BookingPage: React.FC = () => {
                   </label>
                   <span className="text-[11px] text-[#38483C] dark:text-[#C9DCC9]">Next 14 Days</span>
                 </div>
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none touch-pan-x">
                   {days.map(d => {
                     const isSelected = selectedDate === d.dateStr;
                     return (
@@ -412,7 +412,7 @@ export const BookingPage: React.FC = () => {
                           setSelectedDate(d.dateStr);
                           setSlotLocked(false);
                         }}
-                        className={`shrink-0 w-16 py-3 min-h-[44px] rounded-2xl flex flex-col items-center justify-center transition-all ${
+                        className={`shrink-0 w-16 py-3 min-h-[44px] rounded-2xl flex flex-col items-center justify-center transition-all touch-press active:scale-95 ${
                           isSelected
                             ? 'bg-[#325736] text-white shadow-md ring-2 ring-[#325736]'
                             : 'border border-[#E0D2B8] hover:border-[#325736] text-[#1F2A22] dark:text-[#EDE3D1] bg-[#FBF8F2] dark:bg-[#101C13]'
@@ -443,7 +443,7 @@ export const BookingPage: React.FC = () => {
                           setSelectedTime(s.time);
                           setSlotLocked(false);
                         }}
-                        className={`min-h-[44px] py-2 px-3 rounded-xl text-center text-xs font-semibold transition-all ${
+                        className={`min-h-[44px] py-2 px-3 rounded-xl text-center text-xs font-semibold transition-all touch-press active:scale-95 ${
                           isSelected
                             ? 'bg-[#325736] text-white shadow-sm'
                             : 'border border-[#E0D2B8] hover:border-[#325736] text-[#1F2A22] dark:text-[#EDE3D1] bg-[#FBF8F2] dark:bg-[#101C13]'

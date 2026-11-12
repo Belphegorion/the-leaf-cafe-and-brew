@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useInView } from 'motion/react';
 
+import { usePrefersReducedMotion, useIsMobile } from '../../motion';
+
 interface CounterItemProps {
   label: string;
   value: number;
@@ -17,14 +19,21 @@ const AnimatedCounter: React.FC<CounterItemProps> = ({
   sublabel,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const isInView = useInView(ref, { once: true, margin: '0px 0px -20px 0px' });
   const [displayValue, setDisplayValue] = useState(0);
+  const prefersReduced = usePrefersReducedMotion();
+  const isMobile = useIsMobile(640);
 
   useEffect(() => {
     if (!isInView) return;
 
+    if (prefersReduced) {
+      setDisplayValue(value);
+      return;
+    }
+
     let start = 0;
-    const duration = 1600; // ms
+    const duration = isMobile ? 850 : 1400; // ms (mobile-optimized budget)
     const startTime = performance.now();
 
     const updateCounter = (currentTime: number) => {
@@ -42,7 +51,7 @@ const AnimatedCounter: React.FC<CounterItemProps> = ({
     };
 
     requestAnimationFrame(updateCounter);
-  }, [isInView, value]);
+  }, [isInView, value, prefersReduced, isMobile]);
 
   return (
     <div ref={ref} className="flex flex-col items-center text-center p-6 sm:p-8">

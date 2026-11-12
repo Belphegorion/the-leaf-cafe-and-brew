@@ -1,3 +1,6 @@
+import React from 'react';
+import type { Variants } from 'motion/react';
+
 /**
  * The Leaf – Unified Motion System
  *
@@ -28,7 +31,65 @@ export const motionTokens = {
     gentle: { type: 'spring' as const, stiffness: 260, damping: 24 },
     bouncy: { type: 'spring' as const, stiffness: 450, damping: 18 },
     modal: { type: 'spring' as const, stiffness: 300, damping: 30 },
+    bottomSheet: { type: 'spring' as const, stiffness: 320, damping: 28 },
+    mobilePress: { type: 'spring' as const, stiffness: 500, damping: 30 },
   },
+  mobile: {
+    durations: {
+      feedback: 0.1,    // 100ms
+      ui: 0.2,          // 200ms (mobile budget is <= 250ms)
+      reveal: 0.35,     // 350ms
+    },
+    springs: {
+      settle: { type: 'spring' as const, stiffness: 380, damping: 28 },
+      sheet: { type: 'spring' as const, stiffness: 300, damping: 28 },
+      tap: { type: 'spring' as const, stiffness: 500, damping: 32 },
+    },
+  },
+};
+
+/**
+ * Hook to detect mobile viewport (< 768px)
+ */
+export const useIsMobile = (breakpoint: number = 768): boolean => {
+  const [isMobile, setIsMobile] = React.useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < breakpoint;
+  });
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const media = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    setIsMobile(media.matches);
+
+    const listener = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, [breakpoint]);
+
+  return isMobile;
+};
+
+/**
+ * Hook to detect reduced motion preference
+ */
+export const usePrefersReducedMotion = (): boolean => {
+  const [reduced, setReduced] = React.useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(media.matches);
+
+    const listener = (e: MediaQueryListEvent) => setReduced(e.matches);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, []);
+
+  return reduced;
 };
 
 /**
@@ -64,7 +125,7 @@ export const triggerHaptic = (type: 'light' | 'medium' | 'success' = 'light') =>
         navigator.vibrate([30, 40, 50]);
         break;
     }
-  } catch (e) {
+  } catch {
     // Ignore unsupported browser errors
   }
 };
@@ -73,12 +134,12 @@ export const triggerHaptic = (type: 'light' | 'medium' | 'success' = 'light') =>
  * Reusable Framer Motion Variants
  */
 export const fadeInUpVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.45,
+      duration: 0.35,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -89,8 +150,8 @@ export const staggerContainerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
+      staggerChildren: 0.04,
+      delayChildren: 0.02,
     },
   },
 };
@@ -100,7 +161,7 @@ export const lineMaskRevealVariants = {
   visible: {
     y: 0,
     transition: {
-      duration: 0.75,
+      duration: 0.5,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -116,7 +177,7 @@ export const popoverVariants = {
   exit: {
     opacity: 0,
     scale: 0.95,
-    transition: { duration: 0.2, ease: 'easeOut' },
+    transition: { duration: 0.18, ease: 'easeOut' },
   },
 };
 
@@ -128,12 +189,39 @@ export const drawerVariants = {
   },
   exit: {
     x: '100%',
-    transition: { duration: 0.25, ease: 'easeIn' },
+    transition: { duration: 0.22, ease: 'easeIn' },
   },
 };
 
-export const buttonPressProps = {
-  whileHover: { scale: 1.02 },
-  whileTap: { scale: 0.97 },
-  transition: { type: 'spring', stiffness: 450, damping: 25 },
+/**
+ * Mobile-Adaptive Drawer Variants:
+ * Slides up from bottom (y: 100%) on mobile as a bottom sheet,
+ * and slides from right (x: 100%) on desktop.
+ */
+export const responsiveDrawerVariants: Variants = {
+  hidden: (isMobile: boolean) => ({
+    x: isMobile ? 0 : '100%',
+    y: isMobile ? '100%' : 0,
+  }),
+  visible: {
+    x: 0,
+    y: 0,
+    transition: motionTokens.springs.bottomSheet,
+  },
+  exit: (isMobile: boolean) => ({
+    x: isMobile ? 0 : '100%',
+    y: isMobile ? '100%' : 0,
+    transition: { duration: 0.22, ease: [0.32, 0.72, 0, 1] as const },
+  }),
 };
+
+export const buttonPressProps = {
+  whileTap: { scale: 0.97 },
+  transition: motionTokens.mobile.springs.tap,
+};
+
+export const getButtonPressProps = (finePointer: boolean = false) => ({
+  whileHover: finePointer ? { scale: 1.02 } : undefined,
+  whileTap: { scale: 0.97 },
+  transition: { type: 'spring' as const, stiffness: 450, damping: 25 },
+});

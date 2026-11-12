@@ -113,8 +113,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             initial={{ y: '100%', opacity: 0.5 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
-            transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-[#F5EFE4] dark:bg-[#1A261D] text-[#1F2A22] dark:text-[#F7FBFA] shadow-2xl border border-[#E0D2B8] dark:border-[#325736]/30 overflow-hidden flex flex-col max-h-[90vh]"
+            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+            className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-[#F5EFE4] dark:bg-[#1A261D] text-[#1F2A22] dark:text-[#F7FBFA] shadow-2xl border border-[#E0D2B8] dark:border-[#325736]/30 overflow-hidden flex flex-col max-h-[90dvh]"
           >
             {/* Header Image */}
             <div className="relative h-48 w-full bg-[#142318] shrink-0 dark">
@@ -204,13 +204,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             </div>
 
             {/* Bottom Sticky Action Bar */}
-            <div className="border-t border-[#E0D2B8] dark:border-[#325736]/30 p-4 sm:p-6 bg-[#F5EFE4] dark:bg-[#1A261D] flex items-center justify-between gap-4 shrink-0">
+            <div className="border-t border-[#E0D2B8] dark:border-[#325736]/30 p-4 sm:p-6 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] bg-[#F5EFE4] dark:bg-[#1A261D] flex items-center justify-between gap-4 shrink-0">
               {/* Stepper */}
               <div className="flex items-center rounded-full border border-[#325736]/30 bg-white/70 dark:bg-[#142318] px-1 text-sm gap-1">
                 <button
                   type="button"
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                  className="font-bold text-base min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736]"
+                  className="font-bold text-base min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736] touch-press active:scale-95"
                   aria-label="Decrease quantity"
                 >
                   -
@@ -219,7 +219,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setQuantity(q => q + 1)}
-                  className="font-bold text-base min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736]"
+                  className="font-bold text-base min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-[#325736] touch-press active:scale-95"
                   aria-label="Increase quantity"
                 >
                   +
@@ -230,7 +230,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="flex-1 min-h-[44px] flex items-center justify-center gap-2 rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-lg hover:bg-[#284A2D] transition-colors dark:bg-[#325736] dark:hover:bg-[#284A2D]"
+                className="flex-1 min-h-[44px] flex items-center justify-center gap-2 rounded-full bg-[#325736] py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-lg hover:bg-[#284A2D] transition-colors dark:bg-[#325736] dark:hover:bg-[#284A2D] touch-press active:scale-[0.98]"
               >
                 <span>Add to Order</span>
                 <span>·</span>

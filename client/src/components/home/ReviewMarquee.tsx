@@ -60,11 +60,29 @@ const REVIEWS: Review[] = [
 ];
 
 export const ReviewMarquee: React.FC = () => {
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!sectionRef.current || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: '100px' }
+    );
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   // Duplicate array for seamless infinite marquee loop
   const marqueeList = [...REVIEWS, ...REVIEWS];
 
   return (
-    <section className="py-20 bg-[#F5EFE4] dark:bg-[#142318] overflow-hidden border-t border-[#325736]/10 dark:border-[#F7FBFA]/10">
+    <section
+      ref={sectionRef}
+      className="py-20 bg-[#F5EFE4] dark:bg-[#142318] overflow-hidden border-t border-[#325736]/10 dark:border-[#F7FBFA]/10"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10 text-center">
         {/* Rating Trust Badge */}
         <div className="inline-flex items-center gap-2 rounded-full bg-[#325736] px-4 py-1.5 text-xs font-semibold text-[#F7FBFA] shadow-sm mb-3">
@@ -77,23 +95,26 @@ export const ReviewMarquee: React.FC = () => {
           WORDS FROM BHOPAL PATRONS
         </h2>
         <p className="text-xs sm:text-sm text-[#38483C] dark:text-[#A3C2A5] mt-1">
-          Hover over any card to pause reading
+          Tap or hover over any card to pause reading
         </p>
       </div>
 
       {/* Marquee Track */}
       <div className="relative w-full overflow-hidden">
         {/* Gradient edge masks */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-r from-[#F5EFE4] dark:from-[#142318] to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-[#F5EFE4] dark:from-[#142318] to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-16 sm:w-24 bg-gradient-to-r from-[#F5EFE4] dark:from-[#142318] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 sm:w-24 bg-gradient-to-l from-[#F5EFE4] dark:from-[#142318] to-transparent" />
 
-        <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none w-max py-4">
+        <div
+          style={{ animationPlayState: isVisible ? undefined : 'paused' }}
+          className="flex gap-4 sm:gap-6 animate-marquee hover:[animation-play-state:paused] active:[animation-play-state:paused] motion-reduce:animate-none w-max py-4"
+        >
           {marqueeList.map((review, i) => (
             <div
               key={`${review.id}-${i}`}
-              className="double-bezel-shell w-[340px] sm:w-[380px] shrink-0"
+              className="double-bezel-shell w-[290px] sm:w-[380px] shrink-0 touch-press"
             >
-              <div className="double-bezel-core p-6 flex flex-col justify-between h-full bg-white dark:bg-[#1F3A24]">
+              <div className="double-bezel-core p-5 sm:p-6 flex flex-col justify-between h-full bg-white dark:bg-[#1F3A24]">
                 <div>
                   {/* Stars & Highlight tag */}
                   <div className="flex items-center justify-between">
