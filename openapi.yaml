@@ -1,0 +1,696 @@
+openapi: 3.1.0
+info:
+  title: The Leaf – Cafe and Brew REST API
+  description: >
+    Comprehensive REST & Real-Time API for The Leaf – Cafe and Brew in Arera Colony, Bhopal.
+    Provides customer ordering, 5-minute concurrency slot locking for table reservations,
+    contactless table QR ordering, Razorpay payment verification, real-time Kitchen Display System (KDS),
+    role-based staff access (Owner, Manager, Kitchen, Waiter), and formula-injection-safe administrative reporting.
+  version: 1.1.0
+  contact:
+    name: The Leaf Engineering & Operations
+    email: contact@theleaf.cafe
+servers:
+  - url: http://localhost:5000
+    description: Local development / test server
+  - url: https://api.theleaf.cafe
+    description: Production API gateway
+
+tags:
+  - name: System
+    description: Health, liveness, and system readiness probes
+  - name: Authentication & Staff
+    description: Staff authentication, JWT token rotation, and profile queries
+  - name: Sanctuary Menu
+    description: Pure vegetarian culinary and artisanal coffee catalog with 86-availability controls
+  - name: Orders & State Machine
+    description: Order placement, integer paise computations, idempotency, and status lifecycle
+  - name: Table Bookings
+    description: 5-minute atomic slot locks, reservations, and iCalendar ICS generation
+  - name: Table QR & Stewards
+    description: Contactless dining, table status, and floor steward call alerts
+  - name: Payments & Gateways
+    description: Razorpay order creation, HMAC-SHA256 signature verification, raw-body webhooks, and refunds
+  - name: Admin & Analytics
+    description: IST business analytics, formula-safe CSV exports, cafe operational settings, and audit logs
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Enter the staff JWT access token
+    IdempotencyKey:
+      type: apiKey
+      in: header
+      name: X-Idempotency-Key
+      description: Unique UUID/string token ensuring idempotent order or payment submission
+
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            code:
+              type: string
+      required:
+        - success
+
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+          description: Price in INR
+        isPriceTbc:
+          type: boolean
+        image:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        customizations:
+          type: array
+          items:
+            type: object
+        isAvailable:
+          type: boolean
+        isPopular:
+          type: boolean
+        prepTimeMinutes:
+          type: integer
+        sortOrder:
+          type: integer
+        deletedAt:
+          type: string
+          nullable: true
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        orderNumber:
+          type: string
+        orderType:
+          type: string
+          enum: [dine-in, takeaway, curbside]
+        tableNumber:
+          type: integer
+          nullable: true
+        customerName:
+          type: string
+        customerPhone:
+          type: string
+        customerEmail:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+        subtotal:
+          type: integer
+          description: Total in integer paise / INR
+        gstAmount:
+          type: integer
+          description: 5% GST
+        discountAmount:
+          type: integer
+        couponCode:
+          type: string
+          nullable: true
+        totalAmount:
+          type: integer
+        status:
+          type: string
+          enum: [pending-payment, received, preparing, ready, served, completed, cancelled]
+        paymentMethod:
+          type: string
+          enum: [razorpay, counter, running-tab]
+        paymentStatus:
+          type: string
+          enum: [pending, paid, failed, refunded]
+        createdAt:
+          type: string
+          format: date-time
+
+    TableBooking:
+      type: object
+      properties:
+        id:
+          type: string
+        bookingRef:
+          type: string
+        date:
+          type: string
+          format: date
+        timeSlot:
+          type: string
+        partySize:
+          type: integer
+        seatingPreference:
+          type: string
+        guestName:
+          type: string
+        guestPhone:
+          type: string
+        guestEmail:
+          type: string
+        status:
+          type: string
+          enum: [confirmed, seated, cancelled, no-show]
+        depositAmount:
+          type: integer
+        depositPaymentStatus:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    TableStatus:
+      type: object
+      properties:
+        tableNumber:
+          type: integer
+        capacity:
+          type: integer
+        section:
+          type: string
+        isOccupied:
+          type: boolean
+        currentOrderId:
+          type: string
+          nullable: true
+        runningTotal:
+          type: integer
+        waiterCallActive:
+          type: boolean
+        waterRequested:
+          type: boolean
+        billRequested:
+          type: boolean
+        activeAlerts:
+          type: array
+          items:
+            type: string
+
+paths:
+  /health:
+    get:
+      tags: [System]
+      summary: Liveness and memory metrics
+      responses:
+        '200':
+          description: System is running smoothly
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  uptimeSeconds:
+                    type: number
+                  memoryUsageMB:
+                    type: object
+                  cafe:
+                    type: string
+
+  /ready:
+    get:
+      tags: [System]
+      summary: Readiness probe
+      responses:
+        '200':
+          description: Data store and socket engine initialized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ready
+
+  /api/v1/auth/login:
+    post:
+      tags: [Authentication & Staff]
+      summary: Staff login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: manager@theleaf.cafe
+                password:
+                  type: string
+                  example: Leaf@Mgr2026
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Invalid credentials or account locked
+
+  /api/v1/auth/refresh:
+    post:
+      tags: [Authentication & Staff]
+      summary: Refresh JWT access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Token refreshed successfully
+
+  /api/v1/auth/logout:
+    post:
+      tags: [Authentication & Staff]
+      summary: Staff logout and token revocation
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logged out successfully
+
+  /api/v1/auth/me:
+    get:
+      tags: [Authentication & Staff]
+      summary: Current authenticated staff profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Staff details
+
+  /api/v1/menu:
+    get:
+      tags: [Sanctuary Menu]
+      summary: List all active menu items
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of menu items
+
+  /api/v1/menu/categories:
+    get:
+      tags: [Sanctuary Menu]
+      summary: List culinary categories
+      responses:
+        '200':
+          description: List of category strings
+
+  /api/v1/menu/items/{id}:
+    get:
+      tags: [Sanctuary Menu]
+      summary: Get menu item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Menu item details
+        '404':
+          description: Item not found
+
+  /api/v1/menu/items:
+    post:
+      tags: [Sanctuary Menu]
+      summary: Create menu item (Manager / Owner)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItem'
+      responses:
+        '201':
+          description: Menu item created
+
+  /api/v1/menu/items/{id}/availability:
+    patch:
+      tags: [Sanctuary Menu]
+      summary: Quick 86 / sold-out toggle
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [isAvailable]
+              properties:
+                isAvailable:
+                  type: boolean
+      responses:
+        '200':
+          description: Availability updated
+
+  /api/v1/menu/export-csv:
+    get:
+      tags: [Sanctuary Menu]
+      summary: Export menu items as CSV (sanitized against formula injection)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: CSV file download
+          content:
+            text/csv:
+              schema:
+                type: string
+
+  /api/v1/orders:
+    post:
+      tags: [Orders & State Machine]
+      summary: Place order with server-side validation and integer paise
+      security:
+        - IdempotencyKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [orderType, customerName, customerPhone, items]
+      responses:
+        '201':
+          description: Order created successfully
+    get:
+      tags: [Orders & State Machine]
+      summary: List orders (Staff only)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated order list
+
+  /api/v1/orders/{id}:
+    get:
+      tags: [Orders & State Machine]
+      summary: Get order details by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order details
+        '404':
+          description: Order not found
+
+  /api/v1/orders/{id}/status:
+    patch:
+      tags: [Orders & State Machine]
+      summary: Advance order status atomically
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [received, preparing, ready, served, completed, cancelled]
+      responses:
+        '200':
+          description: Order status advanced
+        '400':
+          description: Illegal status transition
+
+  /api/v1/orders/{id}/iam-here:
+    post:
+      tags: [Orders & State Machine]
+      summary: Customer arrival alert
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Arrival notification received
+
+  /api/v1/bookings/lock-slot:
+    post:
+      tags: [Table Bookings]
+      summary: 5-minute atomic slot hold
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [date, timeSlot, partySize]
+              properties:
+                date:
+                  type: string
+                timeSlot:
+                  type: string
+                partySize:
+                  type: integer
+      responses:
+        '200':
+          description: Slot locked for 5 minutes
+        '409':
+          description: Slot fully booked
+
+  /api/v1/bookings:
+    post:
+      tags: [Table Bookings]
+      summary: Confirm table reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableBooking'
+      responses:
+        '201':
+          description: Booking confirmed with ICS calendar
+    get:
+      tags: [Table Bookings]
+      summary: List reservations (Staff only)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of reservations
+
+  /api/v1/tables:
+    get:
+      tags: [Table QR & Stewards]
+      summary: List all 12 tables and occupancy
+      responses:
+        '200':
+          description: Table status array
+
+  /api/v1/tables/{tableNumber}/alert:
+    post:
+      tags: [Table QR & Stewards]
+      summary: Send steward call alert from table
+      parameters:
+        - name: tableNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [waiter, water, bill, clear]
+      responses:
+        '200':
+          description: Table alert recorded and broadcasted
+
+  /api/v1/payments/create-order:
+    post:
+      tags: [Payments & Gateways]
+      summary: Create Razorpay payment order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [orderId]
+              properties:
+                orderId:
+                  type: string
+      responses:
+        '200':
+          description: Razorpay order created in paise
+
+  /api/v1/payments/verify:
+    post:
+      tags: [Payments & Gateways]
+      summary: Verify Razorpay HMAC signature
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature]
+      responses:
+        '200':
+          description: Payment verified and order marked paid
+
+  /api/v1/payments/webhook:
+    post:
+      tags: [Payments & Gateways]
+      summary: Raw-body webhook handler for payment events
+      parameters:
+        - name: x-razorpay-signature
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Webhook received and processed
+
+  /api/v1/payments/refund:
+    post:
+      tags: [Payments & Gateways]
+      summary: Process refund (Manager / Owner)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [orderId, amount, reason]
+      responses:
+        '200':
+          description: Refund processed and logged
+
+  /api/v1/admin/reports:
+    get:
+      tags: [Admin & Analytics]
+      summary: Sales metrics and IST daily aggregations
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Analytics summary
+
+  /api/v1/admin/reports/export-csv:
+    get:
+      tags: [Admin & Analytics]
+      summary: Export sales report as sanitized CSV
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: CSV download
+          content:
+            text/csv:
+              schema:
+                type: string
+
+  /api/v1/admin/audit-logs:
+    get:
+      tags: [Admin & Analytics]
+      summary: Audit trail of administrative writes
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated audit log records
