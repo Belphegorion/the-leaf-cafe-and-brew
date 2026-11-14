@@ -47,6 +47,7 @@ export interface MenuItem {
   prepTimeMinutes: number;
   calories?: number;
   sortOrder: number;
+  deletedAt?: string;
 }
 
 export interface CartCustomizationSelection {

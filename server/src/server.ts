@@ -1,36 +1,44 @@
 import http from 'http';
-import { Server as SocketIOServer } from 'socket.io';
 import { app } from './app';
+import { ENV } from './config/env';
+import { initSocket, getIO } from './socket';
 
-const PORT = process.env.PORT || 5000;
+const PORT = ENV.PORT || 5000;
 
-const httpServer = http.createServer(app);
+export const httpServer = http.createServer(app);
+export const io = initSocket(httpServer);
 
-export const io = new SocketIOServer(httpServer, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
-});
+// Graceful Shutdown Handler
+let isShuttingDown = false;
+const gracefulShutdown = (signal: string) => {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+  console.log(`\n🛑 Received ${signal}. Starting graceful shutdown of The Leaf server...`);
 
-io.on('connection', socket => {
-  console.log(`🔌 Client connected to The Leaf live feed: ${socket.id}`);
+  const currentIO = getIO();
+  if (currentIO) {
+    currentIO.close(() => {
+      console.log('🔌 WebSocket engine closed.');
+    });
+  }
 
-  // Patrons or kitchen joining specific rooms
-  socket.on('join:table', (tableNumber: number) => {
-    socket.join(`table_${tableNumber}`);
+  httpServer.close(() => {
+    console.log('🍃 HTTP server closed. Process exiting cleanly.');
+    process.exit(0);
   });
 
-  socket.on('join:order', (orderId: string) => {
-    socket.join(`order_${orderId}`);
-  });
+  setTimeout(() => {
+    console.error('⚠️ Graceful shutdown timed out after 10s. Forcefully terminating.');
+    process.exit(1);
+  }, 10000).unref();
+};
 
-  socket.on('disconnect', () => {
-    // disconnected
-  });
-});
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-httpServer.listen(PORT, () => {
-  console.log(`🍃 The Leaf – Cafe and Brew server running on http://localhost:${PORT}`);
-  console.log(`📍 Pure-Vegetarian Sanctuary in Arera Colony, Bhopal`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  httpServer.listen(PORT, () => {
+    console.log(`🍃 The Leaf – Cafe and Brew server running on http://localhost:${PORT}`);
+    console.log(`📍 Pure-Vegetarian Sanctuary in Arera Colony, Bhopal`);
+  });
+}

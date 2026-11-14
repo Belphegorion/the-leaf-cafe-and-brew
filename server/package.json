@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "tsx src/server.ts",
     "seed": "tsx src/utils/seed.ts",
-    "test": "node --test dist/**/*.test.js"
+    "test": "tsx --test tests/**/*.test.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
