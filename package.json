@@ -4,7 +4,9 @@
   "description": "The Leaf – Cafe and Brew: High-End Sanctuary Web Experience",
   "scripts": {
     "dev": "npm --prefix client run dev",
+    "postinstall": "npm --prefix client install",
     "build": "npm --prefix client run build",
+    "vercel-build": "npm --prefix client install && npm --prefix client run build",
     "audit": "npm --prefix client run audit",
     "test": "npm --prefix client test"
   },

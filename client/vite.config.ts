@@ -9,12 +9,16 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
-    visualizer({
-      filename: '../audit/bundle-stats.html',
-      gzipSize: true,
-      brotliSize: true,
-      open: false,
-    }),
+    ...(!process.env.VERCEL
+      ? [
+          visualizer({
+            filename: '../audit/bundle-stats.html',
+            gzipSize: true,
+            brotliSize: true,
+            open: false,
+          }),
+        ]
+      : []),
   ],
   resolve: {
     alias: {
