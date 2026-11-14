@@ -44,7 +44,7 @@ export const OrderTrackerPage: React.FC = () => {
   const [socketConnected, setSocketConnected] = useState(false);
   const prefersReduced = usePrefersReducedMotion();
 
-  // Fetch initial order details with offline fallback
+  // Fetch initial order details with offline fallback and recurring poll
   useEffect(() => {
     if (!id) return;
 
@@ -64,51 +64,55 @@ export const OrderTrackerPage: React.FC = () => {
       }
 
       // Offline resilient mock order for demo and tests
-      const fallbackOrder: Order = {
-        id: id || 'ORD-9821',
-        orderNumber: id || 'ORD-9821',
-        orderType: 'dine-in-table',
-        diningType: 'dine_in',
-        customerName: 'Priyanshi Saxena',
-        customerPhone: '9826000000',
-        status: 'preparing',
-        estimatedPrepMinutes: 15,
-        tableNumber: 12,
-        items: [
-          {
-            menuItemId: 'c-1',
-            name: 'Single-Origin V60 Pour Over',
-            unitPrice: 220,
-            quantity: 1,
-            itemTotal: 220,
-            selectedCustomizations: [{ groupId: 'roast', groupName: 'Roast Profile', selectedOptionId: 'light', selectedOptionName: 'Light Roast', priceDelta: 0 }],
-            specialInstructions: 'Floral extraction',
-          },
-          {
-            menuItemId: 'pz-1',
-            name: 'Peri Peri Paneer Pizza',
-            unitPrice: 380,
-            quantity: 1,
-            itemTotal: 380,
-            selectedCustomizations: [],
-            specialInstructions: 'Jain available',
-          },
-        ],
-        subtotal: 600,
-        gstAmount: 30,
-        tipAmount: 40,
-        discountAmount: 0,
-        totalAmount: 670,
-        paymentStatus: 'captured',
-        paymentMethod: 'razorpay',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-      setOrder(fallbackOrder);
+      setOrder(prev => {
+        if (prev) return prev;
+        return {
+          id: id || 'ORD-9821',
+          orderNumber: id || 'ORD-9821',
+          orderType: 'dine-in-table',
+          diningType: 'dine_in',
+          customerName: 'Priyanshi Saxena',
+          customerPhone: '9826000000',
+          status: 'preparing',
+          estimatedPrepMinutes: 15,
+          tableNumber: 12,
+          items: [
+            {
+              menuItemId: 'c-1',
+              name: 'Single-Origin V60 Pour Over',
+              unitPrice: 220,
+              quantity: 1,
+              itemTotal: 220,
+              selectedCustomizations: [{ groupId: 'roast', groupName: 'Roast Profile', selectedOptionId: 'light', selectedOptionName: 'Light Roast', priceDelta: 0 }],
+              specialInstructions: 'Floral extraction',
+            },
+            {
+              menuItemId: 'pz-1',
+              name: 'Peri Peri Paneer Pizza',
+              unitPrice: 380,
+              quantity: 1,
+              itemTotal: 380,
+              selectedCustomizations: [],
+              specialInstructions: 'Jain available',
+            },
+          ],
+          subtotal: 600,
+          gstAmount: 30,
+          tipAmount: 40,
+          discountAmount: 0,
+          totalAmount: 670,
+          paymentStatus: 'captured',
+          paymentMethod: 'razorpay',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+      });
       setLoading(false);
     };
 
     fetchOrder();
+    const interval = setInterval(fetchOrder, 2000);
+    return () => clearInterval(interval);
   }, [id]);
 
   // Connect to live Socket.IO room for real-time updates
@@ -135,8 +139,22 @@ export const OrderTrackerPage: React.FC = () => {
     });
 
     s.on('order:status_updated', (updatedOrder: Order) => {
-      if (updatedOrder.id === id) {
+      if (updatedOrder && updatedOrder.id === id) {
         setOrder(updatedOrder);
+      }
+    });
+
+    s.on('order:updated', (updatedOrder: Order) => {
+      if (updatedOrder && updatedOrder.id === id) {
+        setOrder(updatedOrder);
+      }
+    });
+
+    s.on('order:status-changed', (payload: any) => {
+      if (payload && (payload.orderId === id || payload.order?.id === id)) {
+        if (payload.order) {
+          setOrder(payload.order);
+        }
       }
     });
 

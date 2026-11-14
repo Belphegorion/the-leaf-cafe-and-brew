@@ -15,11 +15,20 @@ export default defineConfig({
       executablePath: 'C:/Users/atlas/AppData/Local/ms-playwright/chromium-1254/chrome-win64/chrome.exe',
     },
   },
-  webServer: {
-    command: 'npm run preview -- --port 4173',
-    port: 4173,
-    reuseExistingServer: true,
-  },
+  webServer: [
+    {
+      command: 'npm --prefix ../server start',
+      url: 'http://localhost:5000/health',
+      reuseExistingServer: true,
+      timeout: 30000,
+    },
+    {
+      command: 'npm run preview -- --port 4173',
+      url: 'http://localhost:4173',
+      reuseExistingServer: true,
+      timeout: 30000,
+    },
+  ],
   projects: [
     {
       name: 'chromium',

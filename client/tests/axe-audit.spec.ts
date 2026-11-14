@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 test.describe('Axe Detailed Violation Inspector', () => {
@@ -40,8 +40,8 @@ test.describe('Axe Detailed Violation Inspector', () => {
     ];
 
     for (const route of routes) {
-      await page.goto(route, { waitUntil: 'domcontentloaded' });
-      await page.waitForTimeout(400);
+      await page.goto(route, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(600);
 
       const axeResults = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa'])
@@ -60,6 +60,8 @@ test.describe('Axe Detailed Violation Inspector', () => {
           console.log(`  Summary: ${node.failureSummary?.replace(/\n/g, ' ')}`);
         }
       }
+
+      expect(nonCompliant.length).toBe(0);
     }
   });
 });
