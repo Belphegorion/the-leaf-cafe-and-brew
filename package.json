@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "The Leaf – Cafe and Brew: High-End Sanctuary Web Experience",
   "scripts": {
-    "dev": "npm --prefix client run dev",
+    "dev": "npx concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "test:server": "npm --prefix server test",
+    "test:client": "npm --prefix client run test:e2e",
+    "test": "npm run test:server && npm run test:client",
+    "audit": "npm run build && npm run test:server && npm run test:client",
     "postinstall": "npm --prefix client install",
-    "build": "npm --prefix client run build",
-    "vercel-build": "npm --prefix client install && npm --prefix client run build",
-    "audit": "npm --prefix client run audit",
-    "test": "npm --prefix client test"
+    "vercel-build": "npm --prefix client install && npm --prefix client run build"
   },
   "keywords": [],
   "author": "",
