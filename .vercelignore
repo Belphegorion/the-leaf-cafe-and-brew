@@ -1,0 +1,31 @@
+# Dependencies (Vercel installs cleanly in its own container)
+node_modules
+client/node_modules
+server/node_modules
+
+# Build artifacts
+dist
+client/dist
+server/dist
+dist-ssr
+
+# Audit screenshots, traces and heavy reports
+audit/screenshots
+audit/traces
+audit/bundle-stats.html
+playwright-report
+test-results
+
+# Environment secrets
+.env
+.env.local
+.env.*.local
+*.log
+
+# Git & editor folders
+.git
+.github
+.vscode
+.idea
+.DS_Store
+Thumbs.db
