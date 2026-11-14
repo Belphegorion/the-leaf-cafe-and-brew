@@ -467,7 +467,7 @@ export const BookingPage: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-                  <div className="flex items-center border border-[#E0D2B8] dark:border-[#284A2D] rounded-2xl p-1 gap-2 bg-[#FBF8F2] dark:bg-[#101C13] w-max">
+                  <div className="flex items-center border border-[#E0D2B8] dark:border-[#284A2D] rounded-2xl p-1 gap-2 bg-[#FBF8F2] dark:bg-[#101C13] w-fit max-w-full">
                     <button
                       type="button"
                       onClick={() => handlePartySizeChange(-1)}

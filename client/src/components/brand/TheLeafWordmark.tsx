@@ -22,7 +22,7 @@ export const TheLeafWordmark: React.FC<TheLeafWordmarkProps> = ({
       viewBox="0 0 420 160"
       width={size}
       height={typeof size === 'number' ? size * 0.38 : undefined}
-      className={`inline-block select-none overflow-visible ${className}`}
+      className={`inline-block select-none max-w-full h-auto overflow-visible ${className}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"

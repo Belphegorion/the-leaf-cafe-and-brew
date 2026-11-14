@@ -22,12 +22,12 @@ export const Footer: React.FC = () => {
             </p>
 
             {/* Google Rating 4.9 Trust Badge */}
-            <div className="inline-flex items-center gap-3 rounded-full border border-[#5E8662]/40 bg-[#1F3A24]/60 px-4 py-2 w-max mt-2 shadow-sm">
-              <div className="flex items-center gap-1 text-[#E2EEE2]">
+            <div className="inline-flex items-center gap-2 sm:gap-3 rounded-full border border-[#5E8662]/40 bg-[#1F3A24]/60 px-3.5 py-2 w-fit max-w-full flex-wrap sm:flex-nowrap mt-2 shadow-sm">
+              <div className="flex items-center gap-1 text-[#E2EEE2] shrink-0">
                 <MonolineIcon name="star" size={16} color="#C98A1B" />
                 <span className="font-bold text-sm tracking-tight text-white">4.9</span>
               </div>
-              <span className="text-xs text-[#A3C2A5]">
+              <span className="text-xs text-[#A3C2A5] break-words">
                 Google Trust Score · <strong>646</strong> Bhopal Foodies
               </span>
             </div>
@@ -105,8 +105,8 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Giant Outlined Wordmark */}
-        <div className="py-12 flex justify-center items-center opacity-30 select-none overflow-hidden" aria-hidden="true">
-          <TheLeafWordmark size={680} color="#5E8662" showWaves={true} />
+        <div className="py-8 sm:py-12 w-full max-w-[680px] mx-auto px-4 flex justify-center items-center opacity-30 select-none overflow-hidden" aria-hidden="true">
+          <TheLeafWordmark size={680} color="#5E8662" showWaves={true} className="w-full max-w-[680px]" />
         </div>
 
         {/* Bottom copyright & legal */}

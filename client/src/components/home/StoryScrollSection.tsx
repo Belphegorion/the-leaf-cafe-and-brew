@@ -240,21 +240,21 @@ export const StoryScrollSection: React.FC = () => {
               <div className="absolute inset-2 rounded-t-[132px] sm:rounded-t-[172px] rounded-b-2xl border border-white/20 pointer-events-none" />
 
               {/* Floating Active Step Badge on Photo */}
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-[#142318]/90 backdrop-blur-md border border-[#325736]/60 shadow-lg flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#325736] text-white flex items-center justify-center shrink-0 shadow-md">
-                    <MonolineIcon name={STEPS[activeStep].icon} size={20} strokeWidth={2} />
+              <div className="absolute bottom-3 left-3 right-3 p-3 sm:bottom-5 sm:left-5 sm:right-5 sm:p-4 rounded-2xl bg-[#142318]/90 backdrop-blur-md border border-[#325736]/60 shadow-lg flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#325736] text-white flex items-center justify-center shrink-0 shadow-md">
+                    <MonolineIcon name={STEPS[activeStep].icon} size={18} strokeWidth={2} />
                   </div>
-                  <div>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#A3C2A5]">
+                  <div className="min-w-0">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#A3C2A5] block">
                       Step {STEPS[activeStep].num} of 03
                     </span>
-                    <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-1">
+                    <h4 className="text-xs sm:text-sm font-bold text-white truncate">
                       {STEPS[activeStep].title}
                     </h4>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-white/10 text-[#C9DCC9] shrink-0">
+                <span className="text-[10px] font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-white/10 text-[#C9DCC9] shrink-0">
                   {fillPercent}% Craft
                 </span>
               </div>
@@ -267,14 +267,14 @@ export const StoryScrollSection: React.FC = () => {
             className="lg:col-span-7 flex flex-col gap-5 order-1 lg:order-2"
           >
             {/* Top Interactive Coffee Mug Bar */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#142318] border border-[#284A2D] shadow-xl flex items-center gap-5">
+            <div className="p-3.5 sm:p-5 rounded-2xl bg-[#142318] border border-[#284A2D] shadow-xl flex items-center gap-3 sm:gap-5">
               {/* Vector Coffee Cup Graphic with Liquid Fill */}
               <div className="relative shrink-0 flex items-center justify-center">
                 <svg
                   viewBox="0 0 240 240"
-                  width="72"
-                  height="72"
-                  className="overflow-visible"
+                  width="60"
+                  height="60"
+                  className="overflow-visible shrink-0 sm:w-[72px] sm:h-[72px]"
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
                 >
@@ -378,16 +378,16 @@ export const StoryScrollSection: React.FC = () => {
                         setActiveStep(idx);
                       }
                     }}
-                    className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A3C2A5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101C13] ${
+                    className={`p-3.5 min-[360px]:p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A3C2A5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101C13] ${
                       isActive
-                        ? 'bg-[#142318] border-[#5E8662] shadow-xl ring-1 ring-[#5E8662]/50 translate-x-1 sm:translate-x-2'
+                        ? 'bg-[#142318] border-[#5E8662] shadow-xl ring-1 ring-[#5E8662]/50 sm:translate-x-2'
                         : 'bg-[#142318]/45 border-white/5 opacity-55 hover:opacity-85 hover:border-white/15'
                     }`}
                   >
-                    <div className="flex items-start gap-4 sm:gap-5">
+                    <div className="flex items-start gap-3 sm:gap-5">
                       {/* Step Number Badge */}
                       <span
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl font-display text-base font-bold transition-all ${
+                        className={`flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl font-display text-sm sm:text-base font-bold transition-all ${
                           isActive
                             ? 'bg-[#325736] text-white shadow-md ring-2 ring-[#A3C2A5]/30'
                             : 'bg-[#1F3A24] text-[#A3C2A5]'
@@ -398,15 +398,15 @@ export const StoryScrollSection: React.FC = () => {
 
                       {/* Content */}
                       <div className="flex flex-col flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-between gap-2 min-w-0">
+                          <div className="flex items-center gap-2 min-w-0">
                             <MonolineIcon
                               name={step.icon}
                               size={16}
                               color={isActive ? '#A3C2A5' : '#8FA892'}
                               strokeWidth={2}
                             />
-                            <h3 className="font-display uppercase tracking-wider text-base sm:text-lg font-bold text-white truncate">
+                            <h3 className="font-display uppercase tracking-wider text-xs min-[360px]:text-sm sm:text-lg font-bold text-white truncate min-w-0">
                               {step.title}
                             </h3>
                           </div>
@@ -417,7 +417,7 @@ export const StoryScrollSection: React.FC = () => {
                           )}
                         </div>
 
-                        <p className="mt-1.5 text-xs sm:text-sm text-[#C9DCC9] leading-relaxed font-light">
+                        <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm text-[#C9DCC9] leading-relaxed font-light break-words">
                           {step.desc}
                         </p>
                       </div>

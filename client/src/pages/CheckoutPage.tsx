@@ -574,23 +574,23 @@ export const CheckoutPage: React.FC = () => {
           {/* Item details list */}
           <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
             {items.map(item => (
-              <div key={item.cartItemId} className="flex justify-between items-start text-xs">
-                <div className="flex gap-3">
-                  <span className="font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums">
+              <div key={item.cartItemId} className="flex justify-between items-start text-xs gap-3">
+                <div className="flex gap-2.5 min-w-0 flex-1">
+                  <span className="font-bold text-[#325736] dark:text-[#A3C2A5] tabular-nums shrink-0">
                     {item.quantity}×
                   </span>
-                  <div>
-                    <span className="font-semibold text-[#1F2A22] dark:text-[#EDE3D1]">
+                  <div className="min-w-0">
+                    <span className="font-semibold text-[#1F2A22] dark:text-[#EDE3D1] break-words">
                       {item.menuItem.name}
                     </span>
                     {item.selectedCustomizations.length > 0 && (
-                      <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
+                      <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9] break-words">
                         {item.selectedCustomizations.map(c => c.selectedOptionName).join(', ')}
                       </div>
                     )}
                   </div>
                 </div>
-                <span className="font-bold text-[#1F2A22] dark:text-[#EDE3D1] tabular-nums">
+                <span className="font-bold text-[#1F2A22] dark:text-[#EDE3D1] tabular-nums shrink-0">
                   ₹{item.itemTotalPrice}
                 </span>
               </div>

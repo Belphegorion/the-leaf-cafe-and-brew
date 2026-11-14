@@ -34,21 +34,21 @@ export const LocationSection: React.FC = () => {
     <section className="py-24 bg-[#F7FBFA] dark:bg-[#101C13]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="double-bezel-shell">
-          <div className="double-bezel-core p-6 sm:p-10 bg-white dark:bg-[#1F3A24]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="double-bezel-core p-4 min-[360px]:p-6 sm:p-10 bg-white dark:bg-[#1F3A24]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Left Details */}
-              <div className="lg:col-span-6 flex flex-col items-start">
+              <div className="lg:col-span-6 flex flex-col items-start min-w-0 w-full">
                 {/* Live Open / Closing Pill */}
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#325736]/20 bg-[#EEF5EE] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#325736] dark:border-[#F7FBFA]/20 dark:bg-[#142318] dark:text-[#A3C2A5] mb-4">
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#325736]/20 bg-[#EEF5EE] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#325736] dark:border-[#F7FBFA]/20 dark:bg-[#142318] dark:text-[#A3C2A5] mb-4 max-w-full">
                   <span
-                    className={`h-2.5 w-2.5 rounded-full ${
+                    className={`h-2.5 w-2.5 rounded-full shrink-0 ${
                       isOpenNow ? 'bg-[#5E8662] animate-pulse' : 'bg-[#B3402F]'
                     }`}
                   />
-                  <span>{closingMessage}</span>
+                  <span className="truncate">{closingMessage}</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA]">
+                <h2 className="text-2xl min-[360px]:text-3xl sm:text-4xl font-display uppercase tracking-wider font-bold text-[#142318] dark:text-[#F7FBFA] break-words">
                   FIND YOUR HAVEN IN ARERA COLONY
                 </h2>
 

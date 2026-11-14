@@ -62,14 +62,14 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 rounded-full border border-[#D8C7AA] bg-[#EAE0D0] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#1F2A22] dark:border-[#F7FBFA]/20 dark:bg-[#1F3A24] dark:text-[#A3C2A5] mb-6 shadow-sm"
+              className="inline-flex items-center gap-2 rounded-full border border-[#D8C7AA] bg-[#EAE0D0] px-3.5 sm:px-4 py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.2em] text-[#1F2A22] dark:border-[#F7FBFA]/20 dark:bg-[#1F3A24] dark:text-[#A3C2A5] mb-6 shadow-sm max-w-full"
             >
-              <span className="flex h-2 w-2 rounded-full bg-[#5E8662] animate-pulse" />
-              <span>Arera Colony, Bhopal · 100% Pure Vegetarian</span>
+              <span className="flex h-2 w-2 rounded-full bg-[#5E8662] animate-pulse shrink-0" />
+              <span className="truncate">Arera Colony, Bhopal · 100% Pure Vegetarian</span>
             </motion.div>
 
             {/* Headline with Mask Reveal */}
-            <h1 className="font-display uppercase text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#1F2A22] dark:text-[#F7FBFA] leading-[1.05]">
+            <h1 className="font-display uppercase text-[28px] min-[360px]:text-3xl min-[414px]:text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#1F2A22] dark:text-[#F7FBFA] leading-[1.08] break-words">
               <span className="block overflow-hidden">
                 <motion.span
                   initial={{ y: prefersReduced ? 0 : '100%' }}
@@ -109,7 +109,7 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: prefersReduced ? 0 : (isMobile ? 12 : 20) }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: prefersReduced ? 0 : (isMobile ? 0.18 : 0.35), duration: prefersReduced ? 0.01 : (isMobile ? 0.35 : 0.6) }}
-              className="mt-6 text-base sm:text-lg text-[#38483C] dark:text-[#C9DCC9] max-w-xl font-normal leading-relaxed"
+              className="mt-5 sm:mt-6 text-sm sm:text-lg text-[#38483C] dark:text-[#C9DCC9] max-w-xl font-normal leading-relaxed"
             >
               Step away from the rush. Experience single-origin pour-overs, chilled botanical cold brews, and hand-tossed artisan pizzas in Bhopal’s calmest vegetarian haven.
             </motion.p>
@@ -119,12 +119,12 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0, y: prefersReduced ? 0 : (isMobile ? 12 : 20) }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: prefersReduced ? 0 : (isMobile ? 0.25 : 0.5), duration: prefersReduced ? 0.01 : (isMobile ? 0.35 : 0.6) }}
-              className="mt-8 flex flex-wrap items-center gap-4"
+              className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto"
             >
               <Link
                 to="/book"
                 data-cursor="Book"
-                className="group relative inline-flex items-center justify-center rounded-full bg-[#325736] px-8 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#F7FBFA] shadow-lg transition-all duration-200 md:hover:bg-[#284A2D] md:hover:shadow-xl md:hover:scale-[1.02] touch-press active:scale-[0.97] dark:bg-[#325736] dark:hover:bg-[#284A2D]"
+                className="group relative inline-flex items-center justify-center rounded-full bg-[#325736] px-6 sm:px-8 py-3.5 sm:py-4 text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.18em] text-[#F7FBFA] shadow-lg transition-all duration-200 md:hover:bg-[#284A2D] md:hover:shadow-xl md:hover:scale-[1.02] touch-press active:scale-[0.97] dark:bg-[#325736] dark:hover:bg-[#284A2D]"
               >
                 <span>Reserve a Table</span>
                 <span className="ml-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 md:group-hover:translate-x-1">
@@ -135,7 +135,7 @@ export const HeroSection: React.FC = () => {
               <Link
                 to="/menu"
                 data-cursor="Menu"
-                className="group relative inline-flex items-center justify-center rounded-full border border-[#325736]/30 bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#325736] transition-all duration-200 md:hover:border-[#325736] md:hover:bg-[#EEF5EE] touch-press active:scale-[0.97] dark:border-[#F7FBFA]/30 dark:text-[#F7FBFA] dark:hover:bg-[#1F3A24]"
+                className="group relative inline-flex items-center justify-center rounded-full border border-[#325736]/30 bg-transparent px-6 sm:px-8 py-3.5 sm:py-4 text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.18em] text-[#325736] transition-all duration-200 md:hover:border-[#325736] md:hover:bg-[#EEF5EE] touch-press active:scale-[0.97] dark:border-[#F7FBFA]/30 dark:text-[#F7FBFA] dark:hover:bg-[#1F3A24]"
               >
                 <span>Explore Menu</span>
                 <span className="ml-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#325736]/10 transition-transform duration-200 md:group-hover:translate-x-1 dark:bg-white/10">
@@ -149,7 +149,7 @@ export const HeroSection: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="mt-10 flex items-center gap-4 text-xs text-[#38483C] dark:text-[#C9DCC9]"
+              className="mt-8 sm:mt-10 flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-[#38483C] dark:text-[#C9DCC9]"
             >
               <div className="flex items-center gap-1 text-[#C98A1B]">
                 {[...Array(5)].map((_, i) => (
@@ -159,7 +159,7 @@ export const HeroSection: React.FC = () => {
               <span className="font-medium text-[#1F2A22] dark:text-[#F7FBFA]">
                 <strong>4.9 / 5.0</strong> Rating on Google
               </span>
-              <span className="text-[#325736]">·</span>
+              <span className="text-[#325736] hidden sm:inline">·</span>
               <span>646+ Bhopal Reviewers</span>
             </motion.div>
           </div>

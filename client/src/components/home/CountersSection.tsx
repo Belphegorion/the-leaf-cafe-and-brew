@@ -54,15 +54,15 @@ const AnimatedCounter: React.FC<CounterItemProps> = ({
   }, [isInView, value, prefersReduced, isMobile]);
 
   return (
-    <div ref={ref} className="flex flex-col items-center text-center p-6 sm:p-8">
-      <div className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-[#325736] dark:text-[#A3C2A5] tabular-nums">
+    <div ref={ref} className="flex flex-col items-center text-center p-2.5 min-[360px]:p-4 sm:p-8 min-w-0 w-full">
+      <div className="font-display text-2xl min-[360px]:text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#325736] dark:text-[#A3C2A5] tabular-nums">
         {decimals > 0 ? displayValue.toFixed(decimals) : Math.floor(displayValue)}
         {suffix}
       </div>
-      <h3 className="mt-2 text-sm sm:text-base font-semibold uppercase tracking-wider text-[#142318] dark:text-[#F7FBFA]">
+      <h3 className="mt-1.5 sm:mt-2 text-xs min-[360px]:text-sm sm:text-base font-semibold uppercase tracking-wider text-[#142318] dark:text-[#F7FBFA] break-words text-center">
         {label}
       </h3>
-      <p className="mt-1 text-xs text-[#38483C] dark:text-[#C9DCC9] font-normal">
+      <p className="mt-1 text-[10px] min-[360px]:text-xs text-[#38483C] dark:text-[#C9DCC9] font-normal break-words text-center">
         {sublabel}
       </p>
     </div>
@@ -71,10 +71,10 @@ const AnimatedCounter: React.FC<CounterItemProps> = ({
 
 export const CountersSection: React.FC = () => {
   return (
-    <section className="py-16 bg-[#F5EFE4] dark:bg-[#142318] border-y border-[#325736]/15 dark:border-[#F7FBFA]/10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="py-12 sm:py-16 bg-[#F5EFE4] dark:bg-[#142318] border-y border-[#325736]/15 dark:border-[#F7FBFA]/10">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         <h2 className="sr-only">Key Milestones & Cafe Credentials</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-[#325736]/15 dark:divide-[#F7FBFA]/15">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 divide-y lg:divide-y-0 lg:divide-x divide-[#325736]/15 dark:divide-[#F7FBFA]/15">
           <AnimatedCounter
             label="Google Trust Score"
             value={4.9}

@@ -74,16 +74,16 @@ export const TheLeafLogo: React.FC<TheLeafLogoProps> = ({
 
   // Default: 'horizontal' lockup for Navbar & Headers
   return (
-    <div className={`inline-flex items-center gap-3 ${className}`}>
+    <div className={`inline-flex items-center gap-2 sm:gap-3 shrink-0 ${className}`}>
       <TheLeafMark
-        size={size || 40}
+        size={size || 36}
         strokeColor={defaultStroke}
         showCircleBg={showCircleBg}
         animate={animate}
       />
-      <div className="flex flex-col">
-        <TheLeafWordmark size={size ? Number(size) * 2.8 : 112} color={defaultStroke} />
-        <span className={`text-[9px] uppercase tracking-[0.28em] font-semibold -mt-1 pl-1 ${
+      <div className="flex flex-col justify-center">
+        <TheLeafWordmark size={size ? Number(size) * 2.5 : 96} color={defaultStroke} />
+        <span className={`hidden sm:inline-block text-[9px] uppercase tracking-[0.24em] font-semibold -mt-1 pl-1 ${
           isDark ? 'text-[#C9DCC9]' : 'text-[#38483C] dark:text-[#C9DCC9]'
         }`}>
           Cafe &amp; Brew · Bhopal

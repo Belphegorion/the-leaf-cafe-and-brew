@@ -159,16 +159,16 @@ export const PreOrderPage: React.FC = () => {
                 {items.map(item => (
                   <div
                     key={item.cartItemId}
-                    className="flex items-center justify-between p-3.5 rounded-2xl border border-[#325736]/15 bg-[#F7FBFA] dark:bg-[#142318]"
+                    className="flex flex-wrap sm:flex-nowrap items-center justify-between p-3 sm:p-3.5 rounded-2xl border border-[#325736]/15 bg-[#F7FBFA] dark:bg-[#142318] gap-2.5"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
                       <img
                         src={item.menuItem.image}
                         alt={item.menuItem.name}
-                        className="w-12 h-12 rounded-xl object-cover"
+                        className="w-12 h-12 rounded-xl object-cover shrink-0"
                       />
-                      <div>
-                        <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA]">
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold text-[#142318] dark:text-[#F7FBFA] truncate">
                           {item.menuItem.name}
                         </div>
                         <div className="text-[10px] text-[#38483C] dark:text-[#C9DCC9]">
@@ -177,7 +177,7 @@ export const PreOrderPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       <div className="flex items-center border border-[#325736]/30 dark:border-[#A3C2A5]/30 rounded-full p-0.5 text-xs gap-1">
                         <button
                           type="button"

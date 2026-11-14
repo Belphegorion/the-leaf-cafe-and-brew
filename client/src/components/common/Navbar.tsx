@@ -122,15 +122,17 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Action Buttons: Theme Toggle, Language Toggle, Cart Button, Table CTA, Mobile Hamburger */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <ThemeToggle />
-              <LanguageToggle />
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <div className="hidden md:flex items-center gap-2">
+                <ThemeToggle />
+                <LanguageToggle />
+              </div>
 
               {/* Cart Drawer Trigger */}
               <button
                 type="button"
                 onClick={openCart}
-                className="relative inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#E0D2B8] bg-white dark:bg-[#1F3A24] px-4 text-[#325736] shadow-sm backdrop-blur-md transition-all hover:border-[#325736] hover:bg-[#F5EFE4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] active:scale-95 dark:border-[#284A2D] dark:text-[#EDE3D1] dark:hover:bg-[#284A2D]"
+                className="relative inline-flex min-h-[44px] items-center gap-1.5 sm:gap-2 rounded-full border border-[#E0D2B8] bg-white dark:bg-[#1F3A24] px-3 sm:px-4 text-[#325736] shadow-sm backdrop-blur-md transition-all hover:border-[#325736] hover:bg-[#F5EFE4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#325736] active:scale-95 dark:border-[#284A2D] dark:text-[#EDE3D1] dark:hover:bg-[#284A2D]"
                 aria-label={`Cart, ${cartItemCount} items`}
                 data-cursor="Cart"
               >
@@ -220,8 +222,18 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Quick Action in Mobile Menu */}
-            <div className="pt-5 border-t border-[#E0D2B8] dark:border-[#284A2D] flex flex-col gap-3 shrink-0">
+            {/* Quick Action & Settings in Mobile Menu */}
+            <div className="pt-4 border-t border-[#E0D2B8] dark:border-[#284A2D] flex flex-col gap-3 shrink-0">
+              <div className="flex items-center justify-between p-3 rounded-2xl bg-white/70 dark:bg-[#1F3A24]/70 border border-[#E0D2B8] dark:border-[#284A2D]">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#1F2A22] dark:text-[#EDE3D1]">
+                  Preferences
+                </span>
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <LanguageToggle />
+                </div>
+              </div>
+
               <Link
                 to="/book"
                 onClick={() => setIsMobileMenuOpen(false)}
